@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="material-style layout-fixed" ng-app="apps">
+<html lang="en" class="material-style layout-fixed" ng-app="apps" ng-controller="indexController">
 
 <head>
     <title>Empire | B4+ admin template by Srthemesvilla</title>
@@ -57,14 +57,14 @@
 
                     <!-- [ content ] Start -->
                     <div class="container-fluid flex-grow-1 container-p-y">
-                        <h4 class="font-weight-bold py-3 mb-0">Layouts and elements</h4>
-                        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+                        <h4 class="font-weight-bold py-3 mb-0">{{header}}</h4>
+                        <!-- <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
                                 <li class="breadcrumb-item">Forms</li>
                                 <li class="breadcrumb-item active">Layouts and elements</li>
                             </ol>
-                        </div>
+                        </div> -->
                         <?= $this->renderSection('content');?>
                     </div>
                     <!-- [ content ] End -->
