@@ -8,9 +8,9 @@ angular.module('apps', [
     'ngLocale',
     'datatables',
     'cur.$mask',
-    'ngAnimate',
-    'ngSanitize',
-    'ui.router',
+    // 'ngAnimate',
+    // 'ngSanitize',
+    // 'ui.router',
     'ui.select2'
 ])
 

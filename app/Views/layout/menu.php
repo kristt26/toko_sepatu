@@ -34,60 +34,29 @@
                         </a>
                     </li>
                     <li class="sidenav-item">
-                        <a href="index.html" class="sidenav-link">
+                        <a href="produk" class="sidenav-link">
                             <i class="sidenav-icon feather icon-package"></i>
                             <div>Produk</div>
                         </a>
                     </li>
                     <li class="sidenav-item">
-                        <a href="index.html" class="sidenav-link">
-                            <i class="sidenav-icon feather icon-user"></i>
-                            <div>Transaksi</div>
-                        </a>
-                    </li>
-                    <!-- <li class="sidenav-item">
                         <a href="javascript:" class="sidenav-link sidenav-toggle">
-                            <i class="sidenav-icon feather icon-box"></i>
-                            <div>UI components</div>
+                            <i class="sidenav-icon fas fa-exchange-alt"></i>
+                            <div>Transaksi</div>
                         </a>
                         <ul class="sidenav-menu">
                             <li class="sidenav-item">
-                                <a href="bui_alert.html" class="sidenav-link">
-                                    <div>Alerts</div>
+                                <a href="pembelian" class="sidenav-link">
+                                    <div>Pembelian</div>
                                 </a>
                             </li>
                             <li class="sidenav-item">
-                                <a href="bui_badges.html" class="sidenav-link">
-                                    <div>Badges</div>
-                                </a>
-                            </li>
-                            <li class="sidenav-item ">
-                                <a href="bui_button.html" class="sidenav-link">
-                                    <div>Buttons</div>
-                                </a>
-                            </li>
-                            <li class="sidenav-item">
-                                <a href="charts_morrisjs.html" class="sidenav-link">
-                                    <div>Charts</div>
-                                </a>
-                            </li>
-                            <li class="sidenav-item">
-                                <a href="bui_dropdowns.html" class="sidenav-link">
-                                    <div>Dropdowns</div>
-                                </a>
-                            </li>
-                            <li class="sidenav-item">
-                                <a href="bui_pagination.html" class="sidenav-link">
-                                    <div>Pagination and breadcrumbs</div>
-                                </a>
-                            </li>
-                            <li class="sidenav-item">
-                                <a href="bui_progress.html" class="sidenav-link">
-                                    <div>Progress bars</div>
+                                <a href="penjualan" class="sidenav-link">
+                                    <div>Penjualan</div>
                                 </a>
                             </li>
                         </ul>
-                    </li> -->
+                    </li>
 
                 </ul>
             </div>

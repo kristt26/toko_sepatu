@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Controllers\Admin;
+
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class Penjualan extends BaseController
+{
+    protected $variant;
+    protected $produk;
+    protected $conn;
+    public function __construct() {
+        $this->variant = new \App\Models\VariantModel();
+        $this->produk = new \App\Models\ProdukModel();
+        $this->conn = \Config\Database::connect();
+    }
+
+    public function index(): string
+    {
+        return view('admin/penjualan');
+    }
+
+    public function store() 
+    {
+        $data = $this->variant->select('variant.*, produk.nama_produk, produk.harga')
+            ->join('produk', 'produk.id_produk = variant.id_produk')
+            ->where('variant.stok > 0')
+            ->orderBy('id_variant', 'DESC')->findAll();
+        return $this->response->setJSON($data);
+    }
+
+    function add() : ResponseInterface
+    {
+        $param = $this->request->getJSON();
+        try {
+            $this->conn->transException(true)->transStart();
+            $variant = $this->variant->find($param->id_variant);
+            $this->variant->update($param->id_variant, [
+                'stok' => $variant->stok + $param->qty
+            ]);
+            $this->pembelian->insert($param);
+            $param->id_pembelian = $this->pembelian->insertID();
+            $this->conn->transComplete();
+            return $this->response->setJSON($param);
+        } catch (\Throwable $th) {
+            return $this->response->setJSON([
+                'status' => 'Gagal simpan data',
+                'message' => $th->getMessage()
+            ])->setStatusCode(500);
+        }
+    }
+
+    function edit() : ResponseInterface
+    {
+        $param = $this->request->getJSON();
+        try {
+            $this->conn->transException(true)->transStart();
+            $variant = $this->variant->find($param->id_variant);  
+            $item = $this->pembelian->find($param->id_pembelian);  
+            $this->variant->update($param->id_variant, [
+                'stok' => $variant->stok - $item->qty + $param->qty
+            ]);
+            $this->pembelian->update($param->id_pembelian, $param);
+            $this->conn->transComplete();
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Data berhasil diubah'
+            ]);
+        } catch (\Throwable $th) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $th->getMessage()
+            ])->setStatusCode(401);
+        }
+    }
+
+    function delete($id = null) : ResponseInterface
+    {
+        try {
+            $this->conn->transException(true)->transStart();
+            $item = $this->pembelian->find($id);
+            $variant = $this->variant->find($item->id_variant);
+            $this->variant->update($item->id_variant, [
+                'stok' => $variant->stok - $item->qty
+            ]);
+            $this->pembelian->delete($id);
+            $this->conn->transComplete();
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Throwable $th) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $th->getMessage()
+            ])->setStatusCode(500);
+        }
+    }
+}
