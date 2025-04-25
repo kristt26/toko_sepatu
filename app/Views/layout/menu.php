@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li class="sidenav-item">
-                        <a href="produk" class="sidenav-link">
+                        <a href="/admin/produk" class="sidenav-link">
                             <i class="sidenav-icon feather icon-package"></i>
                             <div>Produk</div>
                         </a>
@@ -46,12 +46,12 @@
                         </a>
                         <ul class="sidenav-menu">
                             <li class="sidenav-item">
-                                <a href="pembelian" class="sidenav-link">
+                                <a href="/admin/pembelian" class="sidenav-link">
                                     <div>Pembelian</div>
                                 </a>
                             </li>
                             <li class="sidenav-item">
-                                <a href="penjualan" class="sidenav-link">
+                                <a href="/admin/penjualan" class="sidenav-link">
                                     <div>Penjualan</div>
                                 </a>
                             </li>

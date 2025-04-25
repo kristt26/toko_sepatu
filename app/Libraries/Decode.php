@@ -121,7 +121,7 @@ class Decode
     function random_strings($length_of_string)
     {
         // String of all alphanumeric character
-        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $str_result = '0123456789';
 
         // Shuffle the $str_result and returns substring
         // of specified length
@@ -129,7 +129,7 @@ class Decode
             str_shuffle($str_result),
             0,
             30
-        ) . "!@#$%^&*_";
+        );
         return substr(str_shuffle($char), 0, $length_of_string);
     }
 }

@@ -10,10 +10,16 @@ class Penjualan extends BaseController
     protected $variant;
     protected $produk;
     protected $conn;
+    protected $lib;
+    protected $penjualan;
+    protected $item;
     public function __construct() {
         $this->variant = new \App\Models\VariantModel();
         $this->produk = new \App\Models\ProdukModel();
         $this->conn = \Config\Database::connect();
+        $this->lib = new \App\Libraries\Decode();
+        $this->penjualan = new \App\Models\OrderModel();
+        $this->item = new \App\Models\ItemModel();
     }
 
     public function index(): string
@@ -34,13 +40,30 @@ class Penjualan extends BaseController
     {
         $param = $this->request->getJSON();
         try {
-            $this->conn->transException(true)->transStart();
-            $variant = $this->variant->find($param->id_variant);
-            $this->variant->update($param->id_variant, [
-                'stok' => $variant->stok + $param->qty
-            ]);
-            $this->pembelian->insert($param);
-            $param->id_pembelian = $this->pembelian->insertID();
+            $this->conn->transException(true)->transStart(); 
+            $total = array_reduce($param, function ($carry, $item) {
+                return $carry + $item->harga;
+            }, 0);
+            $order = [
+                'kode_order' => "#".$this->lib->random_strings(6),
+                'total' => $total,
+                'tanggal_order' => date('Y-m-d H:i:s'),
+                'status' => 'Paid',
+            ];
+            $this->penjualan->insert($order);
+            $id_order = $this->penjualan->insertID();
+            foreach ($param as $key => $value) {
+                $item = [
+                    'id_order' => $id_order,
+                    'id_variant' => $value->id_variant,
+                    'qty' => $value->qty,
+                    'harga' => $value->harga,
+                ];
+                $this->item->insert($item);
+                $this->variant->update($value->id_variant, [
+                    'stok' => $value->stok - $value->qty
+                ]);
+            }
             $this->conn->transComplete();
             return $this->response->setJSON($param);
         } catch (\Throwable $th) {
@@ -48,30 +71,6 @@ class Penjualan extends BaseController
                 'status' => 'Gagal simpan data',
                 'message' => $th->getMessage()
             ])->setStatusCode(500);
-        }
-    }
-
-    function edit() : ResponseInterface
-    {
-        $param = $this->request->getJSON();
-        try {
-            $this->conn->transException(true)->transStart();
-            $variant = $this->variant->find($param->id_variant);  
-            $item = $this->pembelian->find($param->id_pembelian);  
-            $this->variant->update($param->id_variant, [
-                'stok' => $variant->stok - $item->qty + $param->qty
-            ]);
-            $this->pembelian->update($param->id_pembelian, $param);
-            $this->conn->transComplete();
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Data berhasil diubah'
-            ]);
-        } catch (\Throwable $th) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $th->getMessage()
-            ])->setStatusCode(401);
         }
     }
 
