@@ -12,8 +12,12 @@ class CustomerModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_users','email', 'phone', 'alamat'];
+    protected $allowedFields    = ['id_users', 'nama', 'email', 'phone', 'alamat'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
+    protected $validationRules = [
+        'email' => 'required|valid_email|is_unique[customer.email]',
+        'phone' => 'required|numeric'
+    ];
 }

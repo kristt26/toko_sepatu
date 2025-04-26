@@ -5,6 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group('auth', function ($routes) {
+    $routes->get('/', 'Auth::index');
+    $routes->post('login', 'Auth::index');
+    $routes->get('register', 'Auth::showRegister');
+    $routes->post('register', 'Auth::register');
+    $routes->get('logout', 'Auth::logout');
+});
 $routes->get('/', 'Home::index');
 $routes->get('admin/beranda', 'Admin\Home::index');
 $routes->group('admin', function ($routes) {
