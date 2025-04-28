@@ -12,7 +12,7 @@ class KeranjangModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_users','id_variant', 'qty'];
+    protected $allowedFields    = ['id_customer','id_variant', 'qty'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

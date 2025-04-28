@@ -13,6 +13,15 @@ $routes->group('auth', function ($routes) {
     $routes->get('logout', 'Auth::logout');
 });
 $routes->get('/', 'Home::index');
+$routes->group('beranda', function ($routes) {
+    $routes->get('read', 'Home::read');
+    $routes->get('read_detail/(:hash)', 'Home::read_detail/$1');
+    $routes->post('add_cart', 'Home::addCard');
+    $routes->get('get_cart', 'Home::getCard');
+});
+$routes->get('detail/(:hash)', 'Home::detail');
+$routes->get('checkout', 'Home::checkout');
+$routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
 $routes->group('admin', function ($routes) {
     $routes->group('produk', function ($routes) {

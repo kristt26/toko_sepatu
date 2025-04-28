@@ -41,6 +41,8 @@ class Auth extends BaseController
                 return redirect()->back()->withInput()->with('error', 'Username/email atau password salah');
             }
 
+            
+
             // Set session data
             $session = session();
             $session->set([
@@ -50,6 +52,13 @@ class Auth extends BaseController
                 'role' => $user->role,
                 'logged_in' => true
             ]);
+            if($user->role== 'customer'){
+                $userInfoModel = new CustomerModel();
+                $userInfo = $userInfoModel->where('id_users', $user->id_users)->first();
+                $session->set([
+                    'id_customer' => $userInfo->id_customer,
+                ]);
+            }
 
             // Redirect berdasarkan role
             return $this->redirectByRole($user->role);
@@ -178,7 +187,7 @@ class Auth extends BaseController
         // Cari sebagai email
         $userInfoModel = new CustomerModel();
         $userInfo = $userInfoModel->where('email', $login)->first();
-        return $userInfo ? $userModel->find($userInfo['user_id']) : null;
+        return $userInfo ? $userModel->find($userInfo->id_users) : null;
     }
 
     protected function getUserEmail($userId)

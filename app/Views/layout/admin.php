@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="material-style layout-fixed" ng-app="apps" ng-controller="indexController">
+<html lang="en" class="material-style layout-fixed" ng-app="apps" ng-controller="indexController" ng-cloak>
 
 <head>
     <title>Empire | B4+ admin template by Srthemesvilla</title>
@@ -117,7 +117,7 @@
     <script src="/libs/angular/angular-sanitize.min.js"></script>
     <script src="/libs/angular/angular-ui-router.min.js"></script>
     <script src="/libs/angular/angular-animate.min.js"></script>
-    <script src="/js/apps.js"></script>
+    <!-- <script src="/js/apps.js"></script> -->
     <script src="/js/services/helper.services.js"></script>
     <script src="/js/services/auth.services.js"></script>
     <script src="/js/services/admin.services.js"></script>
