@@ -51,5 +51,12 @@ $routes->group('admin', function ($routes) {
         $routes->put('edit', 'Admin\Penjualan::edit');
         $routes->delete('delete/(:hash)', 'Admin\Penjualan::delete/$1');
     });
+    $routes->group('area', function ($routes) {
+        $routes->get('/', 'Admin\Area::index');
+        $routes->get('read', 'Admin\Area::store');
+        $routes->post('add', 'Admin\Area::add');
+        $routes->put('edit', 'Admin\Area::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Area::delete/$1');
+    });
 });
 

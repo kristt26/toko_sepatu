@@ -5,6 +5,7 @@ angular.module('admin.service', [])
     .factory('variantServices', variantServices)
     .factory('pembelianServices', pembelianServices)
     .factory('penjualanServices', penjualanServices)
+    .factory('areaServices', areaServices)
     ;
 
 function dashboardServices($http, $q, helperServices, AuthService) {
@@ -331,6 +332,94 @@ function pembelianServices($http, $q, helperServices, AuthService, pesan) {
 
 function penjualanServices($http, $q, helperServices, AuthService, pesan) {
     var controller = helperServices.url + 'admin/penjualan/';
+    var service = {};
+    service.data = [];
+    return {
+        get: get,
+        post: post,
+        put: put,
+        deleted: deleted
+    };
+
+    function get() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'read',
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                pesan.error(err.data.message);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function post(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + 'add',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                $.LoadingOverlay('hide');
+                pesan.Error(err.data.status);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function put(param) {
+        var def = $q.defer();
+        $http({
+            method: 'put',
+            url: controller + 'edit',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function deleted(param) {
+        var def = $q.defer();
+        $http({
+            method: 'delete',
+            url: controller + "/delete/" + param.id_pembelian,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.message)
+            }
+        );
+        return def.promise;
+    }
+
+}
+
+function penjualanServices($http, $q, helperServices, AuthService, pesan) {
+    var controller = helperServices.url + 'admin/area/';
     var service = {};
     service.data = [];
     return {

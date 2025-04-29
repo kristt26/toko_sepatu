@@ -4,7 +4,9 @@ angular
   .controller("dashboardController", dashboardController)
   .controller("produkController", produkController)
   .controller("pembelianController", pembelianController)
-  .controller("penjualanController", penjualanController);
+  .controller("penjualanController", penjualanController)
+  .controller("areaController", areaController)
+  ;
 
 function dashboardController($scope, dashboardServices) {
   $scope.$emit("SendUp", "Beranda");
@@ -303,4 +305,15 @@ function penjualanController($scope, penjualanServices, helperServices, pesan) {
       pesan.Success("Data berhasil dihapus", "Success", "info");
     });
   };
+}
+
+function areaController($scope, areaServices, pesan) {
+  $scope.$emit("SendUp", "Service Area");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  $scope.tampil = "produk";
+  areaServices.get().then((res) => {
+    $scope.datas = res;
+  });
 }

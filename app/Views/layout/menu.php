@@ -22,6 +22,19 @@
                         </a>
                     </li>
                     <li class="sidenav-item">
+                        <a href="javascript:" class="sidenav-link sidenav-toggle">
+                            <i class="sidenav-icon fas fa-clipboard-list"></i>
+                            <div>Manajemen Data</div>
+                        </a>
+                        <ul class="sidenav-menu">
+                            <li class="sidenav-item">
+                                <a href="/admin/area" class="sidenav-link">
+                                    <div>Service Area</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidenav-item">
                         <a href="index.html" class="sidenav-link">
                             <i class="sidenav-icon feather icon-layers"></i>
                             <div>Toko</div>
