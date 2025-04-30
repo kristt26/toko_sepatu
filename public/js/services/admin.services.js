@@ -418,7 +418,7 @@ function penjualanServices($http, $q, helperServices, AuthService, pesan) {
 
 }
 
-function penjualanServices($http, $q, helperServices, AuthService, pesan) {
+function areaServices($http, $q, helperServices, AuthService, pesan) {
     var controller = helperServices.url + 'admin/area/';
     var service = {};
     service.data = [];
@@ -457,6 +457,7 @@ function penjualanServices($http, $q, helperServices, AuthService, pesan) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
+                service.data.push(res.data);
                 def.resolve(res.data);
             },
             (err) => {
@@ -477,6 +478,11 @@ function penjualanServices($http, $q, helperServices, AuthService, pesan) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
+                var data = service.data.find(x => x.id_area == param.id_area);
+                if(data){
+                    data.nama_area = param.nama_area;
+                    data.harga_kirim = param.harga_kirim;
+                }
                 def.resolve(res.data);
             },
             (err) => {
@@ -490,10 +496,11 @@ function penjualanServices($http, $q, helperServices, AuthService, pesan) {
         var def = $q.defer();
         $http({
             method: 'delete',
-            url: controller + "/delete/" + param.id_pembelian,
+            url: controller + "/delete/" + param.id_area,
             headers: AuthService.getHeader()
         }).then(
             (res) => {
+                service.data.splice(service.data.indexOf(param), 1);
                 def.resolve(res.data);
             },
             (err) => {

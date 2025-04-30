@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div ng-controller="checkoutController" ng-cloak>
-  <div class="container py-5">
+  <div class="container py-5" ng-show="tampil== 'checkout'">
     <h1 class="mb-4 text-center">Checkout</h1>
     <div class="row">
       <!-- Detail Produk -->
@@ -25,8 +25,8 @@
               </div>
             </div>
             <hr>
-            <h5 class="text-end">Biaya Pengiriman: <strong>{{shippingCost | currency:'Rp. '}}</strong></h5>
-            <h5 class="text-end">Total: <strong>{{calculateTotal() + shippingCost | currency:'Rp. '}}</strong></h5>
+            <h5 class="text-end">Biaya Pengiriman: <strong>{{model.shippingCost | currency:'Rp. '}}</strong></h5>
+            <h5 class="text-end">Total: <strong>{{calculateTotal() + model.shippingCost | currency:'Rp. '}}</strong></h5>
           </div>
         </div>
       </div>

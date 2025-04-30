@@ -11,11 +11,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="area">Nama Area</label>
-                            <input type="text" class="form-control" id="area" ng-model="item.nama_area" placeholder="Masukkan Nama Area" required>
+                            <input type="text" class="form-control" id="area" ng-model="model.nama_area" placeholder="Masukkan Nama Area" required>
                         </div>
                         <div class="form-group">
                             <label for="area">Harga Kirim</label>
-                            <input type="text" class="form-control" id="area" ng-model="item.nama_area" placeholder="Masukkan Nama Area" required>
+                            <input type="text" class="form-control" id="area" ng-model="model.harga_kirim" placeholder="Masukkan Harga Pengiriman" required mask-currency="'Rp. '" config="{group:'.',decimalSize:'0',indentation:' ',decimal:''}">
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
@@ -29,30 +29,26 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Data Produk</h4>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modals-default" ng-click="add()">Tambah Produk</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Nama Produk</th>
-                                    <th>Harga</th>
-                                    <th>Total Stok</th>
-                                    <th>Ketearngan</th>
+                                    <th>No</th>
+                                    <th>Service Area</th>
+                                    <th>Harga Pengiriman</th>
                                     <th width="20%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in datas track by $index">
-                                    <td>{{item.nama_produk}}</td>
-                                    <td>{{item.harga | currency: 'Rp. '}}</td>
-                                    <td>{{item.total_stok}}</td>
-                                    <td>{{item.keterangan}}</td>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.nama_area}}</td>
+                                    <td>{{item.harga_kirim | currency: 'Rp. '}}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="edit(item)">Edit</button>
                                         <button type="button" class="btn btn-danger" ng-click="delete(item)">Delete</button>
-                                        <button type="button" class="btn btn-info" ng-click="setTampilan(item, 'variant')">Variant</button>
                                     </td>
                             </tbody>
                         </table>

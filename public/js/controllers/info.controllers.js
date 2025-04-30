@@ -4,6 +4,7 @@ angular
   .controller("dashboardController", dashboardController)
   .controller("detailController", detailController)
   .controller("checkoutController", checkoutController)
+  .controller("profileController", profileController)
   ;
 
 function dashboardController($scope, dashboardServices) {
@@ -88,6 +89,7 @@ function checkoutController($scope, dashboardServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model ={};
+  $scope.tampil = "checkout";
   dashboardServices.getCart().then(function (response) {
     $scope.datas = response.cart.map(item => {
       item.selected = true; // Default semua item terpilih
@@ -97,13 +99,13 @@ function checkoutController($scope, dashboardServices) {
     console.log(response);
   });
 
-  $scope.areas = [
-    { name: 'Jakarta', cost: 20000 },
-    { name: 'Bandung', cost: 15000 },
-    { name: 'Surabaya', cost: 25000 },
-    { name: 'Yogyakarta', cost: 18000 }
-  ];
-  $scope.shippingCost = 0;
+  // $scope.areas = [
+  //   { name: 'Jakarta', cost: 20000 },
+  //   { name: 'Bandung', cost: 15000 },
+  //   { name: 'Surabaya', cost: 25000 },
+  //   { name: 'Yogyakarta', cost: 18000 }
+  // ];
+  $scope.model.shippingCost = 0;
 
   $scope.calculateTotal = function () {
     return $scope.datas
@@ -113,30 +115,24 @@ function checkoutController($scope, dashboardServices) {
 
   // Update biaya pengiriman berdasarkan area yang dipilih
   $scope.updateShippingCost = function () {
-    const selectedArea = $scope.areas.find(area => area.nama_area === $scope.model.area);
-    $scope.shippingCost = selectedArea ? parseFloat(selectedArea.harga_kirim) : 0;
+    const selectedArea = $scope.areas.find(area => area.id_area === $scope.model.area);
+    $scope.model.shippingCost = selectedArea ? parseFloat(selectedArea.harga_kirim) : 0;
   };
 
   // Proses checkout
   $scope.processCheckout = function () {
-    const selectedItems = $scope.datas.filter(item => item.selected);
-    if (selectedItems.length === 0) {
-      alert('Silakan pilih setidaknya satu item untuk di-checkout.');
-      return;
-    }
-
-    const data = {
-      items: selectedItems,
-      customer: $scope.model,
-      shippingCost: $scope.shippingCost
-    };
-
-    $http.post('/api/checkout', data).then(function () {
-      alert('Checkout berhasil! Pesanan Anda sedang diproses.');
-      window.location.href = '/';
-    }).catch(function (error) {
-      console.error('Gagal memproses checkout:', error);
-      alert('Gagal memproses checkout.');
-    });
+    var data = {item: $scope.datas.cart, customer: $scope.model}
+    data.customer.totalItem = $scope.calculateTotal();
   };
+}
+
+function profileController($scope, profileServices) {
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model ={};
+  $scope.tampil = "checkout";
+  profileServices.get().then(res=>{
+    $scope.datas = res;
+    console.log(res);
+  })
 }

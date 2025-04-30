@@ -316,4 +316,32 @@ function areaController($scope, areaServices, pesan) {
   areaServices.get().then((res) => {
     $scope.datas = res;
   });
+
+  $scope.save = ()=>{
+    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res)=>{
+      if(!$scope.model.id_area){
+        areaServices.post($scope.model).then((res)=>{
+          $scope.model = {};
+          pesan.Success("Data berhasil disimpan", "Success", "info");
+        })
+      }else{
+        areaServices.put($scope.model).then((res)=>{
+          $scope.model = {};
+          pesan.Success("Data berhasil disimpan", "Success", "info");
+        })
+      }
+    })
+  }
+
+  $scope.edit = (param)=>{
+    $scope.model = angular.copy(param);
+  }
+
+  $scope.delete = (param)=>{
+    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res)=>{
+      areaServices.deleted(param).then((res)=>{
+        pesan.Success("Data berhasil dihapus", "Success", "info");
+      })
+    })
+  }
 }

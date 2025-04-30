@@ -5,6 +5,10 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group('profile', function ($routes) {
+    $routes->get('/', 'Profile::index');
+    $routes->get('read', 'Profile::store');
+});
 $routes->group('auth', function ($routes) {
     $routes->get('/', 'Auth::index');
     $routes->post('login', 'Auth::index');

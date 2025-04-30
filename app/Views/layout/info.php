@@ -27,11 +27,11 @@
             <a class="nav-link" href="#"><i class="bi bi-bag-fill me-1"></i>Produk</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-cart-fill me-1"></i>Keranjang
-              <?php if (session()->get('logged_in')) : ?>
-                <sup>
-                  <span class="badge bg-danger" id="cart-count">{{keranjang.length}}</span>
-                </sup>
+            <a class="nav-link" href="/checkout"><i class="bi bi-cart-fill me-1"></i>Keranjang
+            <?php if (session()->get('logged_in')) : ?>
+              <sup>
+                <span class="badge bg-danger" id="cart-count">{{keranjang.cart.length}}</span>
+              </sup>
               <?php endif; ?>
             </a>
           </li>
@@ -46,9 +46,12 @@
           </div>
         <?php endif; ?>
         <?php if (session()->get('logged_in')) : ?>
-          <div class="d-flex align-items-center">
-            <a href="/auth/logout" class="btn btn-secondary d-flex align-items-center">
+          <div class="d-flex">
+            <a href="/auth/logout" class="btn btn-secondary d-flex align-items-center me-2">
               <i class="bi bi-box-arrow-right me-1"></i> Logout
+            </a>
+            <a href="/profile" class="btn btn-info d-flex align-items-center">
+              <i class="bi bi-person-circle me-1"></i> Profile
             </a>
           </div>
         <?php endif; ?>
