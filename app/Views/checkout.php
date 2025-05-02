@@ -61,8 +61,8 @@
               <div class="mb-3">
                 <label for="payment" class="form-label">Metode Pembayaran</label>
                 <select id="payment" class="form-select" ng-model="model.paymentMethod" required>
-                  <option value="transfer">Transfer Bank</option>
-                  <option value="cod">Bayar di Tempat (COD)</option>
+                  <option value="Transfer">Transfer Bank</option>
+                  <option value="COD">Bayar di Tempat (COD)</option>
                 </select>
               </div>
               <button type="submit" class="btn btn-success w-100">Proses Checkout</button>
@@ -75,26 +75,38 @@
 
   <div class="container py-5">
     <div class="text-center mb-5">
-      <h1 class="fw-bold">Informasi Pesanan</h1>
+      <h1 class="fw-bold">📦 Informasi Pesanan</h1>
       <p class="text-muted">Terima kasih telah berbelanja di toko kami! Berikut adalah detail pesanan Anda.</p>
+    </div>
+
+    <!-- Progress Status -->
+    <div class="mb-5">
+      <div class="progress" style="height: 20px;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: {{order.status === 'Dibayar' ? '50%' : (order.status === 'Dikirim' ? '100%' : '20%')}};">
+          {{order.status}}
+        </div>
+      </div>
     </div>
 
     <div class="row">
       <!-- Informasi Pelanggan -->
       <div class="col-md-6">
-        <div class="card shadow-sm mb-4">
-          <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Informasi Pelanggan</h5>
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header bg-gradient bg-primary text-white rounded-top">
+            <h5 class="mb-0">👤 Informasi Pelanggan</h5>
           </div>
           <div class="card-body">
-            <p><strong>Nama Lengkap:</strong> {{order.name}}</p>
-            <p><strong>Alamat Pengiriman:</strong> {{order.address}}</p>
-            <p><strong>Area Pengiriman:</strong> {{order.area}}</p>
-            <p><strong>Nomor Telepon:</strong> {{order.phone}}</p>
-            <p><strong>Metode Pembayaran:</strong>
-              <span class="badge" ng-class="{'bg-success': order.paymentMethod === 'cod', 'bg-info': order.paymentMethod === 'transfer'}">
-                {{order.paymentMethod === 'cod' ? 'Bayar di Tempat (COD)' : 'Transfer Bank'}}
+            <p><strong>Nama:</strong> {{order.name}}</p>
+            <p><strong>Alamat:</strong> {{order.address}}</p>
+            <p><strong>Area:</strong> {{order.area}}</p>
+            <p><strong>Telepon:</strong> {{order.phone}}</p>
+            <p><strong>Pembayaran:</strong>
+              <span class="badge rounded-pill" ng-class="{'bg-success': order.paymentMethod === 'cod', 'bg-info': order.paymentMethod === 'transfer'}">
+                {{order.paymentMethod === 'cod' ? 'COD' : 'Transfer Bank'}}
               </span>
+            </p>
+            <p><strong>Status:</strong>
+              <span class="badge bg-secondary">{{order.status}}</span>
             </p>
           </div>
         </div>
@@ -102,33 +114,44 @@
 
       <!-- Ringkasan Pesanan -->
       <div class="col-md-6">
-        <div class="card shadow-sm mb-4">
-          <div class="card-header bg-warning text-white">
-            <h5 class="mb-0">Ringkasan Pesanan</h5>
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header bg-gradient bg-warning text-white rounded-top">
+            <h5 class="mb-0">💳 Ringkasan Pesanan</h5>
           </div>
           <div class="card-body">
-            <p><strong>Biaya Pengiriman:</strong> Rp {{order.shippingCost | number}}</p>
-            <p><strong>Total Pembayaran:</strong> <span class="text-danger fw-bold">Rp {{order.total | number}}</span></p>
+            <p><strong>Biaya Kirim:</strong> Rp {{order.shippingCost | number}}</p>
+            <p><strong>Total Bayar:</strong> <span class="text-danger fw-bold">Rp {{order.total | number}}</span></p>
+
+            <!-- Info Rekening -->
+            <div class="mt-4 p-3 border rounded bg-light">
+              <h6 class="mb-3">Transfer ke:</h6>
+              <p class="mb-1">🏦 <strong>Bank BRI</strong></p>
+              <p class="mb-1">No. Rek:
+                <strong id="rekNumber">1234 5678 9012 3456</strong>
+                <button type="button" class="btn btn-sm btn-outline-secondary ms-2" onclick="copyRek()">Copy</button>
+              </p>
+              <p class="mb-0">a.n. <strong>Nama Pemilik Rekening</strong></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Detail Produk -->
-    <div class="card shadow-sm mb-4">
-      <div class="card-header bg-secondary text-white">
-        <h5 class="mb-0">Detail Produk</h5>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-gradient bg-secondary text-white rounded-top">
+        <h5 class="mb-0">🛒 Detail Produk</h5>
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered">
+          <table class="table align-middle table-hover">
             <thead class="table-light">
               <tr>
                 <th>Gambar</th>
-                <th>Nama Produk</th>
+                <th>Produk</th>
                 <th>Ukuran</th>
                 <th>Warna</th>
-                <th>Jumlah</th>
+                <th>Qty</th>
                 <th>Harga</th>
                 <th>Subtotal</th>
               </tr>
@@ -136,7 +159,7 @@
             <tbody>
               <tr ng-repeat="item in order.items">
                 <td class="text-center">
-                  <img src="/assets/gambar/{{item.gambar}}" alt="{{item.nama_produk}}" class="img-thumbnail" style="width: 80px; height: 80px;">
+                  <img src="/assets/gambar/{{item.gambar}}" alt="{{item.nama_produk}}" class="img-thumbnail rounded" style="width: 80px; height: 80px;">
                 </td>
                 <td>{{item.nama_produk}}</td>
                 <td>{{item.ukuran}}</td>
@@ -152,28 +175,42 @@
     </div>
 
     <!-- Upload Bukti Transfer -->
-    <div class="card shadow-sm" ng-if="order.paymentMethod === 'transfer'">
-      <div class="card-header bg-info text-white">
-        <h5 class="mb-0">Unggah Bukti Transfer</h5>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-gradient bg-info text-white rounded-top">
+        <h5 class="mb-0">📤 Unggah Bukti Transfer</h5>
       </div>
       <div class="card-body">
         <form ng-submit="uploadProof()">
           <div class="mb-3">
-            <label for="proof" class="form-label">Unggah Bukti Pembayaran</label>
+            <label for="proof" class="form-label">Bukti Pembayaran</label>
             <input type="file" id="proof" class="form-control" file-model="order.paymentProof" required>
           </div>
-          <button type="submit" class="btn btn-info w-100">Kirim Bukti Pembayaran</button>
+          <button type="submit" class="btn btn-info w-100">Kirim Bukti</button>
         </form>
       </div>
     </div>
 
     <!-- Tombol Kembali -->
     <div class="text-center mt-4">
-      <a href="/" class="btn btn-primary btn-lg">
-        <i class="bi bi-arrow-left-circle me-2"></i>Kembali ke Beranda
+      <a href="/" class="btn btn-primary btn-lg rounded-pill">
+        <i class="bi bi-arrow-left-circle me-2"></i>Beranda
       </a>
     </div>
   </div>
+
+  <style>
+    .text-muted{
+      color: rgb(255 146 65 / 75%) !important;
+    }
+  </style>
+
+  <script>
+    function copyRek() {
+      const text = document.getElementById('rekNumber').innerText;
+      navigator.clipboard.writeText(text);
+      alert('No Rekening disalin!');
+    }
+  </script>
 </div>
 
 <?= $this->endSection() ?>

@@ -22,6 +22,7 @@ $routes->group('beranda', function ($routes) {
     $routes->get('read_detail/(:hash)', 'Home::read_detail/$1');
     $routes->post('add_cart', 'Home::addCard');
     $routes->get('get_cart', 'Home::getCard');
+    $routes->post('checkout', 'Home::prosesCheckout');
 });
 $routes->get('detail/(:hash)', 'Home::detail');
 $routes->get('checkout', 'Home::checkout');

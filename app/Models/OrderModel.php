@@ -12,7 +12,7 @@ class OrderModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_customer','id_area', 'kode_order', 'tanggal_order', 'status', 'total', 'alamat_pengiriman'];
+    protected $allowedFields    = ['id_customer','id_area', 'kode_order', 'tanggal_order', 'status', 'total', 'alamat_pengirim'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

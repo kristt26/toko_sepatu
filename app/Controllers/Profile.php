@@ -8,10 +8,12 @@ class Profile extends BaseController
 {
     protected $customer;
     protected $keranjang;
+    protected $order;
     public function __construct()
     {
         $this->customer = new \App\Models\CustomerModel();
         $this->keranjang = new \App\Models\KeranjangModel();
+        $this->order = new \App\Models\OrderModel();
     }
     public function index(): string
     {
@@ -21,7 +23,7 @@ class Profile extends BaseController
     public function store(): ResponseInterface
     {
         $data['profile'] = $this->customer->where('id_customer', session()->get('id_customer'))->first();
-        $data['keranjang'] = $this->keranjang->where('id_customer', session()->get('id_customer'))->findAll();
+        $data['order'] = $this->order->where('id_customer', session()->get('id_customer'))->findAll();
         return $this->response->setJSON($data);
     }
     

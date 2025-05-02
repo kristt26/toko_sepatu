@@ -85,7 +85,7 @@ function detailController($scope, dashboardServices, pesan) {
   };
 }
 
-function checkoutController($scope, dashboardServices) {
+function checkoutController($scope, dashboardServices, helperServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model ={};
@@ -121,12 +121,15 @@ function checkoutController($scope, dashboardServices) {
 
   // Proses checkout
   $scope.processCheckout = function () {
-    var data = {item: $scope.datas.cart, customer: $scope.model}
+    var data = {item: $scope.datas.filter(x=>x.selected), customer: $scope.model}
     data.customer.totalItem = $scope.calculateTotal();
+    dashboardServices.checkout(data).then(res =>{
+      document.location.href = helperServices.url + "/detail_pesanan/" + res.id_order;
+    })
   };
 }
 
-function profileController($scope, profileServices) {
+function profileController($scope, profileServices, helperServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model ={};
@@ -135,4 +138,8 @@ function profileController($scope, profileServices) {
     $scope.datas = res;
     console.log(res);
   })
+
+  $scope.detailPesanan = (param)=>{
+    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
+  }
 }

@@ -10,12 +10,18 @@ class Home extends BaseController
     protected $variant;
     protected $keranjang;
     protected $area;
+    protected $order;
+    protected $item;
+    protected $pembayaran;
     public function __construct()
     {
         $this->produk = new \App\Models\ProdukModel();
         $this->variant = new \App\Models\VariantModel();
         $this->keranjang = new \App\Models\KeranjangModel();
         $this->area = new \App\Models\AreaModel();
+        $this->order = new \App\Models\OrderModel();
+        $this->item = new \App\Models\ItemModel();     
+        $this->pembayaran = new \App\Models\PembayaranModel();   
     }
     public function index(): string
     {
@@ -103,5 +109,50 @@ class Home extends BaseController
         $data['area'] = $this->area->findAll();
         return $this->response->setJSON($data);
         
+    }
+
+    function prosesCheckout() {
+        $param = $this->request->getJSON();
+        $conn = \Config\Database::connect();
+        $lib = new \App\Libraries\Decode();
+        try {
+            $conn->transException(true)->transStart();
+            $order = [
+                'id_customer' => session()->get('id_customer'),
+                'id_area' => $param->customer->area,
+                'total' => $param->customer->totalItem,
+                'kode_order' => "#".$lib->random_strings(7),
+                'alamat_pengirim' => $param->customer->alamat_pengiriman,
+                'tanggal_order' => date('Y-m-d H:i:s'),
+                'status' => $param->customer->paymentMethod == "Transfer" ? "Pending" : "Proses",
+            ];
+            $this->order->insert($order);
+            $id_order = $this->order->insertID();
+            foreach ($param->item as $key => $value) {
+                $item = [
+                    'id_order' => $id_order,
+                    'id_variant' => $value->id_variant,
+                    'qty' => $value->qty,
+                    'harga' => $value->harga,
+                ];
+                $this->item->insert($item);
+            }
+            $pembayaran = [
+                'id_order' => $id_order,
+                'metode_bayar' => $param->customer->paymentMethod,
+                'status' => "Pending"
+            ];
+            $this->pembayaran->insert($pembayaran);
+            $this->keranjang->where('id_customer', session()->get('id_customer'))->delete();
+            $conn->transComplete();
+            return $this->response->setJSON(['id_order' => $id_order])->setStatusCode(200, 'Berhasil melakukan checkout');
+
+        } catch (\Throwable $th) {
+            $conn->transRollback();
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal melakukan checkout',
+            ])->setStatusCode(500, 'Internal Server Error');
+        }
     }
 }

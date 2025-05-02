@@ -14,7 +14,8 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         get: get,
         getItem:getItem,
         getCart:getCart,
-        addToCart:addToCart
+        addToCart:addToCart,
+        checkout:checkout
     };
 
     function get() {
@@ -73,6 +74,24 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         $http({
             method: 'post',
             url: controller + 'add_cart',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function checkout(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + 'checkout',
             data: param,
             headers: AuthService.getHeader()
         }).then(

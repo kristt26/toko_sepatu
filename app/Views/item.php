@@ -13,7 +13,6 @@
       <h1 class="mb-3">{{datas.nama_produk}}</h1>
       <h4 class="text-danger mb-3">Rp {{datas.harga | number}}</h4>
       <p class="mb-4">{{datas.keterangan}}</p>
-
       <!-- Stok Tersedia -->
       <p class="text-success mb-4">Stok Tersedia: {{selectedSize && selectedColor && (totalStock == null || totalStock <=0) ? 'Habis' : totalStock}}</p>
 

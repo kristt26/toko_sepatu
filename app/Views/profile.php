@@ -41,7 +41,7 @@
     <div class="col-md-7">
       <h3 class="section-title">Riwayat Pesanan</h3>
       <div class="table-responsive">
-        <table class="table table-bordered align-middle">
+        <table class="table table-bordered align-middle table-hover">
           <thead>
             <tr>
               <th>#</th>
@@ -52,7 +52,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr  ng-click="detailPesanan(item)">
               <td>1</td>
               <td>29 Apr 2025</td>
               <td>Air Max 90</td>
@@ -116,6 +116,7 @@
 
   .table {
     color: #eee;
+    --bs-table-hover-bg:rgb(219 34 34 / 35%);
   }
 
   .table th {
@@ -139,6 +140,7 @@
   .badge {
     font-size: 0.9rem;
   }
+
 
   /* Responsive */
   @media (max-width: 767px) {
