@@ -42,7 +42,7 @@ class Penjualan extends BaseController
         try {
             $this->conn->transException(true)->transStart(); 
             $total = array_reduce($param, function ($carry, $item) {
-                return $carry + $item->harga;
+                return $carry + ($item->harga*$item->qty);
             }, 0);
             $order = [
                 'kode_order' => "#".$this->lib->random_strings(6),
@@ -78,12 +78,12 @@ class Penjualan extends BaseController
     {
         try {
             $this->conn->transException(true)->transStart();
-            $item = $this->pembelian->find($id);
+            $item = $this->penjualan->find($id);
             $variant = $this->variant->find($item->id_variant);
             $this->variant->update($item->id_variant, [
                 'stok' => $variant->stok - $item->qty
             ]);
-            $this->pembelian->delete($id);
+            $this->penjualan->delete($id);
             $this->conn->transComplete();
             return $this->response->setJSON([
                 'status' => 'success',
@@ -96,4 +96,9 @@ class Penjualan extends BaseController
             ])->setStatusCode(500);
         }
     }
+
+    function struk (){
+        return view('struk');
+    }
+
 }

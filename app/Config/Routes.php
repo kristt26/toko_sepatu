@@ -51,6 +51,7 @@ $routes->group('admin', function ($routes) {
     });
     $routes->group('penjualan', function ($routes) {
         $routes->get('/', 'Admin\Penjualan::index');
+        $routes->get('struk', 'Admin\Penjualan::struk');
         $routes->get('read', 'Admin\Penjualan::store');
         $routes->post('add', 'Admin\Penjualan::add');
         $routes->put('edit', 'Admin\Penjualan::edit');
@@ -62,6 +63,14 @@ $routes->group('admin', function ($routes) {
         $routes->post('add', 'Admin\Area::add');
         $routes->put('edit', 'Admin\Area::edit');
         $routes->delete('delete/(:hash)', 'Admin\Area::delete/$1');
+    });
+
+    $routes->group('toko', function ($routes) {
+        $routes->get('/', 'Admin\Toko::index');
+        $routes->get('read', 'Admin\Toko::store');
+        $routes->post('add', 'Admin\Toko::add');
+        $routes->put('edit', 'Admin\Toko::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Toko::delete/$1');
     });
 });
 

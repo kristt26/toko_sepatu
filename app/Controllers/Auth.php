@@ -9,6 +9,10 @@ use App\Models\CustomerModel;
 class Auth extends BaseController
 {
     use ResponseTrait;
+    protected $user;
+    public function __construct() {
+        $this->user = new UserModel();
+    }
     public function index(): \CodeIgniter\HTTP\ResponseInterface|string
     {
         if ($this->request->getMethod() === 'POST') {
@@ -63,7 +67,13 @@ class Auth extends BaseController
             // Redirect berdasarkan role
             return $this->redirectByRole($user->role);
         }
-
+        if($this->user->countAllResults() == 0){
+            $this->user->insert([
+                'username' => 'Administrator',
+                'password' => password_hash('Administrator#1', PASSWORD_DEFAULT),
+                'role' => 'admin'
+            ]);
+        }
         return view('login');
     }
 

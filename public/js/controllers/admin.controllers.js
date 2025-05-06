@@ -6,6 +6,7 @@ angular
   .controller("pembelianController", pembelianController)
   .controller("penjualanController", penjualanController)
   .controller("areaController", areaController)
+  .controller("tokoController", tokoController)
   ;
 
 function dashboardController($scope, dashboardServices) {
@@ -317,15 +318,15 @@ function areaController($scope, areaServices, pesan) {
     $scope.datas = res;
   });
 
-  $scope.save = ()=>{
-    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res)=>{
-      if(!$scope.model.id_area){
-        areaServices.post($scope.model).then((res)=>{
+  $scope.save = () => {
+    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res) => {
+      if (!$scope.model.id_area) {
+        areaServices.post($scope.model).then((res) => {
           $scope.model = {};
           pesan.Success("Data berhasil disimpan", "Success", "info");
         })
-      }else{
-        areaServices.put($scope.model).then((res)=>{
+      } else {
+        areaServices.put($scope.model).then((res) => {
           $scope.model = {};
           pesan.Success("Data berhasil disimpan", "Success", "info");
         })
@@ -333,15 +334,49 @@ function areaController($scope, areaServices, pesan) {
     })
   }
 
-  $scope.edit = (param)=>{
+  $scope.edit = (param) => {
     $scope.model = angular.copy(param);
   }
 
-  $scope.delete = (param)=>{
-    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res)=>{
-      areaServices.deleted(param).then((res)=>{
+  $scope.delete = (param) => {
+    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res) => {
+      areaServices.deleted(param).then((res) => {
         pesan.Success("Data berhasil dihapus", "Success", "info");
       })
     })
   }
+}
+
+function tokoController($scope, tokoServices, pesan, $timeout) {
+  $scope.$emit("SendUp", "Profile Toko");
+  tokoServices.get().then((res) => {
+    $scope.model = res;
+    console.log(res);
+    
+  })
+
+
+  $scope.loading = false;
+
+  $scope.simpan = function () {
+    $scope.loading = true;
+    if ($scope.formToko.$invalid) {
+      return;
+    }
+    
+    if($scope.model.id_toko){
+      tokoServices.put($scope.model).then((res) => {
+        console.log(res);
+        pesan.Success("Data berhasil diubah", "Success", "info");
+        $scope.loading = false;
+      });
+    }else{
+      tokoServices.post($scope.model).then((res) => {
+        console.log(res);
+        $scope.model = res;
+        pesan.Success("Data berhasil disimpan", "Success", "info");
+        $scope.loading = false;
+      });
+    }
+  };
 }

@@ -35,7 +35,7 @@
                         </ul>
                     </li>
                     <li class="sidenav-item">
-                        <a href="index.html" class="sidenav-link">
+                        <a href="/admin/toko" class="sidenav-link">
                             <i class="sidenav-icon feather icon-layers"></i>
                             <div>Toko</div>
                         </a>

@@ -60,7 +60,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="javascript:" class="dropdown-item">
                                         <i class="feather icon-user text-muted"></i> &nbsp; My profile</a>
-                                    <a href="javascript:" class="dropdown-item">
+                                    <a href="/auth/logout" class="dropdown-item">
                                         <i class="feather icon-power text-danger"></i> &nbsp; Log Out</a>
                                 </div>
                             </div>

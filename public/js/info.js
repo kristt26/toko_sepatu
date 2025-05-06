@@ -49,12 +49,14 @@ function indexController($scope, helperServices, dashboardServices) {
     $scope.title = data;
     $.LoadingOverlay("hide");
   });
-  dashboardServices.getCart().then(res=>{
+  dashboardServices.getCart().then(res => {
     console.log(res);
     $scope.keranjang = res;
   })
   $scope.$on("setKerangjang", function (evt, data) {
-    $scope.keranjang.push(data);
+    var item = $scope.keranjang.cart.find((item) => item.id_variant == data.id_variant);
+    if (item) item.qty += data.qty;
+    else $scope.keranjang.cart.push(data);
     console.log($scope.keranjang);
   });
 }
