@@ -8,9 +8,9 @@ angular.module('apps', [
     'ngLocale',
     'datatables',
     'cur.$mask',
-    // 'ngAnimate',
-    // 'ngSanitize',
-    // 'ui.router',
+    'ngAnimate',
+    'ngSanitize',
+    'ui.router',
     'ui.select2'
 ])
 
@@ -33,7 +33,7 @@ angular.module('apps', [
     //       }
     //     };
     //   }])
-;
+    ;
 
 
 function indexController($scope, helperServices, dashboardServices) {
@@ -47,7 +47,7 @@ function indexController($scope, helperServices, dashboardServices) {
         $scope.header = data;
         $scope.breadcrumb = data;
         $scope.title = data;
-        $.LoadingOverlay("hide");
+        // $.LoadingOverlay("hide");
     });
 }
 

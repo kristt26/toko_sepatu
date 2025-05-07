@@ -12,7 +12,7 @@ class TokoModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama','alamat', 'telepon', 'logo'];
+    protected $allowedFields    = ['nama','alamat', 'telepon', 'logo', 'bank', 'rekening', 'nama_rekening'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

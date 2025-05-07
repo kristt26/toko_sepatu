@@ -31,6 +31,11 @@
 
     <!-- Libs -->
     <link rel="stylesheet" href="/assets/libs/perfect-scrollbar/perfect-scrollbar.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="/libs/angular-datatables/dist/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <!-- <link href="/libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"> -->
 </head>
 
 <body>
@@ -44,12 +49,12 @@
     <div class="layout-wrapper layout-2">
         <div class="layout-inner">
             <!-- [ Layout sidenav ] Start -->
-             <?= view('layout/menu')?>
+            <?= view('layout/menu') ?>
             <!-- [ Layout sidenav ] End -->
             <!-- [ Layout container ] Start -->
             <div class="layout-container">
                 <!-- [ Layout navbar ( Header ) ] Start -->
-                <?= view('layout/header')?>
+                <?= view('layout/header') ?>
                 <!-- [ Layout navbar ( Header ) ] End -->
 
                 <!-- [ Layout content ] Start -->
@@ -65,7 +70,7 @@
                                 <li class="breadcrumb-item active">Layouts and elements</li>
                             </ol>
                         </div> -->
-                        <?= $this->renderSection('content');?>
+                        <?= $this->renderSection('content'); ?>
                     </div>
                     <!-- [ content ] End -->
 
@@ -99,9 +104,9 @@
     <!-- [ Layout wrapper ] end -->
 
     <!-- Core scripts -->
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
     <script src="/libs/angular/angular.min.js"></script>
     <script src="/assets/js/pace.js"></script>
-    <script src="/assets/js/jquery-3.3.1.min.js"></script>
     <script src="/assets/libs/popper/popper.js"></script>
     <script src="/assets/js/bootstrap.js"></script>
     <script src="/assets/js/sidenav.js"></script>
@@ -112,7 +117,8 @@
     <script src="/assets/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <!-- Demo -->
-    <script src="/assets/js/demo.js"></script><script src="/assets/js/analytics.js"></script>
+    <script src="/assets/js/demo.js"></script>
+    <script src="/assets/js/analytics.js"></script>
     <script src="/js/apps.js"></script>
     <script src="/libs/angular/angular-sanitize.min.js"></script>
     <script src="/libs/angular/angular-ui-router.min.js"></script>
@@ -138,6 +144,11 @@
     <script src="/libs/loading/dist/loadingoverlay.min.js"></script>
     <script src="/libs/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.js"></script>
     <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+    <!-- Tambahkan JS Select2 -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> -->
+    <script src="/libs/select2/select2.min.js"></script>
 </body>
 
 </html>

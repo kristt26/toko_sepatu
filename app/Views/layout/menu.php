@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="sidenav-item">
-                        <a href="index.html" class="sidenav-link">
+                        <a href="/admin/pengguna" class="sidenav-link">
                             <i class="sidenav-icon feather icon-user"></i>
                             <div>Pengguna</div>
                         </a>
@@ -66,6 +66,11 @@
                             <li class="sidenav-item">
                                 <a href="/admin/penjualan" class="sidenav-link">
                                     <div>Penjualan</div>
+                                </a>
+                            </li>
+                            <li class="sidenav-item">
+                                <a href="/admin/order" class="sidenav-link">
+                                    <div>Order</div>
                                 </a>
                             </li>
                         </ul>

@@ -20,11 +20,14 @@ $routes->get('/', 'Home::index');
 $routes->group('beranda', function ($routes) {
     $routes->get('read', 'Home::read');
     $routes->get('read_detail/(:hash)', 'Home::read_detail/$1');
+    $routes->get('read_detail_pesanan/(:hash)', 'Home::detailPesanan/$1');
     $routes->post('add_cart', 'Home::addCard');
     $routes->get('get_cart', 'Home::getCard');
     $routes->post('checkout', 'Home::prosesCheckout');
+    $routes->post('upload', 'Home::upload');
 });
 $routes->get('detail/(:hash)', 'Home::detail');
+$routes->get('detail_pesanan/(:hash)', 'Home::detail_pesanan');
 $routes->get('checkout', 'Home::checkout');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
@@ -71,6 +74,14 @@ $routes->group('admin', function ($routes) {
         $routes->post('add', 'Admin\Toko::add');
         $routes->put('edit', 'Admin\Toko::edit');
         $routes->delete('delete/(:hash)', 'Admin\Toko::delete/$1');
+    });
+    $routes->get('pengguna', 'Admin\Pengguna::index');
+    $routes->group('order', function ($routes) {
+        $routes->get('/', 'Admin\Order::index');
+        $routes->get('read', 'Admin\Order::store');
+        $routes->post('add', 'Admin\Order::add');
+        $routes->put('edit', 'Admin\Order::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Order::delete/$1');
     });
 });
 
