@@ -1,7 +1,7 @@
                 <nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center fixed-top bg-dark container-p-x" id="layout-navbar">
 
                     <!-- Brand demo (see /assets/css/demo/demo.css) -->
-                    <a href="index.html" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+                    <a href="" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
                         <span class="app-brand-logo demo">
                             <img src="/assets/img/logo-dark.png" alt="Brand Logo" class="img-fluid">
                         </span>
@@ -54,12 +54,10 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
                                         <img src="/assets/img/avatars/1.png" alt class="d-block ui-w-30 rounded-circle">
-                                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Cindy Deitch</span>
+                                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0"><?= session()->get('username')?></span>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="javascript:" class="dropdown-item">
-                                        <i class="feather icon-user text-muted"></i> &nbsp; My profile</a>
                                     <a href="/auth/logout" class="dropdown-item">
                                         <i class="feather icon-power text-danger"></i> &nbsp; Log Out</a>
                                 </div>

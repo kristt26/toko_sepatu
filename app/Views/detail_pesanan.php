@@ -123,7 +123,7 @@
         </div>
 
         <!-- Upload Bukti Transfer -->
-        <div class="card border-0 shadow-sm mb-4" ng-if="datas.order.pembayaran.metode_bayar == 'Transfer'">
+        <div class="card border-0 shadow-sm mb-4" ng-if="datas.order.pembayaran.metode_bayar == 'Transfer' && (datas.order.status !='Batal' && datas.order.status !='Paid')">
             <div class="card-header bg-gradient bg-info text-white rounded-top d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">📤 Unggah Bukti Transfer</h5>
                 <button type="submit" form="formProof" class="btn btn-light btn-sm text-info fw-semibold">

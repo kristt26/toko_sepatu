@@ -192,4 +192,8 @@ class Home extends BaseController
         $this->pembayaran->update($data->id_pembayaran, $item);
         return $this->response->setJSON(true)->setStatusCode(200, 'Berhasil upload');
     }
+
+    function produk() : string {
+        return view('produk');
+    }
 }

@@ -21,13 +21,13 @@
       <div class="collapse navbar-collapse" id="navbarElegant">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0  justify-content-center w-100">
           <li class="nav-item">
-            <a class="nav-link active" href="#"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
+            <a class="nav-link <?= current_url() == base_url('/') ? 'active' : '' ?>" href="/"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-bag-fill me-1"></i>Produk</a>
+            <a class="nav-link <?= current_url() == base_url('/produk') ? 'active' : '' ?>" href="/produk"><i class="bi bi-bag-fill me-1"></i>Produk</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/checkout"><i class="bi bi-cart-fill me-1"></i>Keranjang
+            <a class="nav-link <?= current_url() == base_url('/checkout') ? 'active' : '' ?>" href="/checkout"><i class="bi bi-cart-fill me-1"></i>Keranjang
             <?php if (session()->get('logged_in')) : ?>
               <sup>
                 <span class="badge bg-danger" id="cart-count">{{keranjang.cart.length}}</span>
@@ -36,7 +36,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-info-circle-fill me-1"></i>Tentang</a>
+            <a class="nav-link <?= current_url() == base_url('/tentang') ? 'active' : '' ?>" href="/tentang"><i class="bi bi-info-circle-fill me-1"></i>Tentang</a>
           </li>
         </ul>
         <?php if (!session()->get('logged_in')) : ?>
@@ -85,6 +85,16 @@
   <script src="/libs/loading/dist/loadingoverlay.min.js"></script>
   <script src="/libs/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.js"></script>
   <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <script>
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 
 </html>

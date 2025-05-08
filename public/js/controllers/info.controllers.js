@@ -137,6 +137,7 @@ function profileController($scope, profileServices, helperServices) {
   $scope.tampil = "checkout";
   profileServices.get().then(res => {
     $scope.datas = res;
+    $scope.model = $scope.datas.profile;
     console.log(res);
   })
 

@@ -213,7 +213,7 @@ class Auth extends BaseController
         ];
 
         $redirectUrl = $redirectMap[strtolower($role)] ?? '/';
-        return redirect()->to(base_url($redirectUrl))->with('success', 'Login berhasil!');
+        return redirect()->to($redirectUrl)->with('success', 'Login berhasil!');
     }
 
     public function logout()

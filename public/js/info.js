@@ -22,6 +22,8 @@ angular
   // }])
   .controller("indexController", indexController)
   .directive("emaudio", emaudio)
+  .filter("toDouble", toDouble)
+  .filter("toDate", toDate)
   .filter("unique", unique);
 // .directive('dynamic', ['$compile', function ($compile) {
 //     return {
@@ -50,14 +52,14 @@ function indexController($scope, helperServices, dashboardServices) {
     $.LoadingOverlay("hide");
   });
   dashboardServices.getCart().then(res => {
-    console.log(res);
+    // console.log(res);
     $scope.keranjang = res;
   })
   $scope.$on("setKerangjang", function (evt, data) {
     var item = $scope.keranjang.cart.find((item) => item.id_variant == data.id_variant);
     if (item) item.qty += data.qty;
     else $scope.keranjang.cart.push(data);
-    console.log($scope.keranjang);
+    // console.log($scope.keranjang);
   });
 }
 
@@ -148,5 +150,19 @@ function unique() {
       }
     });
     return uniqueItems;
+  };
+}
+
+function toDouble() {
+  return function(input) {
+    var value = parseFloat(input);
+    return isNaN(value) ? null : value;
+  };
+}
+
+function toDate() {
+  return function(input) {
+    var value = new Date(input)
+    return isNaN(value) ? null : value;
   };
 }

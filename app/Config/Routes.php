@@ -29,6 +29,7 @@ $routes->group('beranda', function ($routes) {
 $routes->get('detail/(:hash)', 'Home::detail');
 $routes->get('detail_pesanan/(:hash)', 'Home::detail_pesanan');
 $routes->get('checkout', 'Home::checkout');
+$routes->get('produk', 'Home::produk');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
 $routes->group('admin', function ($routes) {
