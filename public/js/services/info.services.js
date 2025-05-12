@@ -16,7 +16,9 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         getItem:getItem,
         getCart:getCart,
         addToCart:addToCart,
-        checkout:checkout
+        checkout:checkout,
+        getDetailPesanan:getDetailPesanan,
+        uploadProof:uploadProof
     };
 
     function get() {
@@ -93,6 +95,40 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         $http({
             method: 'post',
             url: controller + 'checkout',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+    function getDetailPesanan(id) {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'read_detail_pesanan/' + id,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function uploadProof(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + 'upload',
             data: param,
             headers: AuthService.getHeader()
         }).then(

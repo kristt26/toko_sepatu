@@ -1,35 +1,93 @@
-<div class="card mb-4">
-    <h6 class="card-header">Default</h6>
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label class="form-label">Email address</label>
-                <input type="email" class="form-control" placeholder="Email">
-                <div class="clearfix"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password">
-                <div class="clearfix"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label w-100">File input</label>
-                <input type="file">
-                <small class="form-text text-muted">Example block-level help text here.</small>
-            </div>
-            <div class="form-group">
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-label">Check this custom checkbox</span>
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="form-check">
-                    <input class="form-check-input" type="checkbox" checked>
-                    <span class="form-check-label">Check me out</span>
-                </label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+<?= $this->extend('layout/admin') ?>
+<?= $this->section('content') ?>
+
+<div class="div" ng-controller="tokoController" ng-cloak>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form name="formToko" ng-submit="simpan()">
+                <div class="row">
+                    <!-- Kolom Nama Toko -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Nama Toko</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Toko"
+                            ng-model="model.nama" required>
+                    </div>
+
+                    <!-- Kolom Telepon -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Telepon</label>
+                        <input type="text" class="form-control" placeholder="08xxxx" ng-model="model.telepon" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Kolom Alamat -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold">Alamat</label>
+                        <textarea class="form-control" rows="3" placeholder="Masukkan Alamat Toko"
+                            ng-model="model.alamat" required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Kolom Nama Bank (Combo Box) -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Nama Bank</label>
+                        <select id="namaBank" class="form-control" ng-model="model.bank" ng-options="item for item in banks">
+                        </select>
+                    </div>
+
+                    <!-- Kolom Rekening -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Rekening</label>
+                        <input type="text" class="form-control" placeholder="Rekening" ng-model="model.rekening" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Kolom Nama Pemilik Rekening -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Nama Pemilik Rekening</label>
+                        <input type="text" class="form-control" placeholder="Nama Pemilik Rekening" ng-model="model.nama_rekening" required>
+                    </div>
+
+                    <!-- Kolom Logo -->
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label fw-semibold">Logo Toko</label>
+                        <input type="file" class="form-control mb-3" accept="image/*"
+                            ng-model="model.berkas" base-sixty-four-input>
+
+                        <!-- Preview Gambar -->
+                        <div class="d-flex align-items-center">
+                            <!-- Logo lama -->
+                            <img ng-show="model.id_toko && !model.berkas" class="rounded-circle shadow-sm me-3"
+                                ng-src="<?= base_url() ?>/assets/gambar/{{model.logo}}"
+                                style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #0d6efd;">
+
+                            <!-- Logo baru -->
+                            <img ng-show="model.berkas" class="rounded-circle shadow-sm"
+                                data-ng-src="data:{{model.berkas.filetype}};base64,{{model.berkas.base64}}"
+                                style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #0d6efd;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol -->
+                <div class="text-end">
+                    <button ng-show="!model.id_toko" type="submit" class="btn btn-primary" ng-disabled="loading">
+                        <span ng-show="loading" class="spinner-border spinner-border-sm me-2"></span>
+                        <i class="feather icon-save" ng-hide="loading"></i> Simpan Profil
+                    </button>
+                    <button ng-show="model.id_toko" type="submit" class="btn btn-warning" ng-disabled="loading">
+                        <span ng-show="loading" class="spinner-border spinner-border-sm me-2"></span>
+                        <i class="feather icon-save" ng-hide="loading"></i> Update Profil
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+<!-- Tambahkan CSS Select2 -->
+
+<?= $this->endSection() ?>

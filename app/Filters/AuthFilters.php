@@ -1,29 +1,46 @@
-<?php namespace App\Filters;
+<?php
+namespace App\Filters;
 
-use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Filters\FilterInterface;
 
 class Auth implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
-        
-        // Cek apakah sudah login
-        if (!$session->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu');
+
+        // Ambil role user dari session
+        $userRoleString = $session->get('role'); // contoh: "admin,editor"
+
+        if (!$userRoleString) {
+            return redirect()->to('/auth');
         }
-        
-        // Cek role yang diizinkan
-        $userRole = $session->get('role');
-        if (!empty($arguments) && !in_array(strtolower($userRole), array_map('strtolower', $arguments))) {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+
+        // Ubah jadi array
+        $userRoles = explode(',', $userRoleString);
+        $userRoles = array_map('trim', $userRoles); // hapus spasi
+
+        // Role yang diperbolehkan dari $arguments
+        $allowedRoles = $arguments; // contoh: ['admin', 'editor']
+
+        // Cek apakah ada peran yang cocok
+        $hasAccess = false;
+        foreach ($allowedRoles as $role) {
+            if (in_array($role, $userRoles)) {
+                $hasAccess = true;
+                break;
+            }
+        }
+
+        if (!$hasAccess) {
+            return redirect()->to('/no-access');
         }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        // Tidak perlu melakukan apa-apa setelah request
+        // Tidak perlu
     }
 }

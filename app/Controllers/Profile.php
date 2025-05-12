@@ -23,7 +23,9 @@ class Profile extends BaseController
     public function store(): ResponseInterface
     {
         $data['profile'] = $this->customer->where('id_customer', session()->get('id_customer'))->first();
-        $data['order'] = $this->order->where('id_customer', session()->get('id_customer'))->findAll();
+        $data['order'] = $this->order->select('order.*, service_area.harga_kirim')
+        ->join('service_area', 'service_area.id_area = order.id_area', 'left')
+        ->where('id_customer', session()->get('id_customer'))->findAll();
         return $this->response->setJSON($data);
     }
     

@@ -89,7 +89,7 @@ function detailController($scope, dashboardServices, pesan) {
 function checkoutController($scope, dashboardServices, helperServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
-  $scope.model ={};
+  $scope.model = {};
   $scope.tampil = "checkout";
   dashboardServices.getCart().then(function (response) {
     $scope.datas = response.cart.map(item => {
@@ -122,10 +122,10 @@ function checkoutController($scope, dashboardServices, helperServices) {
 
   // Proses checkout
   $scope.processCheckout = function () {
-    var data = {item: $scope.datas.filter(x=>x.selected), customer: $scope.model}
+    var data = { item: $scope.datas.filter(x => x.selected), customer: $scope.model }
     data.customer.totalItem = $scope.calculateTotal();
-    dashboardServices.checkout(data).then(res =>{
-      document.location.href = helperServices.url + "detail_pesanan/" + res.id_order;
+    dashboardServices.checkout(data).then(res => {
+      document.location.href = helperServices.url + "/detail_pesanan/" + res.id_order;
     })
   };
 }
@@ -133,15 +133,53 @@ function checkoutController($scope, dashboardServices, helperServices) {
 function profileController($scope, profileServices, helperServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
-  $scope.model ={};
+  $scope.model = {};
   $scope.tampil = "checkout";
-  profileServices.get().then(res=>{
+  profileServices.get().then(res => {
+    $scope.datas = res;
+    $scope.model = $scope.datas.profile;
+    console.log(res);
+  })
+
+  $scope.detailPesanan = (param) => {
+    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
+  }
+}
+
+function detailPesananController($scope, dashboardServices, helperServices, pesan) {
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  $scope.tampil = "checkout";
+  dashboardServices.getDetailPesanan(window.location.pathname.split("/").pop()).then(res => {
     $scope.datas = res;
     console.log(res);
   })
 
-  $scope.detailPesanan = (param)=>{
+  $scope.detailPesanan = (param) => {
     document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
+  }
+
+  $scope.convert = (param) => {
+    return parseFloat(param);
+  }
+
+  $scope.copyRek = (param) => {
+    navigator.clipboard.writeText(param);
+    pesan.Success('Data disalin!');
+  }
+
+  $scope.uploadProof = ()=>{
+    $scope.model.id_pembayaran = $scope.datas.order.pembayaran.id_pembayaran;
+    var data = angular.copy($scope.model);
+    data.tanggal_bayar = helperServices.dateTimeToString($scope.model.tanggal_bayar);
+    console.log(data);
+    
+    dashboardServices.uploadProof(data).then((res)=>{
+      setTimeout(() => {
+        document.location.href = helperServices.url;
+      }, 1000);
+    })
   }
 }
 

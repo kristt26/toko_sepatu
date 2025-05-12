@@ -6,6 +6,9 @@ angular
   .controller("pembelianController", pembelianController)
   .controller("penjualanController", penjualanController)
   .controller("areaController", areaController)
+  .controller("tokoController", tokoController)
+  .controller("penggunaController", penggunaController)
+  .controller("orderController", orderController)
   ;
 
 function dashboardController($scope, dashboardServices) {
@@ -317,15 +320,15 @@ function areaController($scope, areaServices, pesan) {
     $scope.datas = res;
   });
 
-  $scope.save = ()=>{
-    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res)=>{
-      if(!$scope.model.id_area){
-        areaServices.post($scope.model).then((res)=>{
+  $scope.save = () => {
+    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res) => {
+      if (!$scope.model.id_area) {
+        areaServices.post($scope.model).then((res) => {
           $scope.model = {};
           pesan.Success("Data berhasil disimpan", "Success", "info");
         })
-      }else{
-        areaServices.put($scope.model).then((res)=>{
+      } else {
+        areaServices.put($scope.model).then((res) => {
           $scope.model = {};
           pesan.Success("Data berhasil disimpan", "Success", "info");
         })
@@ -333,15 +336,210 @@ function areaController($scope, areaServices, pesan) {
     })
   }
 
-  $scope.edit = (param)=>{
+  $scope.edit = (param) => {
     $scope.model = angular.copy(param);
   }
 
-  $scope.delete = (param)=>{
-    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res)=>{
-      areaServices.deleted(param).then((res)=>{
+  $scope.delete = (param) => {
+    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res) => {
+      areaServices.deleted(param).then((res) => {
         pesan.Success("Data berhasil dihapus", "Success", "info");
       })
+    })
+  }
+}
+
+function tokoController($scope, tokoServices, pesan, $timeout) {
+  $scope.$emit("SendUp", "Profile Toko");
+  $scope.banks = [
+    "Bank Negara Indonesia (BNI)",
+    "Bank Rakyat Indonesia (BRI)",
+    "Bank Central Asia (BCA)",
+    "Bank Mandiri",
+    "Bank Danamon",
+    "Bank CIMB Niaga",
+    "Bank Permata",
+    "Bank Panin",
+    "Bank Mega",
+    "Bank OCBC NISP",
+    "Bank Bukopin",
+    "Bank BTPN",
+    "Bank Maybank Indonesia",
+    "Bank UOB Indonesia",
+    "Bank DBS Indonesia",
+    "Bank Sinarmas",
+    "Bank Syariah Indonesia (hasil merger BRI Syariah, BNI Syariah, Mandiri Syariah)",
+    "Bank Muamalat Indonesia",
+    "Bank Syariah Bukopin",
+    "Bank Mega Syariah",
+    "Bank Victoria Syariah",
+    "Bank BNI Syariah",
+    "Bank BRI Syariah",
+    "Bank CIMB Niaga Syariah",
+    "Bank DKI",
+    "Bank Jatim",
+    "Bank Jabar Banten (BJB)",
+    "Bank Kalbar",
+    "Bank Riau Kepri",
+    "Bank Sumsel Babel",
+    "Bank Maluku Malut",
+    "Bank NTB",
+    "Bank NTT",
+    "Bank Sulselbar",
+    "Bank Papua",
+    "Bank Bengkulu",
+    "Bank Aceh",
+    "Bank Nagari",
+    "Bank Lampung",
+    "Bank Kaltimtara",
+    "Bank DIY",
+    "Bank Bali",
+    "Bank Banten",
+    "Bank Kalsel",
+    "Bank Kalteng",
+    "Bank Kaltara",
+    "Bank Sulteng",
+    "Bank Sumbawa",
+    "Bank Sumatra Barat"
+  ];
+  tokoServices.get().then((res) => {
+    $scope.model = res;
+    console.log(res);
+
+  })
+
+  $scope.$watch('banks', function () {
+    $('#namaBank').select2({
+      width: '100%'
+    });
+  }, true);
+
+  $scope.showBank = (param) => {
+    console.log(param);
+
+  }
+
+
+  $scope.loading = false;
+
+  $scope.simpan = function () {
+    $scope.loading = true;
+    if ($scope.formToko.$invalid) {
+      return;
+    }
+
+    if ($scope.model.id_toko) {
+      tokoServices.put($scope.model).then((res) => {
+        console.log(res);
+        pesan.Success("Data berhasil diubah", "Success", "info");
+        $scope.loading = false;
+      });
+    } else {
+      tokoServices.post($scope.model).then((res) => {
+        console.log(res);
+        $scope.model = res;
+        pesan.Success("Data berhasil disimpan", "Success", "info");
+        $scope.loading = false;
+      });
+    }
+  };
+}
+
+function penggunaController($scope, pesan) {
+  $scope.$emit("SendUp", "Daftar Customer");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+}
+
+function orderController($scope, orderServices, pesan) {
+  $scope.$emit("SendUp", "Order Customer");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  $scope.tampil = "produk";
+  orderServices.get().then((res) => {
+    $scope.datas = res;
+    console.log(res);
+    $scope.filterPending();
+    $scope.filterPaid();
+    $scope.filterProses();
+    $scope.filterTerkirim();
+    $scope.filterBatal();
+  });
+
+  $scope.filterPending = () => {
+    $scope.dataPending = $scope.datas.filter(x => x.status == 'Pending');
+  }
+
+  $scope.filterPaid = () => {
+    $scope.dataPaid = $scope.datas.filter(x => x.status == 'Paid');
+  }
+
+  $scope.filterProses = () => {
+    $scope.dataProses = $scope.datas.filter(x => x.status == 'Proses');
+  }
+
+  $scope.filterTerkirim = () => {
+    $scope.dataTerkirim = $scope.datas.filter(x => x.status == 'Terkirim');
+  }
+
+  $scope.filterBatal = () => {
+    $scope.dataBatal = $scope.datas.filter(x => x.status == 'Batal');
+  }
+
+  $scope.save = () => {
+    pesan.dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info").then((res) => {
+      if (!$scope.model.id_area) {
+        orderServices.post($scope.model).then((res) => {
+          $scope.model = {};
+          pesan.Success("Data berhasil disimpan", "Success", "info");
+        })
+      } else {
+        orderServices.put($scope.model).then((res) => {
+          $scope.model = {};
+          pesan.Success("Data berhasil disimpan", "Success", "info");
+        })
+      }
+    })
+  }
+
+  $scope.edit = (param) => {
+    $scope.model = angular.copy(param);
+  }
+
+  $scope.delete = (param) => {
+    pesan.dialog("Apakah anda yakin ingin menghapus data ini?", "Hapus", "Tidak", "warning").then((res) => {
+      orderServices.deleted(param).then((res) => {
+        pesan.Success("Data berhasil dihapus", "Success", "info");
+      })
+    })
+  }
+
+  $scope.previewProof = (param) => {
+    $scope.model = angular.copy(param);
+    $('#proofModal').modal('show');
+  };
+
+  $scope.validasiPembayaran = (param, set) => {
+    if (param == "valid") {
+      $scope.model.pembayaran.status_bayar = 'Confirmed';
+      $scope.model.status = 'Paid';
+    }
+    else {
+      $scope.model.pembayaran.status_bayar = 'Failed';
+      $scope.model.status = 'Batal';
+    }
+    var item = $scope.datas.find(x => x.id_order == $scope.model.id_order);
+    if (item) {
+      item.status = $scope.model.status;
+      item.pembayaran.status_bayar = $scope.model.pembayaran.status_bayar;
+    }
+    orderServices.put($scope.model).then((res) => {
+      pesan.Success(res.message)
+      if (set == 'Pending') $scope.filterPending();
+      $scope.model = {};
+      $('#proofModal').modal('hide');
     })
   }
 }

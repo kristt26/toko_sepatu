@@ -8,22 +8,22 @@
       <div class="profile-card p-4">
         <div class="text-center mb-4">
           <i class="bi bi-person-circle" style="font-size: 5rem; color: #f4c10f;"></i>
-          <h4 class="mt-2">Nama Customer</h4>
-          <p class="text-secondary">customer@email.com</p>
+          <h4 class="mt-2">{{datas.profile.nama}}</h4>
+          <p class="text-secondary">{{datas.profile.email}}</p>
         </div>
 
         <form>
           <div class="mb-3">
             <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" value="Nama Customer" />
+            <input type="text" class="form-control" ng-model="model.nama" />
           </div>
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" value="customer@email.com" />
+            <input type="email" class="form-control" ng-model="model.email" />
           </div>
           <div class="mb-3">
             <label class="form-label">Alamat</label>
-            <textarea class="form-control" rows="3">Jayapura, Papua</textarea>
+            <textarea class="form-control" rows="3" ng-model="model.alamat"></textarea>
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-warning">
@@ -46,32 +46,16 @@
             <tr>
               <th>#</th>
               <th>Tanggal</th>
-              <th>Produk</th>
               <th>Total</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr  ng-click="detailPesanan(item)">
-              <td>1</td>
-              <td>29 Apr 2025</td>
-              <td>Air Max 90</td>
-              <td>Rp 1.500.000</td>
-              <td><span class="badge bg-success">Selesai</span></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>20 Apr 2025</td>
-              <td>Jordan 1 Retro</td>
-              <td>Rp 2.300.000</td>
-              <td><span class="badge bg-warning text-dark">Diproses</span></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>15 Apr 2025</td>
-              <td>Converse All Star</td>
-              <td>Rp 800.000</td>
-              <td><span class="badge bg-danger">Dibatalkan</span></td>
+            <tr ng-repeat="item in datas.order" ng-click="detailPesanan(item)">
+              <td>{{item.kode_order}}</td>
+              <td>{{(item.tanggal_order | toDate) | date: 'd MMMM y'}}</td>
+              <td>{{(item.total | toDouble) + (item.harga_kirim | toDouble)}}</td>
+              <td><span class="badge" ng-class="{'bg-secondary': item.status=='Pending', 'bg-primary': item.status=='Paid', 'bg-warning': item.status=='Proses', 'bg-info': item.status=='Terkirim', 'bg-danger': item.status=='Batal'}">{{item.status}}</span></td>
             </tr>
           </tbody>
         </table>
@@ -116,7 +100,7 @@
 
   .table {
     color: #eee;
-    --bs-table-hover-bg:rgb(219 34 34 / 35%);
+    --bs-table-hover-bg: rgb(219 34 34 / 35%);
   }
 
   .table th {
