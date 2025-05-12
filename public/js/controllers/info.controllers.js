@@ -5,6 +5,7 @@ angular
   .controller("detailController", detailController)
   .controller("checkoutController", checkoutController)
   .controller("profileController", profileController)
+  .controller("detailPesananController", detailPesananController)
   ;
 
 function dashboardController($scope, dashboardServices) {
@@ -124,7 +125,7 @@ function checkoutController($scope, dashboardServices, helperServices) {
     var data = {item: $scope.datas.filter(x=>x.selected), customer: $scope.model}
     data.customer.totalItem = $scope.calculateTotal();
     dashboardServices.checkout(data).then(res =>{
-      document.location.href = helperServices.url + "/detail_pesanan/" + res.id_order;
+      document.location.href = helperServices.url + "detail_pesanan/" + res.id_order;
     })
   };
 }
@@ -135,6 +136,21 @@ function profileController($scope, profileServices, helperServices) {
   $scope.model ={};
   $scope.tampil = "checkout";
   profileServices.get().then(res=>{
+    $scope.datas = res;
+    console.log(res);
+  })
+
+  $scope.detailPesanan = (param)=>{
+    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
+  }
+}
+
+function detailPesananController($scope, detailPesananServices, helperServices) {
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model ={};
+  $scope.tampil = "checkout";
+  detailPesananServices.get(window.location.pathname.split("/").pop()).then(res=>{
     $scope.datas = res;
     console.log(res);
   })

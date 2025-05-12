@@ -24,6 +24,11 @@ $routes->group('beranda', function ($routes) {
     $routes->get('get_cart', 'Home::getCard');
     $routes->post('checkout', 'Home::prosesCheckout');
 });
+$routes->group('detail_pesanan', function ($routes) {
+    $routes->get('(:hash)', 'DetailPesanan::index/$1');
+    $routes->get('read/(:hash)', 'DetailPesanan::store/$1');
+});
+// $routes->get('detail_pesanan/(:hash)', 'DetailPesanan::detail');
 $routes->get('detail/(:hash)', 'Home::detail');
 $routes->get('checkout', 'Home::checkout');
 $routes->get('cart', 'Home::cart');

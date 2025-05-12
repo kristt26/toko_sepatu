@@ -51,10 +51,8 @@
                 <!-- [ Layout navbar ( Header ) ] Start -->
                 <?= view('layout/header')?>
                 <!-- [ Layout navbar ( Header ) ] End -->
-
                 <!-- [ Layout content ] Start -->
                 <div class="layout-content">
-
                     <!-- [ content ] Start -->
                     <div class="container-fluid flex-grow-1 container-p-y">
                         <h4 class="font-weight-bold py-3 mb-0">{{header}}</h4>
@@ -83,22 +81,11 @@
                             </div>
                         </div>
                     </nav>
-                    <!-- [ Layout footer ] End -->
-
                 </div>
-                <!-- [ Layout content ] Start -->
-
             </div>
-            <!-- [ Layout container ] End -->
-
         </div>
-
-        <!-- Overlay -->
         <div class="layout-overlay layout-sidenav-toggle"></div>
     </div>
-    <!-- [ Layout wrapper ] end -->
-
-    <!-- Core scripts -->
     <script src="/libs/angular/angular.min.js"></script>
     <script src="/assets/js/pace.js"></script>
     <script src="/assets/js/jquery-3.3.1.min.js"></script>
