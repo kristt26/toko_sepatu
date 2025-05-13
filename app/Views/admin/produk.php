@@ -16,7 +16,7 @@
                                     <th>Nama Produk</th>
                                     <th>Harga</th>
                                     <th>Total Stok</th>
-                                    <th>Ketearngan</th>
+                                    <th>Ket</th>
                                     <th width="20%">Action</th>
                                 </tr>
                             </thead>
@@ -25,7 +25,9 @@
                                     <td>{{item.nama_produk}}</td>
                                     <td>{{item.harga | currency: 'Rp. '}}</td>
                                     <td>{{item.total_stok}}</td>
-                                    <td>{{item.keterangan}}</td>
+                                    <td width="40%" class="text-wrap">
+                                        <span ng-bind="item.keterangan.length > 100 ? item.keterangan.substring(0,200) + ' . . .' : item.keterangan"></span>
+                                    </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="edit(item)">Edit</button>
                                         <button type="button" class="btn btn-danger" ng-click="delete(item)">Delete</button>

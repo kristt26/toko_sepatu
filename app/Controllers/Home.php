@@ -92,16 +92,19 @@ class Home extends BaseController
 
     function read(): ResponseInterface
     {
-        $produk = $this->produk->findAll();
-        $variant = $this->variant->findAll();
-        foreach ($produk as $key1 => $value1) {
-            $value1->variant = [];
-            foreach ($variant as $key2 => $value2) {
-                if ($value1->id_produk == $value2->id_produk) {
-                    $value1->variant[] = $value2;
-                }
-            }
-        }
+        $produk = $this->produk
+            ->select('produk.*, 
+              MAX(variant.ukuran) AS ukuran, 
+              MAX(variant.warna) AS warna, 
+              MAX(variant.stok) AS stok, 
+              MAX(variant.gambar) AS gambar, 
+              SUM(order_item.qty) AS total_terjual')
+            ->join('variant', 'variant.id_produk = produk.id_produk', 'left')
+            ->join('order_item', 'variant.id_variant = order_item.id_variant', 'left')
+            ->groupBy('produk.id_produk')
+            ->orderBy('total_terjual', 'DESC')
+            ->limit(16)
+            ->findAll();
         return $this->response->setJSON($produk);
     }
 
@@ -162,7 +165,8 @@ class Home extends BaseController
         }
     }
 
-    function detail_pesanan() {
+    function detail_pesanan()
+    {
         return view('detail_pesanan');
     }
 
@@ -179,12 +183,12 @@ class Home extends BaseController
         $order->pembayaran = $this->pembayaran->where('id_order', $order->id_order)->first();
         $customer = $this->customer->find($order->id_customer);
         $toko = $this->toko->first();
-        return $this->response->setJSON(['order' => $order, 'customer' => $customer, 'toko'=>$toko])->setStatusCode(200, 'Berhasil mendapatkan detail pesanan');
+        return $this->response->setJSON(['order' => $order, 'customer' => $customer, 'toko' => $toko])->setStatusCode(200, 'Berhasil mendapatkan detail pesanan');
     }
 
     function upload(): ResponseInterface
     {
-        $data = $this->request->getJSON();        
+        $data = $this->request->getJSON();
         $item = [
             'tanggal_bayar' => $data->tanggal_bayar,
             'bukti_bayar' => $this->lib->decodebase64($data->berkas->base64)
@@ -193,7 +197,23 @@ class Home extends BaseController
         return $this->response->setJSON(true)->setStatusCode(200, 'Berhasil upload');
     }
 
-    function produk() : string {
+    function produk(): string
+    {
         return view('produk');
+    }
+
+    function readProduk(): ResponseInterface
+    {
+        $produk = $this->produk
+            ->select('produk.*, 
+              MAX(variant.ukuran) AS ukuran, 
+              MAX(variant.warna) AS warna, 
+              MAX(variant.stok) AS stok, 
+              MAX(variant.gambar) AS gambar')
+            ->join('variant', 'variant.id_produk = produk.id_produk', 'left')
+            ->join('order_item', 'variant.id_variant = order_item.id_variant', 'left')
+            ->groupBy('produk.id_produk')
+            ->findAll();
+        return $this->response->setJSON($produk);
     }
 }

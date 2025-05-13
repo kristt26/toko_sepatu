@@ -6,7 +6,7 @@ angular
   .controller("checkoutController", checkoutController)
   .controller("profileController", profileController)
   .controller("detailPesananController", detailPesananController)
-  ;
+  .controller("produkController", produkController);
 
 function dashboardController($scope, dashboardServices) {
   $scope.$emit("SendUp", "Beranda");
@@ -18,7 +18,7 @@ function dashboardController($scope, dashboardServices) {
   });
 }
 
-function detailController($scope, dashboardServices, pesan) {
+function detailController($scope, dashboardServices, pesan, AuthService, helperServices) {
   // $scope.$emit("SendUp", "Beranda");
   $scope.datas = {};
   $scope.selectedSize = null;
@@ -51,38 +51,44 @@ function detailController($scope, dashboardServices, pesan) {
     console.log($scope.itemVariant);
   };
 
-  $scope.addToCart = function () {
+  $scope.addToCart = async function () {
+    let user = localStorage.getItem("user");
+
+    if (!user) {
+      try {
+        const res = await AuthService.userIsLogin();
+        localStorage.setItem("user", JSON.stringify(res));
+      } catch (err) {
+        pesan.error("Gagal memverifikasi login.");
+        return;
+      }
+    }
+
     if (!$scope.selectedSize || !$scope.selectedColor) {
       pesan.error("Silakan pilih ukuran dan warna terlebih dahulu.");
       return;
     }
+
     if ($scope.quantity > $scope.totalStock) {
       pesan.error("Jumlah melebihi stok yang tersedia.");
       return;
     }
-    var item = angular.copy($scope.itemVariant);
+
+    const item = angular.copy($scope.itemVariant);
     item.qty = $scope.quantity;
-    dashboardServices.addToCart(item).then(function (response) {
+
+    try {
+      const response = await dashboardServices.addToCart(item);
       $scope.$emit("setKerangjang", item);
       pesan.Success(response.message);
-    });
+    } catch (error) {
+      pesan.error("Gagal menambahkan ke keranjang.");
+    }
   };
 
-  // Fungsi untuk checkout langsung
-  $scope.checkoutNow = function () {
-    if (!$scope.selectedSize || !$scope.selectedColor) {
-      pesan.error("Silakan pilih ukuran dan warna terlebih dahulu.");
-      return;
-    }
-    window.location.href =
-      "/checkout?produk=" +
-      $scope.datas.id_produk +
-      "&ukuran=" +
-      $scope.selectedSize +
-      "&warna=" +
-      $scope.selectedColor +
-      "&qty=" +
-      $scope.quantity;
+  $scope.checkoutNow = async function () {
+    await $scope.addToCart();
+    document.location.href = helperServices.url + "checkout";
   };
 }
 
@@ -92,7 +98,7 @@ function checkoutController($scope, dashboardServices, helperServices) {
   $scope.model = {};
   $scope.tampil = "checkout";
   dashboardServices.getCart().then(function (response) {
-    $scope.datas = response.cart.map(item => {
+    $scope.datas = response.cart.map((item) => {
       item.selected = true; // Default semua item terpilih
       return item;
     });
@@ -110,23 +116,31 @@ function checkoutController($scope, dashboardServices, helperServices) {
 
   $scope.calculateTotal = function () {
     return $scope.datas
-      .filter(item => item.selected)
-      .reduce((total, item) => total + (item.qty * item.harga), 0);
+      .filter((item) => item.selected)
+      .reduce((total, item) => total + item.qty * item.harga, 0);
   };
 
   // Update biaya pengiriman berdasarkan area yang dipilih
   $scope.updateShippingCost = function () {
-    const selectedArea = $scope.areas.find(area => area.id_area === $scope.model.area);
-    $scope.model.shippingCost = selectedArea ? parseFloat(selectedArea.harga_kirim) : 0;
+    const selectedArea = $scope.areas.find(
+      (area) => area.id_area === $scope.model.area
+    );
+    $scope.model.shippingCost = selectedArea
+      ? parseFloat(selectedArea.harga_kirim)
+      : 0;
   };
 
   // Proses checkout
   $scope.processCheckout = function () {
-    var data = { item: $scope.datas.filter(x => x.selected), customer: $scope.model }
+    var data = {
+      item: $scope.datas.filter((x) => x.selected),
+      customer: $scope.model,
+    };
     data.customer.totalItem = $scope.calculateTotal();
-    dashboardServices.checkout(data).then(res => {
-      document.location.href = helperServices.url + "/detail_pesanan/" + res.id_order;
-    })
+    dashboardServices.checkout(data).then((res) => {
+      document.location.href =
+        helperServices.url + "/detail_pesanan/" + res.id_order;
+    });
   };
 }
 
@@ -135,65 +149,99 @@ function profileController($scope, profileServices, helperServices) {
   $scope.title = "Beranda";
   $scope.model = {};
   $scope.tampil = "checkout";
-  profileServices.get().then(res => {
+  profileServices.get().then((res) => {
     $scope.datas = res;
     $scope.model = $scope.datas.profile;
     console.log(res);
-  })
+  });
 
   $scope.detailPesanan = (param) => {
-    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
-  }
+    document.location.href =
+      helperServices.url + "/detail_pesanan/" + param.id_order;
+  };
 }
 
-function detailPesananController($scope, dashboardServices, helperServices, pesan) {
+function detailPesananController(
+  $scope,
+  dashboardServices,
+  helperServices,
+  pesan
+) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model = {};
   $scope.tampil = "checkout";
-  dashboardServices.getDetailPesanan(window.location.pathname.split("/").pop()).then(res => {
-    $scope.datas = res;
-    console.log(res);
-  })
+  dashboardServices
+    .getDetailPesanan(window.location.pathname.split("/").pop())
+    .then((res) => {
+      $scope.datas = res;
+      console.log(res);
+    });
 
   $scope.detailPesanan = (param) => {
-    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
-  }
+    document.location.href =
+      helperServices.url + "/detail_pesanan/" + param.id_order;
+  };
 
   $scope.convert = (param) => {
     return parseFloat(param);
-  }
-
+  };
+  m;
   $scope.copyRek = (param) => {
     navigator.clipboard.writeText(param);
-    pesan.Success('Data disalin!');
-  }
+    pesan.Success("Data disalin!");
+  };
 
-  $scope.uploadProof = ()=>{
+  $scope.uploadProof = () => {
     $scope.model.id_pembayaran = $scope.datas.order.pembayaran.id_pembayaran;
     var data = angular.copy($scope.model);
-    data.tanggal_bayar = helperServices.dateTimeToString($scope.model.tanggal_bayar);
+    data.tanggal_bayar = helperServices.dateTimeToString(
+      $scope.model.tanggal_bayar
+    );
     console.log(data);
-    
-    dashboardServices.uploadProof(data).then((res)=>{
+
+    dashboardServices.uploadProof(data).then((res) => {
       setTimeout(() => {
         document.location.href = helperServices.url;
       }, 1000);
-    })
-  }
+    });
+  };
 }
 
-function detailPesananController($scope, detailPesananServices, helperServices) {
+function detailPesananController(
+  $scope,
+  detailPesananServices,
+  helperServices
+) {
   $scope.datas = [];
   $scope.title = "Beranda";
-  $scope.model ={};
+  $scope.model = {};
   $scope.tampil = "checkout";
-  detailPesananServices.get(window.location.pathname.split("/").pop()).then(res=>{
+  detailPesananServices
+    .get(window.location.pathname.split("/").pop())
+    .then((res) => {
+      $scope.datas = res;
+      console.log(res);
+    });
+
+  $scope.detailPesanan = (param) => {
+    document.location.href =
+      helperServices.url + "/detail_pesanan/" + param.id_order;
+  };
+}
+
+function produkController($scope, dashboardServices, helperServices) {
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  $scope.tampil = "checkout";
+  dashboardServices.readProduk().then((res) => {
     $scope.datas = res;
     console.log(res);
-  })
+  });
 
-  $scope.detailPesanan = (param)=>{
-    document.location.href = helperServices.url + "/detail_pesanan/" + param.id_order;
-  }
+  $scope.descripsi = (param) => {
+    $scope.model = param;
+    $("#modalProduk1").modal("show");
+  };
 }

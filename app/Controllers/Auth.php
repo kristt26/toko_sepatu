@@ -5,12 +5,14 @@ namespace App\Controllers;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Models\CustomerModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Auth extends BaseController
 {
     use ResponseTrait;
     protected $user;
-    public function __construct() {
+    public function __construct()
+    {
         $this->user = new UserModel();
     }
     public function index(): \CodeIgniter\HTTP\ResponseInterface|string
@@ -45,7 +47,7 @@ class Auth extends BaseController
                 return redirect()->back()->withInput()->with('error', 'Username/email atau password salah');
             }
 
-            
+
 
             // Set session data
             $session = session();
@@ -56,7 +58,7 @@ class Auth extends BaseController
                 'role' => $user->role,
                 'logged_in' => true
             ]);
-            if($user->role== 'customer'){
+            if ($user->role == 'customer') {
                 $userInfoModel = new CustomerModel();
                 $userInfo = $userInfoModel->where('id_users', $user->id_users)->first();
                 $session->set([
@@ -67,7 +69,7 @@ class Auth extends BaseController
             // Redirect berdasarkan role
             return $this->redirectByRole($user->role);
         }
-        if($this->user->countAllResults() == 0){
+        if ($this->user->countAllResults() == 0) {
             $this->user->insert([
                 'username' => 'Administrator',
                 'password' => password_hash('Administrator#1', PASSWORD_DEFAULT),
@@ -214,6 +216,21 @@ class Auth extends BaseController
 
         $redirectUrl = $redirectMap[strtolower($role)] ?? '/';
         return redirect()->to($redirectUrl)->with('success', 'Login berhasil!');
+    }
+
+
+    public function checkUser():ResponseInterface
+    {
+        if (session()->get('logged_in')) 
+        {
+            return $this->response->setJSON($_SESSION);
+        }
+        else{
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Belum Login',
+            ])->setStatusCode(500, 'Internal Server Error');
+        } 
     }
 
     public function logout()

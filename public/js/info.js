@@ -61,6 +61,11 @@ function indexController($scope, helperServices, dashboardServices) {
     else $scope.keranjang.cart.push(data);
     // console.log($scope.keranjang);
   });
+
+  $scope.logout = ()=>{
+    localStorage.removeItem('user');
+    document.location.href = helperServices.url + "auth/logout";
+  }
 }
 
 function emaudio() {

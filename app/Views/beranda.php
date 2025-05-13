@@ -20,7 +20,7 @@
       <div class="col-md-3" ng-repeat="item in datas | limitTo: 4 | filter: cari">
         <div class="card card-product">
           <a href="/detail/{{item.id_produk}}">
-            <img src="/assets/gambar/{{item.variant[0].gambar}}" alt="Sepatu 1">
+            <img src="/assets/gambar/{{item.gambar}}" alt="Sepatu 1">
           </a>
           <div class="card-body">
             <a href="/detail/{{item.id_produk}}">

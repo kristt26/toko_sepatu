@@ -47,9 +47,9 @@
         <?php endif; ?>
         <?php if (session()->get('logged_in')) : ?>
           <div class="d-flex">
-            <a href="/auth/logout" class="btn btn-secondary d-flex align-items-center me-2">
+            <button class="btn btn-secondary d-flex align-items-center me-2" ng-click="logout()">
               <i class="bi bi-box-arrow-right me-1"></i> Logout
-            </a>
+            </button>
             <a href="/profile" class="btn btn-info d-flex align-items-center">
               <i class="bi bi-person-circle me-1"></i> Profile
             </a>

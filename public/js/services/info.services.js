@@ -1,6 +1,7 @@
 angular.module('info.service', [])
     // admin
     .factory('dashboardServices', dashboardServices)
+    .factory('dashboardServices', dashboardServices)
     .factory('profileServices', profileServices)
     .factory('detailPesananServices', detailPesananServices)
     
@@ -18,7 +19,8 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         addToCart:addToCart,
         checkout:checkout,
         getDetailPesanan:getDetailPesanan,
-        uploadProof:uploadProof
+        uploadProof:uploadProof,
+        readProduk:readProduk,
     };
 
     function get() {
@@ -130,6 +132,23 @@ function dashboardServices($http, $q, helperServices, AuthService) {
             method: 'post',
             url: controller + 'upload',
             data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function readProduk() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'read_produk',
             headers: AuthService.getHeader()
         }).then(
             (res) => {

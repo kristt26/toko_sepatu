@@ -14,6 +14,7 @@ $routes->group('auth', function ($routes) {
     $routes->post('login', 'Auth::index');
     $routes->get('register', 'Auth::showRegister');
     $routes->post('register', 'Auth::register');
+    $routes->get('check', 'Auth::checkUser');
     $routes->get('logout', 'Auth::logout');
 });
 $routes->get('/', 'Home::index');
@@ -25,6 +26,7 @@ $routes->group('beranda', function ($routes) {
     $routes->get('get_cart', 'Home::getCard');
     $routes->post('checkout', 'Home::prosesCheckout');
     $routes->post('upload', 'Home::upload');
+    $routes->get('read_produk', 'Home::readProduk');
 });
 $routes->group('detail_pesanan', function ($routes) {
     $routes->get('(:hash)', 'DetailPesanan::index/$1');
