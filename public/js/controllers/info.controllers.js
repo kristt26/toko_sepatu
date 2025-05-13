@@ -186,7 +186,7 @@ function detailPesananController(
   $scope.convert = (param) => {
     return parseFloat(param);
   };
-  m;
+  
   $scope.copyRek = (param) => {
     navigator.clipboard.writeText(param);
     pesan.Success("Data disalin!");
@@ -208,27 +208,27 @@ function detailPesananController(
   };
 }
 
-function detailPesananController(
-  $scope,
-  detailPesananServices,
-  helperServices
-) {
-  $scope.datas = [];
-  $scope.title = "Beranda";
-  $scope.model = {};
-  $scope.tampil = "checkout";
-  detailPesananServices
-    .get(window.location.pathname.split("/").pop())
-    .then((res) => {
-      $scope.datas = res;
-      console.log(res);
-    });
+// function detailPesananController(
+//   $scope,
+//   detailPesananServices,
+//   helperServices
+// ) {
+//   $scope.datas = [];
+//   $scope.title = "Beranda";
+//   $scope.model = {};
+//   $scope.tampil = "checkout";
+//   detailPesananServices
+//     .get(window.location.pathname.split("/").pop())
+//     .then((res) => {
+//       $scope.datas = res;
+//       console.log(res);
+//     });
 
-  $scope.detailPesanan = (param) => {
-    document.location.href =
-      helperServices.url + "/detail_pesanan/" + param.id_order;
-  };
-}
+//   $scope.detailPesanan = (param) => {
+//     document.location.href =
+//       helperServices.url + "/detail_pesanan/" + param.id_order;
+//   };
+// }
 
 function produkController($scope, dashboardServices, helperServices) {
   $scope.datas = [];

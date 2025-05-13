@@ -216,4 +216,9 @@ class Home extends BaseController
             ->findAll();
         return $this->response->setJSON($produk);
     }
+
+    function tentang(): string
+    {
+        return view('tentang');
+    }
 }
