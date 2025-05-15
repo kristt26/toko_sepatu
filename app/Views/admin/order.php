@@ -12,6 +12,12 @@
                         <li class="nav-item">
                             <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-paid">Paid</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-proses">Proses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-tolak">Tolak</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -76,8 +82,80 @@
                                                 <td>{{ item.total | currency:'Rp. ' }}</td>
                                                 <td><span class="badge badge-primary">Paid</span></td>
                                                 <td>
-                                                    <button ng-if="item.pembayaran.bukti_bayar" type="button" class="btn btn-info btn-sm w-auto" ng-click="previewProof(item)" title="Lihat Bukti Transfer">
-                                                        <i class="fas fa-image"></i>
+                                                    <button type="button" class="btn btn-info btn-sm w-auto" ng-click="validasiPembayaran('proses', 'Paid', item)" title="Checklist pengiriman">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-lm-proses">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table datatable="ng" class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>No Order</th>
+                                                <th>Tanggal</th>
+                                                <th>Nama Pemesan</th>
+                                                <th>Alamat Pengiriman</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dataProses">
+                                                <td>{{ item.kode_order }}</td>
+                                                <td>{{ item.tanggal_order | date:'dd/MM/yyyy' }}</td>
+                                                <td>{{ item.nama }}</td>
+                                                <td>{{ item.alamat_pengirim }}</td>
+                                                <td>{{ item.total | currency:'Rp. ' }}</td>
+                                                <td><span class="badge badge-primary">Paid</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-sm w-auto" ng-click="validasiPembayaran('selesai', 'Proses', item)" title="Checklist pengiriman">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-lm-tolak">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table datatable="ng" class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>No Order</th>
+                                                <th>Tanggal</th>
+                                                <th>Nama Pemesan</th>
+                                                <th>Alamat Pengiriman</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dataBatal">
+                                                <td>{{ item.kode_order }}</td>
+                                                <td>{{ item.tanggal_order | date:'dd/MM/yyyy' }}</td>
+                                                <td>{{ item.nama }}</td>
+                                                <td>{{ item.alamat_pengirim }}</td>
+                                                <td>{{ item.total | currency:'Rp. ' }}</td>
+                                                <td><span class="badge badge-primary">Paid</span></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-sm w-auto" ng-click="previewProof(item)" title="Lihat Bukti Transfer">
+                                                        <i class="fas fa-reload"></i>
                                                     </button>
                                                 </td>
                                             </tr>

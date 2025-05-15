@@ -666,6 +666,7 @@ function orderServices($http, $q, helperServices, AuthService, pesan) {
                 def.resolve(res.data);
             },
             (err) => {
+                pesan.Error(err.data.message);
                 def.reject(err);
             }
         );

@@ -115,7 +115,7 @@ function PesanServices($q) {
     const Toast = Swal.mixin({
       toast: true,
       background:'#fc7c96',
-      position: 'top-end',
+      position: 'bottom-end',
       showConfirmButton: false,
       timer: 4000,
       timerProgressBar: true,
