@@ -16,7 +16,7 @@
 
                     <!-- Dashboards -->
                     <li class="sidenav-item">
-                        <a href="index.html" class="sidenav-link">
+                        <a href="/admin/beranda" class="sidenav-link">
                             <i class="sidenav-icon feather icon-home"></i>
                             <div>Beranda</div>
                         </a>
@@ -71,6 +71,24 @@
                             <li class="sidenav-item">
                                 <a href="/admin/order" class="sidenav-link">
                                     <div>Order</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidenav-item">
+                        <a href="javascript:" class="sidenav-link sidenav-toggle">
+                            <i class="sidenav-icon fas fa-file-alt"></i>
+                            <div>Laporan</div>
+                        </a>
+                        <ul class="sidenav-menu">
+                            <li class="sidenav-item">
+                                <a href="/admin/laporan/pembelian" class="sidenav-link">
+                                    <div>Pembelian</div>
+                                </a>
+                            </li>
+                            <li class="sidenav-item">
+                                <a href="/admin/laporan/penjualan" class="sidenav-link">
+                                    <div>Penjualan</div>
                                 </a>
                             </li>
                         </ul>

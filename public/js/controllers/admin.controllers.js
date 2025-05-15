@@ -490,7 +490,7 @@ function orderController($scope, orderServices, pesan) {
   };
 
   $scope.filterTerkirim = () => {
-    $scope.dataTerkirim = $scope.datas.filter((x) => x.status == "Terkirim");
+    $scope.dataTerkirim = $scope.datas.filter((x) => x.status == "Selesai");
   };
 
   $scope.filterBatal = () => {
@@ -548,9 +548,9 @@ function orderController($scope, orderServices, pesan) {
         $scope.model.pembayaran.status_bayar = "Failed";
         $scope.model.status = "Batal";
       }
-    } else if (set == "Paid") {
+    } else if (set == "Paid" || set=="Proses") {
       $scope.model = data;
-      $scope.model.status = "Proses";
+      $scope.model.status = param;
     }
     $scope.model.checkUpdate = set;
 

@@ -92,5 +92,9 @@ $routes->group('admin', function ($routes) {
         $routes->put('edit', 'Admin\Order::edit');
         $routes->delete('delete/(:hash)', 'Admin\Order::delete/$1');
     });
+    $routes->group('laporan', function ($routes) {
+        $routes->get('pembelian', 'Admin\Laporan::pembelian');
+        $routes->get('penjualan', 'Admin\Laporan::penjualan');
+    });
 });
 
