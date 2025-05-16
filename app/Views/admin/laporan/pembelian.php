@@ -1,4 +1,4 @@
 <?= $this->extend('layout/admin') ?>
 <?= $this->section('content') ?>
-<h3>On Going Laporan Pembelian</h3>
+<h3>Segera hadir Laporan Pembelian</h3>
 <?= $this->endSection() ?>
