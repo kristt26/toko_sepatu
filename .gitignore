@@ -85,7 +85,7 @@ phpunit
 # Composer
 #-------------------------
 /vendor
-public/assets/gambar
+public/assets/gambar/
 
 #-------------------------
 # IDE / Development Files
