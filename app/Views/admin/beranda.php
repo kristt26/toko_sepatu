@@ -8,8 +8,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h2 class="mb-2"> 256 </h2>
-                                <p class="text-muted mb-0"><span class="badge badge-primary">Revenue</span> Today</p>
+                                <h4 class="mb-2"> <?= $produk?> </h4>
+                                <p class="text-muted mb-0">Jenis Sepatu</p>
                             </div>
                             <div class="lnr lnr-leaf display-4 text-primary"></div>
                         </div>
@@ -21,8 +21,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h2 class="mb-2">8451</h2>
-                                <p class="text-muted mb-0"><span class="badge badge-success">20%</span> Stock</p>
+                                <h4 class="mb-2"><?= $stok->stok?></h4>
+                                <p class="text-muted mb-0">Stock</p>
                             </div>
                             <div class="lnr lnr-chart-bars display-4 text-success"></div>
                         </div>
@@ -34,10 +34,10 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h2 class="mb-2"> 31% <small></small></h2>
-                                <p class="text-muted mb-0">New <span class="badge badge-danger">20%</span> Customer</p>
+                                <h4 class="mb-2"> <?= $item->qty?> <small></small></h4>
+                                <p class="text-muted mb-0">Terjual</p>
                             </div>
-                            <div class="lnr lnr-rocket display-4 text-danger"></div>
+                            <div class="lnr lnr-cart display-4 text-danger"></div>
                         </div>
                     </div>
                 </div>
@@ -47,10 +47,10 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h2 class="mb-2">158</h2>
-                                <p class="text-muted mb-0"><span class="badge badge-warning">$143.45</span> Profit</p>
+                                <h4 class="mb-2"><?= "Rp. " . number_format($penjualan->total, 0, ',', '.') ?></h4>
+                                <p class="text-muted mb-0">Profit</p>
                             </div>
-                            <div class="lnr lnr-cart display-4 text-warning"></div>
+                            <div class="lnr lnr-arrow-up display-4 text-warning"></div>
                         </div>
                     </div>
                 </div>

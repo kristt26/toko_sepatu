@@ -8,7 +8,9 @@ angular
   .controller("areaController", areaController)
   .controller("tokoController", tokoController)
   .controller("penggunaController", penggunaController)
-  .controller("orderController", orderController);
+  .controller("orderController", orderController)
+  .controller("laporanPenjualanController", laporanPenjualanController)
+  .controller("laporanPembelianController", laporanPembelianController);
 
 function dashboardController($scope, dashboardServices) {
   $scope.$emit("SendUp", "Beranda");
@@ -548,7 +550,7 @@ function orderController($scope, orderServices, pesan) {
         $scope.model.pembayaran.status_bayar = "Failed";
         $scope.model.status = "Batal";
       }
-    } else if (set == "Paid" || set=="Proses") {
+    } else if (set == "Paid" || set == "Proses") {
       $scope.model = data;
       $scope.model.status = param;
     }
@@ -568,5 +570,524 @@ function orderController($scope, orderServices, pesan) {
       $scope.model = {};
       $("#proofModal").modal("hide");
     });
+  };
+}
+
+function laporanPenjualanController(
+  $scope,
+  pesan,
+  $timeout,
+  helperServices,
+  $http
+) {
+  $scope.$emit("SendUp", "Laporan Penjualan");
+  $scope.filter = {
+    tipePeriode: "range", // default tipe periode
+    tanggal_range: "",
+    dari_tanggal: "",
+    sampai_tanggal: "",
+    bulan_tahun: "",
+    tahun: "",
+    status: "",
+    metode_bayar: "",
+  };
+
+  $scope.laporan = [];
+
+  // Reset semua filter tanggal saat tipe periode berganti
+  $scope.resetTanggal = function () {
+    $scope.filter.tanggal_range = "";
+    $scope.filter.dari_tanggal = "";
+    $scope.filter.sampai_tanggal = "";
+    $scope.filter.bulan_tahun = "";
+    $scope.filter.tahun = "";
+    $scope.laporan = [];
+
+    if ($scope.filter.tipePeriode === "range") {
+      $timeout(function () {
+        $scope.initDateRangePicker();
+      }, 0);
+    }
+  };
+
+  $scope.initDateRangePicker = () => {
+    var picker = $("#tanggalRange").data("daterangepicker");
+    if (picker) {
+      picker.remove();
+      $("#tanggalRange").off(); // hapus event sebelumnya
+    }
+
+    $("#tanggalRange").daterangepicker(
+      {
+        autoUpdateInput: false, // supaya kosong di awal
+        locale: {
+          format: "YYYY-MM-DD",
+          separator: " s.d. ",
+          applyLabel: "Terapkan",
+          cancelLabel: "Batal",
+          fromLabel: "Dari",
+          toLabel: "Sampai",
+          customRangeLabel: "Kustom",
+          daysOfWeek: ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+          monthNames: [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+          ],
+          firstDay: 1,
+        },
+      },
+      function (start, end) {
+        $scope.filter.dari_tanggal = start.format("YYYY-MM-DD");
+        $scope.filter.sampai_tanggal = end.format("YYYY-MM-DD");
+        $scope.filter.tanggal_range =
+          start.format("YYYY-MM-DD") + " s.d. " + end.format("YYYY-MM-DD");
+
+        $("#tanggalRange").val($scope.filter.tanggal_range);
+        $scope.$apply();
+      }
+    );
+
+    $("#tanggalRange").on("cancel.daterangepicker", function (ev, picker) {
+      $(this).val("");
+      $scope.filter.tanggal_range = "";
+      $scope.filter.dari_tanggal = "";
+      $scope.filter.sampai_tanggal = "";
+      $scope.$apply();
+    });
+  };
+
+  // Inisialisasi daterangepicker hanya untuk tipePeriode == 'range'
+  $timeout(function () {
+    if ($scope.filter.tipePeriode === "range") {
+      $scope.initDateRangePicker();
+    }
+  }, 100);
+
+  $scope.filterLaporan = function () {
+    let params = {
+      status: $scope.filter.status || "",
+      metode_bayar: $scope.filter.metode_bayar || "",
+    };
+
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        alert("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      $scope.filter.dari_tanggal = range[0];
+      $scope.filter.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      // bulan_tahun format: yyyy-MM (input month)
+      // let [tahun, bulan] = String($scope.filter.bulan_tahun).split("-");
+      let date = $scope.filter.bulan_tahun;
+      let tahun = date.getFullYear();
+      let bulan = String(date.getMonth() + 1).padStart(2, "0");
+
+      $scope.filter.dari_tanggal = `${tahun}-${bulan}-01`;
+      $scope.filter.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0]; // akhir bulan
+      // $scope.filter.bulan = bulan;
+      // $scope.filter.tahun = tahun;
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (
+        !$scope.filter.tahun ||
+        isNaN($scope.filter.tahun) ||
+        $scope.filter.tahun < 2000 ||
+        $scope.filter.tahun > 2100
+      ) {
+        pesan.error("Pilih tahun yang valid!");
+        return;
+      }
+      let tahun = $scope.filter.tahun;
+      $scope.filter.dari_tanggal = `${tahun}-01-01`;
+      $scope.filter.sampai_tanggal = `${tahun}-12-31`;
+    }
+
+    $http({
+      method: "POST",
+      url: helperServices.url + "admin/laporan/penjualan/data",
+      data: $scope.filter,
+    }).then(
+      function (response) {
+        $scope.laporan = response.data;
+      },
+      function (error) {
+        alert("Gagal mengambil data laporan");
+        console.error(error);
+      }
+    );
+  };
+
+  $scope.downloadExcel = function () {
+    let params = {
+      status: $scope.filter.status || "",
+      metode_bayar: $scope.filter.metode_bayar || "",
+    };
+
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        pesan.error("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      params.dari_tanggal = range[0];
+      params.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      // bulan_tahun format: yyyy-MM (input month)
+      // let [tahun, bulan] = String($scope.filter.bulan_tahun).split("-");
+      let date = $scope.filter.bulan_tahun;
+      let tahun = date.getFullYear();
+      let bulan = String(date.getMonth() + 1).padStart(2, "0");
+
+      params.dari_tanggal = `${tahun}-${bulan}-01`;
+      params.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0]; // akhir bulan
+      // $scope.filter.bulan = bulan;
+      // $scope.filter.tahun = tahun;
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (
+        !$scope.filter.tahun ||
+        isNaN($scope.filter.tahun) ||
+        $scope.filter.tahun < 2000 ||
+        $scope.filter.tahun > 2100
+      ) {
+        pesan.error("Pilih tahun yang valid!");
+        return;
+      }
+      let tahun = $scope.filter.tahun;
+      params.dari_tanggal = `${tahun}-01-01`;
+      params.sampai_tanggal = `${tahun}-12-31`;
+    }
+
+    var queryString = new URLSearchParams(params).toString();
+    window.open("/admin/laporan/penjualan/excel?" + queryString, "_blank");
+  };
+
+  $scope.cetak = function () {
+    let params = {
+      status: $scope.filter.status || "",
+      metode_bayar: $scope.filter.metode_bayar || "",
+    };
+
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        pesan.error("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      params.dari_tanggal = range[0];
+      params.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      // bulan_tahun format: yyyy-MM (input month)
+      // let [tahun, bulan] = String($scope.filter.bulan_tahun).split("-");
+      let date = $scope.filter.bulan_tahun;
+      let tahun = date.getFullYear();
+      let bulan = String(date.getMonth() + 1).padStart(2, "0");
+
+      params.dari_tanggal = `${tahun}-${bulan}-01`;
+      params.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0]; // akhir bulan
+      // $scope.filter.bulan = bulan;
+      // $scope.filter.tahun = tahun;
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (
+        !$scope.filter.tahun ||
+        isNaN($scope.filter.tahun) ||
+        $scope.filter.tahun < 2000 ||
+        $scope.filter.tahun > 2100
+      ) {
+        pesan.error("Pilih tahun yang valid!");
+        return;
+      }
+      let tahun = $scope.filter.tahun;
+      params.dari_tanggal = `${tahun}-01-01`;
+      params.sampai_tanggal = `${tahun}-12-31`;
+    }
+
+    var queryString = new URLSearchParams(params).toString();
+    window.open("/admin/laporan/penjualan/print?" + queryString, "_blank");
+  };
+}
+
+function laporanPembelianController(
+  $scope,
+  pesan,
+  $timeout,
+  helperServices,
+  $http
+) {
+  $scope.$emit("SendUp", "Laporan Pembelian");
+  $scope.filter = {
+    tipePeriode: "range",
+    tanggal_range: "",
+    dari_tanggal: "",
+    sampai_tanggal: "",
+    bulan_tahun: "",
+    tahun: "",
+  };
+
+  $scope.laporan = [];
+
+  $scope.resetTanggal = function () {
+    $scope.filter.tanggal_range = "";
+    $scope.filter.dari_tanggal = "";
+    $scope.filter.sampai_tanggal = "";
+    $scope.filter.bulan_tahun = "";
+    $scope.filter.tahun = "";
+    $scope.laporan = [];
+
+    if ($scope.filter.tipePeriode === "range") {
+      $timeout(function () {
+        $scope.initDateRangePicker();
+      }, 0);
+    }
+  };
+
+  $scope.initDateRangePicker = () => {
+    var picker = $("#tanggalRange").data("daterangepicker");
+    if (picker) {
+      picker.remove();
+      $("#tanggalRange").off();
+    }
+
+    $("#tanggalRange").daterangepicker(
+      {
+        autoUpdateInput: false,
+        locale: {
+          format: "YYYY-MM-DD",
+          separator: " s.d. ",
+          applyLabel: "Terapkan",
+          cancelLabel: "Batal",
+          fromLabel: "Dari",
+          toLabel: "Sampai",
+          customRangeLabel: "Kustom",
+          daysOfWeek: ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+          monthNames: [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+          ],
+          firstDay: 1,
+        },
+      },
+      function (start, end) {
+        $scope.filter.dari_tanggal = start.format("YYYY-MM-DD");
+        $scope.filter.sampai_tanggal = end.format("YYYY-MM-DD");
+        $scope.filter.tanggal_range =
+          start.format("YYYY-MM-DD") + " s.d. " + end.format("YYYY-MM-DD");
+
+        $("#tanggalRange").val($scope.filter.tanggal_range);
+
+        // Tambahkan ini supaya filter langsung jalan saat tanggal dipilih
+        $scope.filterLaporan();
+
+        // Jangan lupa $apply agar Angular tahu ada perubahan
+        $scope.$apply();
+      }
+    );
+
+    $("#tanggalRange").on("cancel.daterangepicker", function () {
+      $(this).val("");
+      $scope.filter.tanggal_range = "";
+      $scope.filter.dari_tanggal = "";
+      $scope.filter.sampai_tanggal = "";
+      $scope.$apply();
+    });
+  };
+
+  $timeout(function () {
+    if ($scope.filter.tipePeriode === "range") {
+      $scope.initDateRangePicker();
+    }
+  }, 100);
+
+  $scope.filterLaporan = function () {
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        alert("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      $scope.filter.dari_tanggal = range[0];
+      $scope.filter.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      let date = $scope.filter.bulan_tahun;
+      let tahun = date.getFullYear();
+      let bulan = String(date.getMonth() + 1).padStart(2, "0");
+
+      $scope.filter.dari_tanggal = `${tahun}-${bulan}-01`;
+      $scope.filter.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0];
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (
+        !$scope.filter.tahun ||
+        isNaN($scope.filter.tahun) ||
+        $scope.filter.tahun < 2000 ||
+        $scope.filter.tahun > 2100
+      ) {
+        pesan.error("Pilih tahun yang valid!");
+        return;
+      }
+      let tahun = $scope.filter.tahun;
+      $scope.filter.dari_tanggal = `${tahun}-01-01`;
+      $scope.filter.sampai_tanggal = `${tahun}-12-31`;
+    }
+
+    $http({
+      method: "POST",
+      url: helperServices.url + "admin/laporan/pembelian/data",
+      data: $scope.filter,
+    }).then(
+      function (response) {
+        $scope.laporan = response.data;
+      },
+      function (error) {
+        alert("Gagal mengambil data laporan");
+        console.error(error);
+      }
+    );
+  };
+
+  $scope.downloadExcel = function () {
+    let params = {};
+
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        pesan.error("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      params.dari_tanggal = range[0];
+      params.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      var d = new Date($scope.filter.bulan_tahun);
+      var tahun = d.getFullYear();
+      var bulan = ("0" + (d.getMonth() + 1)).slice(-2);
+      params.dari_tanggal = `${tahun}-${bulan}-01`;
+      params.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0];
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (!$scope.filter.tahun) {
+        pesan.error("Pilih tahun terlebih dahulu!");
+        return;
+      }
+      params.dari_tanggal = `${$scope.filter.tahun}-01-01`;
+      params.sampai_tanggal = `${$scope.filter.tahun}-12-31`;
+    }
+
+    var query = Object.keys(params)
+      .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+      .join("&");
+
+    window.open(
+      helperServices.url + "admin/laporan/pembelian/excel?" + query,
+      "_blank"
+    );
+  };
+
+  $scope.cetak = function () {
+    // Sama seperti downloadExcel, tapi arahkan ke halaman cetak khusus
+    let params = {};
+
+    if ($scope.filter.tipePeriode === "range") {
+      if (
+        !$scope.filter.tanggal_range ||
+        $scope.filter.tanggal_range.indexOf(" s.d. ") === -1
+      ) {
+        pesan.error("Pilih rentang tanggal terlebih dahulu!");
+        return;
+      }
+      var range = $scope.filter.tanggal_range.split(" s.d. ");
+      params.dari_tanggal = range[0];
+      params.sampai_tanggal = range[1];
+    } else if ($scope.filter.tipePeriode === "bulan") {
+      if (!$scope.filter.bulan_tahun) {
+        pesan.error("Pilih bulan terlebih dahulu!");
+        return;
+      }
+      var d = new Date($scope.filter.bulan_tahun);
+      var tahun = d.getFullYear();
+      var bulan = ("0" + (d.getMonth() + 1)).slice(-2);
+      params.dari_tanggal = `${tahun}-${bulan}-01`;
+      params.sampai_tanggal = new Date(tahun, bulan, 0)
+        .toISOString()
+        .split("T")[0];
+    } else if ($scope.filter.tipePeriode === "tahun") {
+      if (!$scope.filter.tahun) {
+        pesan.error("Pilih tahun terlebih dahulu!");
+        return;
+      }
+      params.dari_tanggal = `${$scope.filter.tahun}-01-01`;
+      params.sampai_tanggal = `${$scope.filter.tahun}-12-31`;
+    }
+
+    var query = Object.keys(params)
+      .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+      .join("&");
+
+    window.open(
+      helperServices.url + "admin/laporan/pembelian/cetak?" + query,
+      "_blank"
+    );
   };
 }

@@ -95,6 +95,11 @@ $routes->group('admin', function ($routes) {
     $routes->group('laporan', function ($routes) {
         $routes->get('pembelian', 'Admin\Laporan::pembelian');
         $routes->get('penjualan', 'Admin\Laporan::penjualan');
+        $routes->post('penjualan/data', 'Admin\Laporan::data');
+        $routes->get('penjualan/excel', 'Admin\Laporan::excel');
+        $routes->get('penjualan/print', 'Admin\Laporan::print');
+        $routes->post('pembelian/data', 'Admin\Laporan::pembelian_data');
+        $routes->get('pembelian/excel', 'Admin\Laporan::pembelian_excel');
+        $routes->get('pembelian/print', 'Admin\Laporan::pembelian_print');
     });
 });
-
