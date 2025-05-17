@@ -40,7 +40,8 @@ class Variant extends BaseController
     {
         $param = $this->request->getJSON();
         try {
-            $this->variant->update($param->id, $param);
+            $param->gambar = isset($param->berkas) && !empty($param->berkas->base64) ? $this->lib->decodebase64($param->berkas->base64, $param->gambar) : $param->gambar;
+            $this->variant->update($param->id_variant, $param);
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Data berhasil diubah'
@@ -49,7 +50,7 @@ class Variant extends BaseController
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => $th->getMessage()
-            ]);
+            ])->setStatusCode(500);
         }
     }
 

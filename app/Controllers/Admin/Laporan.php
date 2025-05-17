@@ -58,7 +58,7 @@ class Laporan extends BaseController
         $db = \Config\Database::connect();
         $builder = $db->table('order o');
         $builder->select('o.id_order, o.kode_order AS invoice, o.tanggal_order AS tanggal, c.nama AS customer, p.metode_bayar, o.status, o.total');
-        $builder->join('customer c', 'c.id_customer = o.id_customer');
+        $builder->join('customer c', 'c.id_customer = o.id_customer', 'left');
         $builder->join('pembayaran p', 'p.id_order = o.id_order', 'left');
 
         if ($dari && $sampai && strtotime($dari) && strtotime($sampai)) {
@@ -75,8 +75,9 @@ class Laporan extends BaseController
         }
 
         $builder->orderBy('o.tanggal_order', 'DESC');
-
+        // echo $builder->getCompiledSelect();
         $data = $builder->get()->getResult();
+        // return $this->response->setJSON($query);
 
         return $this->response->setJSON($data);
     }
@@ -90,7 +91,7 @@ class Laporan extends BaseController
         $db = \Config\Database::connect();
         $builder = $db->table('order o');
         $builder->select('o.kode_order AS invoice, o.tanggal_order AS tanggal, c.nama AS customer, p.metode_bayar, o.status, o.total');
-        $builder->join('customer c', 'c.id_customer = o.id_customer');
+        $builder->join('customer c', 'c.id_customer = o.id_customer', 'left');
         $builder->join('pembayaran p', 'p.id_order = o.id_order', 'left');
 
         if ($dari && $sampai) {
@@ -103,7 +104,9 @@ class Laporan extends BaseController
         }
 
         if ($metode) {
-            $builder->where("p.metode_bayar", $metode);
+            if($metode=='Tunai'){
+                $builder->where("o.id_customer IS NULL");
+            }else $builder->where("p.metode_bayar", $metode);
         }
 
         $builder->orderBy('o.tanggal_order', 'DESC');
@@ -141,7 +144,7 @@ class Laporan extends BaseController
             $sheet->setCellValue('B' . $row, date('d-m-Y', strtotime($item['tanggal'])));
             $sheet->setCellValue('C' . $row, $item['invoice']);
             $sheet->setCellValue('D' . $row, $item['customer']);
-            $sheet->setCellValue('E' . $row, ucfirst($item['metode_bayar']));
+            $sheet->setCellValue('E' . $row, $item['metode_bayar'] && ($item['status'] != 'Pending' || $item['status'] != 'Batal') ? ucfirst($item['metode_bayar']) : 'Cash on Counter');
             $sheet->setCellValue('F' . $row, ucfirst($item['status']));
             $sheet->setCellValue('G' . $row, $item['total']);
             $row++;

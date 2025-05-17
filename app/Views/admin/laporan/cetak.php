@@ -100,7 +100,7 @@
                         <td class="text-center"><?= date('d-m-Y', strtotime($row['tanggal_order'])) ?></td>
                         <td><?= esc($row['invoice']) ?></td>
                         <td><?= esc($row['customer']) ?></td>
-                        <td class="text-center"><?= esc($row['metode_bayar']) ?></td>
+                        <td class="text-center"><?= $row['metode_bayar'] && ($row['status'] != 'Pending' || $row['status'] != 'Batal') ? esc($row['metode_bayar']) : 'Cash on Counter' ?></td>
                         <td class="text-center"><?= esc(ucfirst($row['status'])) ?></td>
                         <td class="text-right"><?= number_format($row['total'], 0, ',', '.') ?></td>
                     </tr>

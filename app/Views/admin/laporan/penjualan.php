@@ -54,7 +54,7 @@
                         <label>Metode Bayar</label>
                         <select class="form-control" ng-model="filter.metode_bayar">
                             <option value="">Semua</option>
-                            <option value="tunai">Tunai</option>
+                            <option value="Tunai">Tunai</option>
                             <option value="Transfer">Transfer</option>
                             <option value="COD">COD</option>
                         </select>
@@ -85,7 +85,7 @@
                             <td>{{item.tanggal}}</td>
                             <td>{{item.invoice}}</td>
                             <td>{{item.customer}}</td>
-                            <td>{{item.metode_bayar}}</td>
+                            <td>{{item.metode_bayar && (item.status != 'Pending' || item.status != 'Batal') ? item.metode_bayar : 'Cash on Counter'}}</td>
                             <td>{{item.status}}</td>
                             <td>{{item.total | currency:'Rp. '}}</td>
                         </tr>

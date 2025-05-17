@@ -2,7 +2,7 @@
                 <!-- Brand demo (see /assets/css/demo/demo.css) -->
                 <div class="app-brand demo">
                     <span class="app-brand-logo demo">
-                        <img src="/assets/img/logo.png" alt="Brand Logo" class="img-fluid">
+                        <img src="{{toko && toko.logo ? '/assets/gambar/'+toko.logo:'/assets/img/logo.png' }}" alt="Brand Logo" width="50px" class="img-fluid">
                     </span>
                     <a href="/" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Sneakers JPR</a>
                     <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">

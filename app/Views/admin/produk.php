@@ -26,7 +26,8 @@
                                     <td>{{item.harga | currency: 'Rp. '}}</td>
                                     <td>{{item.total_stok}}</td>
                                     <td width="40%" class="text-wrap">
-                                        <span ng-bind="item.keterangan.length > 100 ? item.keterangan.substring(0,200) + ' . . .' : item.keterangan"></span>
+                                        <span ng-bind="item.keterangan | stripHtml | limitTo:200"></span>
+                                        <span ng-if="item.keterangan.length > 200"> . . .</span>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="edit(item)">Edit</button>
@@ -101,7 +102,7 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label class="form-label">Keterangan</label>
-                                <input type="text" class="form-control" placeholder="Keterangan" ng-model="model.keterangan" required>
+                                <input type="text" id="keterangan" class="form-control" placeholder="Keterangan" ng-model="model.keterangan" required>
                                 <div class="clearfix"></div>
                             </div>
                         </div>
@@ -154,4 +155,24 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        tinymce.init({
+            selector: '#keterangan',
+            menubar: false,
+            plugins: 'lists link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | code',
+            setup: function(editor) {
+                editor.on('Change KeyUp', function() {
+                    // Sinkronisasi manual isi editor ke ng-model
+                    const scope = angular.element(document.getElementById('keterangan')).scope();
+                    scope.$apply(function() {
+                        scope.model.keterangan = editor.getContent();
+                    });
+                });
+            }
+        });
+    });
+</script>
+
 <?= $this->endSection() ?>

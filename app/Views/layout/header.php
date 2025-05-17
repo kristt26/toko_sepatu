@@ -26,26 +26,22 @@
                             <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
                                     <i class="feather icon-bell navbar-icon align-middle"></i>
-                                    <span class="badge badge-danger badge-dot indicator"></span>
+                                    <span ng-if="dataOrder.length>0" class="badge badge-danger badge-dot indicator"></span>
                                     <span class="d-lg-none align-middle">&nbsp; Notifications</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="bg-primary text-center text-white font-weight-bold p-3">
-                                        4 New Notifications
+                                        {{dataOrder.length}} Pesanan Baru
                                     </div>
-                                    <div class="list-group list-group-flush">
-                                        <a href="javascript:" class="list-group-item list-group-item-action media d-flex align-items-center">
+                                    <div ng-repeat="item in dataOrder" class="list-group list-group-flush">
+                                        <a href="/admin/order" class="list-group-item list-group-item-action media d-flex align-items-center">
                                             <div class="ui-icon ui-icon-sm feather icon-home bg-secondary border-0 text-white"></div>
                                             <div class="media-body line-height-condenced ml-3">
-                                                <div class="text-dark">Login from 192.168.1.1</div>
-                                                <div class="text-light small mt-1">
-                                                    Aliquam ex eros, imperdiet vulputate hendrerit et.
-                                                </div>
-                                                <div class="text-light small mt-1">12h ago</div>
+                                                <div class="text-dark">{{item.nama + ' ' + item.kode_order+ ' '}}</div>
+                                                <!-- <div class="text-light small mt-1">12h ago</div> -->
                                             </div>
                                         </a>
                                     </div>
-                                    <a href="javascript:" class="d-block text-center text-light small p-2 my-1">Show all notifications</a>
                                 </div>
                             </div>
                             <!-- Divider -->

@@ -3,16 +3,17 @@
 
 <div class="container py-5" ng-controller="detailController" ng-cloak>
   <div class="row">
-    <!-- Gambar Produk -->
+    <!-- Gambar Produk + Keterangan di bawahnya -->
     <div class="col-md-6">
       <img src="/assets/gambar/{{datas.variant[0].gambar}}" alt="{{datas.nama_produk}}" class="img-fluid rounded">
+      <p class="mt-3" ng-bind-html="datas.keterangan"></p> <!-- pindah ke sini -->
     </div>
 
-    <!-- Detail Produk -->
+    <!-- Detail Produk (tanpa keterangan) -->
     <div class="col-md-6">
       <h1 class="mb-3">{{datas.nama_produk}}</h1>
       <h4 class="text-danger mb-3">Rp {{datas.harga | number}}</h4>
-      <p class="mb-4">{{datas.keterangan}}</p>
+
       <!-- Stok Tersedia -->
       <p class="text-success mb-4">Stok Tersedia: {{selectedSize && selectedColor && (totalStock == null || totalStock <=0) ? 'Habis' : totalStock}}</p>
 
@@ -59,5 +60,6 @@
     </div>
   </div>
 </div>
+
 
 <?= $this->endSection() ?>

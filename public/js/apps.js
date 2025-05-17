@@ -21,6 +21,7 @@ angular.module('apps', [
     // }])
     .controller('indexController', indexController)
     .directive('emaudio', emaudio)
+    .filter('stripHtml', stripHtml)
     // .directive('dynamic', ['$compile', function ($compile) {
     //     return {
     //       restrict: 'A',
@@ -36,7 +37,7 @@ angular.module('apps', [
     ;
 
 
-function indexController($scope, helperServices, dashboardServices) {
+async function indexController($scope, helperServices, dashboardServices, orderServices) {
     $scope.titleHeader = "Laboratorium Assets";
     $scope.header = "";
     $scope.breadcrumb = "";
@@ -49,6 +50,14 @@ function indexController($scope, helperServices, dashboardServices) {
         $scope.title = data;
         // $.LoadingOverlay("hide");
     });
+    await dashboardServices.toko().then(async (res)=>{
+        $scope.toko = res;
+        await orderServices.getOrder().then((res)=>{
+            $scope.dataOrder = res
+            console.log(res);
+            
+        })
+    })
 }
 
 function emaudio() {
@@ -123,5 +132,11 @@ function emaudio() {
             };
 
         }
+    };
+}
+
+function stripHtml() {
+    return function (text) {
+        return text ? text.replace(/<[^>]+>/g, '') : '';
     };
 }

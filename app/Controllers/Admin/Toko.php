@@ -44,7 +44,7 @@ class Toko extends BaseController
     {
         $param = $this->request->getJSON();
         try {
-            $param->logo = isset($param->berkas) ?  $this->lib->decodebase64($param->berkas->base64) : $param->logo;
+            $param->logo = isset($param->berkas) ?  $this->lib->decodebase64($param->berkas->base64, $param->logo) : $param->logo;
             $this->toko->update($param->id_toko, $param);
             return $this->response->setJSON([
                 'status' => 'success',

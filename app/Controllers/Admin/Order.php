@@ -24,7 +24,7 @@ class Order extends BaseController
 
     public function store()
     {
-        $order = $this->order->select("order.*, customer.nama,```` customer.phone, service_area.nama_area")
+        $order = $this->order->select("order.*, customer.nama, customer.phone, service_area.nama_area")
             ->join('customer', 'customer.id_customer = order.id_customer')
             ->join('service_area', 'service_area.id_area = order.id_area')
             ->where('order.id_customer IS NOT NULL')
@@ -36,6 +36,16 @@ class Order extends BaseController
                 ->where('id_order', $value->id_order)->findAll();
             $value->pembayaran = $this->pembayaran->where('id_order', $value->id_order)->first();
         }
+        return $this->response->setJSON($order ?? []);
+    }
+
+    public function getPending()
+    {
+        $order = $this->order->select("order.*, customer.nama, customer.phone, service_area.nama_area")
+            ->join('customer', 'customer.id_customer = order.id_customer')
+            ->join('service_area', 'service_area.id_area = order.id_area')
+            ->where('order.id_customer IS NOT NULL')
+            ->findAll();
         return $this->response->setJSON($order);
     }
 
