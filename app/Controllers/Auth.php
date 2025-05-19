@@ -211,6 +211,7 @@ class Auth extends BaseController
     {
         $redirectMap = [
             'admin' => '/admin/beranda',
+            'kasir' => '/admin/beranda',
             'customer' => '/'
         ];
 

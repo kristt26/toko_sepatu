@@ -36,6 +36,7 @@ class Penjualan extends BaseController
         return $this->response->setJSON($data);
     }
 
+    
     function add() : ResponseInterface
     {
         $param = $this->request->getJSON();

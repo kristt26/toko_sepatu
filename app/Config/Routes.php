@@ -88,6 +88,7 @@ $routes->group('admin', function ($routes) {
     $routes->group('pengguna', function ($routes) {
         $routes->get('/', 'Admin\Pengguna::index');
         $routes->get('read', 'Admin\Pengguna::store');
+        $routes->get('aktive', 'Admin\Pengguna::aktive');
         $routes->post('add', 'Admin\Pengguna::add');
         $routes->put('edit', 'Admin\Pengguna::edit');
         $routes->delete('delete/(:hash)', 'Admin\Pengguna::delete/$1');
@@ -95,6 +96,8 @@ $routes->group('admin', function ($routes) {
     $routes->group('order', function ($routes) {
         $routes->get('/', 'Admin\Order::index');
         $routes->get('read', 'Admin\Order::store');
+        $routes->get('this_day', 'Admin\Order::thisDays');
+        $routes->get('read_this_day', 'Admin\Order::readThisDays');
         $routes->get('getPending', 'Admin\Order::getPending');
         $routes->post('add', 'Admin\Order::add');
         $routes->put('edit', 'Admin\Order::edit');

@@ -610,6 +610,7 @@ function orderServices($http, $q, helperServices, AuthService, pesan) {
     service.data = [];
     return {
         get: get,
+        thisDay: thisDay,
         getOrder: getOrder,
         post: post,
         put: put,
@@ -621,6 +622,25 @@ function orderServices($http, $q, helperServices, AuthService, pesan) {
         $http({
             method: 'get',
             url: controller + 'read',
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                pesan.error(err.data.message);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function thisDay() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'read_this_day',
             headers: AuthService.getHeader()
         }).then(
             (res) => {
@@ -719,6 +739,7 @@ function penggunaServices($http, $q, helperServices, AuthService, pesan) {
     service.data = [];
     return {
         get: get,
+        aktive: aktive,
         post: post,
         put: put,
         deleted: deleted
@@ -729,6 +750,25 @@ function penggunaServices($http, $q, helperServices, AuthService, pesan) {
         $http({
             method: 'get',
             url: controller + 'read',
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                pesan.error(err.data.message);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function aktive() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'aktive',
             headers: AuthService.getHeader()
         }).then(
             (res) => {

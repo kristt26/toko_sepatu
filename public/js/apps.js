@@ -37,7 +37,7 @@ angular.module('apps', [
     ;
 
 
-async function indexController($scope, helperServices, dashboardServices, orderServices) {
+async function indexController($scope, helperServices, dashboardServices, orderServices, penggunaServices) {
     $scope.titleHeader = "Laboratorium Assets";
     $scope.header = "";
     $scope.breadcrumb = "";
@@ -50,12 +50,16 @@ async function indexController($scope, helperServices, dashboardServices, orderS
         $scope.title = data;
         // $.LoadingOverlay("hide");
     });
-    await dashboardServices.toko().then(async (res)=>{
+    dashboardServices.toko().then((res)=>{
         $scope.toko = res;
         // console.log(res);
-        await orderServices.getOrder().then((res)=>{
-            $scope.dataOrder = res
-            console.log(res);
+        orderServices.getOrder().then((res)=>{
+            $scope.dataOrder = res.filter(x=>x.status=='Pending')
+            // console.log(res);
+        })
+        penggunaServices.aktive().then((res)=>{
+            $scope.users = res
+            // console.log(res);
             
         })
     })

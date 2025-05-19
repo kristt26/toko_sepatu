@@ -30,6 +30,12 @@ class Pengguna extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function aktive(): ResponseInterface
+    {
+        $data = $this->pengguna->where('id_users', session()->get('user_id'))->first();
+        return $this->response->setJSON($data);
+    }
+
     function add(): ResponseInterface
     {
         $param = $this->request->getJSON();

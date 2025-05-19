@@ -10,7 +10,8 @@ angular
   .controller("penggunaController", penggunaController)
   .controller("orderController", orderController)
   .controller("laporanPenjualanController", laporanPenjualanController)
-  .controller("laporanPembelianController", laporanPembelianController);
+  .controller("laporanPembelianController", laporanPembelianController)
+  .controller("penjualanHariIniController", penjualanHariIniController);
 
 function dashboardController($scope, dashboardServices) {
   $scope.$emit("SendUp", "Beranda");
@@ -1128,4 +1129,16 @@ function laporanPembelianController(
       "_blank"
     );
   };
+}
+
+function penjualanHariIniController($scope, pesan, orderServices) {
+  $scope.$emit("SendUp", "Daftar Penjualan Hari ini");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  orderServices.thisDay().then((res)=>{
+    $scope.datas = res;
+    $scope.totalPenjualan = $scope.datas.reduce((sum, item)=>sum + parseFloat(item.total), 0)
+    console.log(res);
+  })
 }

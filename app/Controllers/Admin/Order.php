@@ -39,6 +39,29 @@ class Order extends BaseController
         return $this->response->setJSON($order ?? []);
     }
 
+    public function thisDays()
+    {
+        return view('admin/penjualan_hari_ini');
+    }
+
+    public function readThisDays()
+    {
+        $order = $this->order->select("order.*, customer.nama, customer.phone, service_area.nama_area")
+            ->join('customer', 'customer.id_customer = order.id_customer', 'left')
+            ->join('service_area', 'service_area.id_area = order.id_area', 'left')
+            ->whereNotIn('order.status', ['Pending', 'Batal'])
+            ->where('DATE(order.tanggal_order)', date('Y-m-d'))
+            ->findAll();
+        foreach ($order as $key => $value) {
+            $value->detail = $this->detail->select("order_item.*, variant.ukuran, variant.warna, variant.gambar, produk.nama_produk")
+                ->join('variant', 'variant.id_variant = order_item.id_variant', 'left')
+                ->join('produk', 'produk.id_produk = variant.id_produk', 'left')
+                ->where('id_order', $value->id_order)->findAll();
+            $value->pembayaran = $this->pembayaran->where('id_order', $value->id_order)->first();
+        }
+        return $this->response->setJSON($order ?? []);
+    }
+
     public function getPending()
     {
         $order = $this->order->select("order.*, customer.nama, customer.phone, service_area.nama_area")
