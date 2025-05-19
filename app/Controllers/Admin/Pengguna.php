@@ -9,16 +9,41 @@ class Pengguna extends BaseController
 {
     protected $pengguna;
     protected $lib;
-    public function __construct() {
+    public function __construct()
+    {
         $this->pengguna = new \App\Models\UserModel();
         $this->lib = new \App\Libraries\Decode();
     }
 
     public function index(): string
     {
-        $data['pengguna'] = $this->pengguna->asArray()->select('customer.*, users.username')
-        ->join('customer', 'customer.id_users = users.id_users')
-        ->where('role', 'customer')->findAll();
-        return view('admin/pengguna', $data);
+        return view('admin/pengguna');
+    }
+
+    public function store(): ResponseInterface
+    {
+        $data = $this->pengguna->asArray()
+            ->select('customer.*, users.username, users.role')
+            ->join('customer', 'customer.id_users = users.id_users', 'left')
+            ->whereNotIn('users.role', ['admin']) // harus array
+            ->findAll();
+        return $this->response->setJSON($data);
+    }
+
+    function add(): ResponseInterface
+    {
+        $param = $this->request->getJSON();
+        $param->password = password_hash($param->password, PASSWORD_DEFAULT);
+        $param->role = 'kasir';
+        try {
+            $this->pengguna->insert($param);
+            $param->id_users = $this->pengguna->insertID();
+            return $this->response->setJSON($param);
+        } catch (\Throwable $th) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

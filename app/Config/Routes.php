@@ -84,7 +84,13 @@ $routes->group('admin', function ($routes) {
         $routes->put('edit', 'Admin\Toko::edit');
         $routes->delete('delete/(:hash)', 'Admin\Toko::delete/$1');
     });
-    $routes->get('pengguna', 'Admin\Pengguna::index');
+    $routes->group('pengguna', function ($routes) {
+        $routes->get('/', 'Admin\Pengguna::index');
+        $routes->get('read', 'Admin\Pengguna::store');
+        $routes->post('add', 'Admin\Pengguna::add');
+        $routes->put('edit', 'Admin\Pengguna::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Pengguna::delete/$1');
+    });
     $routes->group('order', function ($routes) {
         $routes->get('/', 'Admin\Order::index');
         $routes->get('read', 'Admin\Order::store');

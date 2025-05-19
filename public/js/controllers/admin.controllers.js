@@ -456,11 +456,25 @@ function tokoController($scope, tokoServices, pesan, $timeout) {
   };
 }
 
-function penggunaController($scope, pesan) {
+function penggunaController($scope, pesan, penggunaServices) {
   $scope.$emit("SendUp", "Daftar Customer");
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model = {};
+  penggunaServices.get().then((res)=>{
+    $scope.datas = res;
+    console.log(res);
+    
+  })
+
+  $scope.save = ()=>{
+    $("#modals-default").modal('hide');
+    pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then(x=>{
+      penggunaServices.post($scope.model).then(res=>{
+        $scope.model = {};
+      })
+    })
+  }
 }
 
 function orderController($scope, orderServices, pesan) {
