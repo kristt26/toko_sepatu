@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12" ng-show="tampil=='bayar'">
+        <div class="col-md-12" ng-show="tampil=='bayar' || tampil=='terbayar'">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">Pembayaran</h5>
@@ -96,9 +96,11 @@
                             <label>Kembalian</label>
                             <input type="text" id="kembalian" ng-model="kembalian" mask-currency="'Rp. '" config="{group:'.',decimalSize:'0',indentation:' ',decimal:''}" class="form-control" readonly>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-block" ng-disabled="uang<totalBayar || !uang">Selesaikan Pembayaran</button>
-                        <button type="button" class="btn btn-secondary btn-block" ng-click="batal()">Batal</button>
+                        <div class="text-center" ng-if="tampil=='terbayar'">
+                            <button class="btn btn-primary btn-cetak" onclick="window.print()">Cetak Struk</button>
+                        </div>
+                        <button ng-if="tampil=='bayar'" type="submit" class="btn btn-success btn-block" ng-disabled="uang<totalBayar || !uang">Selesaikan Pembayaran</button>
+                        <button type="button" class="btn btn-block" ng-class="{'btn-secondary': tampil =='bayar', 'btn-success' : tampil=='terbayar'}" ng-click="batal()">{{tampil == 'bayar' ? 'Batal' : 'Selesai'}}</button>
                     </form>
                 </div>
                 <div id="struk">
@@ -111,14 +113,12 @@
                     <p class="text-center">Terima kasih telah berbelanja!</p>
                 </div>
 
-                <div class="text-center">
-                    <button class="btn btn-primary btn-cetak" onclick="window.print()">Cetak Struk</button>
-                </div>
+
             </div>
         </div>
-       
+
     </div>
-   
+
 </div>
 <style>
     .kasir-card {

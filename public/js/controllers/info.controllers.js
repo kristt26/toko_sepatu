@@ -18,7 +18,7 @@ function dashboardController($scope, dashboardServices) {
   });
 }
 
-function detailController($scope, dashboardServices, pesan, AuthService, helperServices) {
+function detailController($scope, dashboardServices, pesan, AuthService, helperServices, $sce) {
   // $scope.$emit("SendUp", "Beranda");
   $scope.datas = {};
   $scope.selectedSize = null;
@@ -30,6 +30,7 @@ function detailController($scope, dashboardServices, pesan, AuthService, helperS
   console.log(productId);
   dashboardServices.getItem(productId).then(function (response) {
     $scope.datas = response;
+    $scope.datas.keterangan = $sce.trustAsHtml($scope.datas.keterangan);
     console.log(response);
   });
   $scope.selectSize = function (size, color) {

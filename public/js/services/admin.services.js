@@ -18,7 +18,7 @@ function dashboardServices($http, $q, helperServices, AuthService) {
     service.instance = false;
     return {
         get: get,
-        getLayanan:getLayanan
+        toko:toko
     };
 
     function get() {
@@ -38,11 +38,11 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         return def.promise;
     }
 
-    function getLayanan() {
+    function toko() {
         var def = $q.defer();
         $http({
             method: 'get',
-            url: controller + 'get_layanan',
+            url: helperServices.url + 'admin/toko/read',
             headers: AuthService.getHeader()
         }).then(
             (res) => {
@@ -210,11 +210,10 @@ function variantServices($http, $q, helperServices, AuthService, pesan) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
-                var data = service.data.find(x => x.id == param.id);
+                var data = service.data.find(x => x.id_variant == param.id_variant);
                 if (data) {
-                    data.kode_kerusakan = param.kode_kerusakan;
-                    data.kerusakan = param.kerusakan;
-                    data.bobot = param.bobot;
+                    data.ukuran = param.ukuran;
+                    data.warna = param.warna;
                 }
                 def.resolve(res.data);
             },
@@ -611,6 +610,7 @@ function orderServices($http, $q, helperServices, AuthService, pesan) {
     service.data = [];
     return {
         get: get,
+        getOrder: getOrder,
         post: post,
         put: put,
         deleted: deleted
@@ -621,6 +621,25 @@ function orderServices($http, $q, helperServices, AuthService, pesan) {
         $http({
             method: 'get',
             url: controller + 'read',
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                pesan.error(err.data.message);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function getOrder() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'getPending',
             headers: AuthService.getHeader()
         }).then(
             (res) => {

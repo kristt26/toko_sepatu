@@ -40,6 +40,7 @@ $routes->get('produk', 'Home::produk');
 $routes->get('tentang', 'Home::tentang');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
+// $routes->get('admin/toko', 'Admin\Home::toko');
 $routes->group('admin', function ($routes) {
     $routes->group('produk', function ($routes) {
         $routes->get('/', 'Admin\Produk::index');
@@ -94,6 +95,7 @@ $routes->group('admin', function ($routes) {
     $routes->group('order', function ($routes) {
         $routes->get('/', 'Admin\Order::index');
         $routes->get('read', 'Admin\Order::store');
+        $routes->get('getPending', 'Admin\Order::getPending');
         $routes->post('add', 'Admin\Order::add');
         $routes->put('edit', 'Admin\Order::edit');
         $routes->delete('delete/(:hash)', 'Admin\Order::delete/$1');

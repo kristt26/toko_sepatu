@@ -29,6 +29,9 @@ function produkController($scope, produkServices, variantServices, pesan) {
     $scope.itemProduk = item;
     variantServices.get(item.id_produk).then((res) => {
       $scope.variant = res;
+      $scope.variant.map(function(item, index){
+        return item.countPembelian = parseInt(item.countPembelian);
+      })
       $scope.tampil = param;
       console.log(res);
     });
@@ -36,18 +39,32 @@ function produkController($scope, produkServices, variantServices, pesan) {
 
   produkServices.get().then((res) => {
     $scope.datas = res;
+    $scope.datas.map(function (item, index) {
+      // lakukan sesuatu dengan item
+      return item.countStok = parseInt(item.countStok);
+    });
   });
 
   $scope.kembali = () => {
     $scope.tampil = "produk";
     $scope.itemProduk = {};
     $scope.variant = [];
+    $('#modals-default').on('shown.bs.modal', function () {
+      if (!tinymce.get('keterangan')) {
+        tinymce.init({ selector: '#keterangan', /* config */ });
+      }
+    });
+
   };
 
   $scope.save = (param) => {
     if (!param.id_produk) {
       produkServices.post(param).then((res) => {
         pesan.Success("Data berhasil disimpan", "Success", "info");
+        $scope.model = {};
+        if (tinymce.get("keterangan")) {
+          tinymce.get("keterangan").setContent("");
+        }
         $("#modals-default").modal("hide");
       });
     } else {
@@ -58,6 +75,10 @@ function produkController($scope, produkServices, variantServices, pesan) {
           data.harga = param.harga;
           data.keterangan = param.keterangan;
         }
+        $scope.model = {};
+        if (tinymce.get("keterangan")) {
+          tinymce.get("keterangan").setContent("");
+        }
         $("#modals-default").modal("hide");
         pesan.Success("Data berhasil diubah", "Success", "info");
       });
@@ -67,6 +88,7 @@ function produkController($scope, produkServices, variantServices, pesan) {
   $scope.edit = (param) => {
     $scope.model = angular.copy(param);
     console.log(param);
+    tinymce.get("keterangan").setContent(param.keterangan);
 
     $("#modals-default").modal("show");
   };
@@ -290,7 +312,7 @@ function penjualanController($scope, penjualanServices, helperServices, pesan) {
       localStorage.removeItem("keranjang");
       $scope.datas = angular.copy($scope.datasPermanent);
       pesan.Success("Transaksi berhasil", "Success", "info");
-      $scope.tampil = "daftar";
+      $scope.tampil = "terbayar";
     });
   };
 
@@ -743,6 +765,8 @@ function laporanPenjualanController(
     }).then(
       function (response) {
         $scope.laporan = response.data;
+        console.log(response.data);
+
       },
       function (error) {
         alert("Gagal mengambil data laporan");

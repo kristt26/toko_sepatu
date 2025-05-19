@@ -26,7 +26,7 @@
             <a href="/detail/{{item.id_produk}}">
               <h5 class="card-title">{{item.nama_produk}}</h5>
             </a>
-            <p class="card-text">Rp 1.250.000</p>
+            <p class="card-text">Rp {{item.harga | number}}</p>
             <!-- <div class="d-flex justify-content-center gap-3">
               <button class="btn-cart cart" title="Masukkan Keranjang">
                 <i class="bi bi-cart-plus-fill"></i>

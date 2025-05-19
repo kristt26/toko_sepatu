@@ -62,7 +62,7 @@ class Decode
         // application/vnd.openxmlformats-officedocument.wordprocessingml.document
         return false;
     }
-    public function decodebase64($base64)
+    public function decodebase64($base64, $old_file = null)
     {
         $target_dir = 'assets/gambar/'; // add the specific path to save the file
         $decoded_file = base64_decode($base64); // decode the file
@@ -70,8 +70,12 @@ class Decode
         $extension = $this->mime2ext($mime_type); // extract extension from mime type
         $file = uniqid() . '.' . $extension; // rename file as a unique name
         $file_dir = $target_dir . $file;
-        $a = file_put_contents($file_dir, $decoded_file);
-        if ($a) {
+        $success = file_put_contents($file_dir, $decoded_file);
+        if ($success) {
+            // Hapus file lama jika ada dan tidak sama dengan file baru
+            if ($old_file && file_exists($target_dir . $old_file)) {
+                unlink($target_dir . $old_file);
+            }
             return $file;
         } else {
             return "";

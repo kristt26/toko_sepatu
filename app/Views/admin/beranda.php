@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h4 class="mb-2"><?= $stok->stok?></h4>
+                                <h4 class="mb-2"><?= $stok?></h4>
                                 <p class="text-muted mb-0">Stock</p>
                             </div>
                             <div class="lnr lnr-chart-bars display-4 text-success"></div>
@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h4 class="mb-2"> <?= $item->qty?> <small></small></h4>
+                                <h4 class="mb-2"> <?= $item?> <small></small></h4>
                                 <p class="text-muted mb-0">Terjual</p>
                             </div>
                             <div class="lnr lnr-cart display-4 text-danger"></div>
@@ -47,7 +47,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="">
-                                <h4 class="mb-2"><?= "Rp. " . number_format($penjualan->total, 0, ',', '.') ?></h4>
+                                <h4 class="mb-2"><?= "Rp. " . number_format($penjualan, 0, ',', '.') ?></h4>
                                 <p class="text-muted mb-0">Profit</p>
                             </div>
                             <div class="lnr lnr-arrow-up display-4 text-warning"></div>
