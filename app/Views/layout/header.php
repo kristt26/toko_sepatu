@@ -3,7 +3,7 @@
                     <!-- Brand demo (see /assets/css/demo/demo.css) -->
                     <a href="" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
                         <span class="app-brand-logo demo">
-                            <img src="/assets/img/logo-dark.png" alt="Brand Logo" class="img-fluid">
+                            <img src="{{toko && toko.logo ? '/assets/gambar/'+toko.logo:'/assets/img/logo.png' }}" width="50px" alt="Brand Logo" class="img-fluid">
                         </span>
                         <span class="app-brand-text demo font-weight-normal ml-2">Sneaker JPR</span>
                     </a>

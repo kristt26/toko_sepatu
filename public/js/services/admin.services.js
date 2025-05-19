@@ -41,7 +41,7 @@ function dashboardServices($http, $q, helperServices, AuthService) {
         var def = $q.defer();
         $http({
             method: 'get',
-            url: helperServices.url + 'admin/toko',
+            url: helperServices.url + 'admin/toko/read',
             headers: AuthService.getHeader()
         }).then(
             (res) => {

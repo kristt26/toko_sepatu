@@ -52,6 +52,7 @@ async function indexController($scope, helperServices, dashboardServices, orderS
     });
     await dashboardServices.toko().then(async (res)=>{
         $scope.toko = res;
+        // console.log(res);
         await orderServices.getOrder().then((res)=>{
             $scope.dataOrder = res
             console.log(res);
