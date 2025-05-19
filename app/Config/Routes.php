@@ -40,7 +40,7 @@ $routes->get('produk', 'Home::produk');
 $routes->get('tentang', 'Home::tentang');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
-$routes->get('admin/toko', 'Admin\Home::toko');
+// $routes->get('admin/toko', 'Admin\Home::toko');
 $routes->group('admin', function ($routes) {
     $routes->group('produk', function ($routes) {
         $routes->get('/', 'Admin\Produk::index');
