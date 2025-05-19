@@ -22,7 +22,8 @@ class Produk extends BaseController
 
     public function store() 
     {
-        return $this->response->setJSON($this->produk->findAll());
+        $data = $this->produk->select("produk.*, (SELECT SUM(variant.stok) FROM variant WHERE variant.id_produk = produk.id_produk) AS totalStok")->findAll();
+        return $this->response->setJSON($data);
     }
 
     function add() : ResponseInterface

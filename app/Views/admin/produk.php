@@ -24,7 +24,7 @@
                                 <tr ng-repeat="item in datas track by $index">
                                     <td>{{item.nama_produk}}</td>
                                     <td>{{item.harga | currency: 'Rp. '}}</td>
-                                    <td>{{item.total_stok}}</td>
+                                    <td>{{item.totalStok}}</td>
                                     <td width="40%" class="text-wrap">
                                         <span ng-bind="item.keterangan | stripHtml | limitTo:200"></span>
                                         <span ng-if="item.keterangan.length > 200"> . . .</span>
