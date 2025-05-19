@@ -17,7 +17,9 @@ class Variant extends BaseController
 
     public function store($id_produk = null) 
     {
-        return $this->response->setJSON($this->variant->where('id_produk', $id_produk)->findAll() ?? []);
+        $data = $this->variant->select("variant.*, (SELECT COUNT(*) FROM pembelian where variant.id_variant=pembelian.id_pembelian) as countPembelian")
+        ->where('id_produk', $id_produk)->findAll();
+        return $this->response->setJSON($data ?? []);
     }
 
     function add() : ResponseInterface

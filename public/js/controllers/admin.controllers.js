@@ -29,6 +29,9 @@ function produkController($scope, produkServices, variantServices, pesan) {
     $scope.itemProduk = item;
     variantServices.get(item.id_produk).then((res) => {
       $scope.variant = res;
+      $scope.variant.map(function(item, index){
+        return item.countPembelian = parseInt(item.countPembelian);
+      })
       $scope.tampil = param;
       console.log(res);
     });
@@ -36,6 +39,10 @@ function produkController($scope, produkServices, variantServices, pesan) {
 
   produkServices.get().then((res) => {
     $scope.datas = res;
+    $scope.datas.map(function (item, index) {
+      // lakukan sesuatu dengan item
+      return item.countStok = parseInt(item.countStok);
+    });
   });
 
   $scope.kembali = () => {
@@ -745,7 +752,7 @@ function laporanPenjualanController(
       function (response) {
         $scope.laporan = response.data;
         console.log(response.data);
-        
+
       },
       function (error) {
         alert("Gagal mengambil data laporan");

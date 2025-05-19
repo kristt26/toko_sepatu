@@ -31,7 +31,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="edit(item)">Edit</button>
-                                        <button type="button" class="btn btn-danger" ng-click="delete(item)">Delete</button>
+                                        <button ng-disabled="item.countStok>0" type="button" class="btn btn-danger" ng-click="delete(item)">Delete</button>
                                         <button type="button" class="btn btn-info" ng-click="setTampilan(item, 'variant')">Variant</button>
                                     </td>
                             </tbody>
@@ -69,7 +69,7 @@
                                     <td>{{item.stok}}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="editVariant(item)">Edit</button>
-                                        <button type="button" class="btn btn-danger" ng-click="deleteVariant(item)">Delete</button>
+                                        <button type="button" class="btn btn-danger" ng-click="deleteVariant(item)" ng-disabled="item.countPembelian>0">Delete</button>
                                     </td>
                             </tbody>
                         </table>
