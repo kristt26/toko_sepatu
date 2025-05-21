@@ -1,6 +1,5 @@
 <?= $this->extend('layout/info') ?>
 <?= $this->section('content') ?>
-
 <div class="container my-5" ng-controller="profileController" ng-cloak>
   <div class="row g-4">
     <div class="col-md-5">
@@ -11,7 +10,6 @@
           <h4 class="mt-2">{{datas.profile.nama}}</h4>
           <p class="text-secondary">{{datas.profile.email}}</p>
         </div>
-
         <form>
           <div class="mb-3">
             <label class="form-label">Nama Lengkap</label>
@@ -36,8 +34,6 @@
         </form>
       </div>
     </div>
-
-    <!-- Orders Section -->
     <div class="col-md-7">
       <h3 class="section-title">Riwayat Pesanan</h3>
       <div class="table-responsive">
@@ -63,7 +59,6 @@
     </div>
   </div>
 </div>
-
 <style>
   .profile-card {
     background-color: #1e1e1e;

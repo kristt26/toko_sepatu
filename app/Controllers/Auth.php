@@ -88,11 +88,7 @@ class Auth extends BaseController
 
     public function register(): \CodeIgniter\HTTP\ResponseInterface|string
     {
-
-        $a = $this->request->getMethod();
-
         if ($this->request->getMethod() === 'POST') {
-            // Validasi input
             $rules = [
                 'username' => [
                     'rules' => 'required|min_length[4]|max_length[20]|is_unique[users.username]',
@@ -141,29 +137,20 @@ class Auth extends BaseController
                     ]
                 ]
             ];
-
-            // Cek unik username manual
             $userModel = new UserModel();
             if (!$this->validate($rules)) {
                 return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
             }
-
-            // Mulai transaction
             $db = \Config\Database::connect();
             $db->transException(true)->transStart();
-
             try {
-                // Simpan data user
                 $userData = [
                     'username' => $this->request->getPost('username'),
                     'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
                     'role' => 'Customer'
                 ];
-
                 $userModel->insert($userData);
                 $userId = $userModel->getInsertID();
-
-                // Simpan data user info
                 $userInfoModel = new CustomerModel();
                 $userInfoData = [
                     'id_users' => $userId,
@@ -172,11 +159,8 @@ class Auth extends BaseController
                     'phone' => $this->request->getPost('phone'),
                     'alamat' => $this->request->getPost('alamat')
                 ];
-
                 $userInfoModel->insert($userInfoData);
-
                 $db->transComplete();
-
                 return redirect()->to(base_url('auth/register'))->with('success', 'Registrasi berhasil! Silakan login');
             } catch (\Exception $e) {
                 $db->transRollback();
@@ -184,8 +168,6 @@ class Auth extends BaseController
                 return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan server');
             }
         }
-
-        // Tampilkan form registrasi
         return view('register');
     }
     protected function findUserByUsernameOrEmail($login)

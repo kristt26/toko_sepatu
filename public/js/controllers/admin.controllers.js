@@ -1031,6 +1031,7 @@ function laporanPembelianController(
     }).then(
       function (response) {
         $scope.laporan = response.data;
+        $scope.totalPembelian = $scope.laporan.reduce((sum, item)=>sum + (parseFloat(item.harga_beli) * parseInt(item.qty)), 0);
       },
       function (error) {
         alert("Gagal mengambil data laporan");
@@ -1125,7 +1126,7 @@ function laporanPembelianController(
       .join("&");
 
     window.open(
-      helperServices.url + "admin/laporan/pembelian/cetak?" + query,
+      helperServices.url + "admin/laporan/pembelian/print?" + query,
       "_blank"
     );
   };

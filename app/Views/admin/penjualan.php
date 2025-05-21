@@ -3,20 +3,15 @@
 <div class="div" ng-controller="penjualanController">
     <div class="row">
         <div class="col-md-12" ng-show="tampil=='daftar'">
-
-            <!-- 📦 Daftar Produk -->
             <div class="kasir-card">
                 <div class="section-title">Daftar Produk</div>
                 <div class="form-row">
-                    <!-- Pencarian Nama / Kode Produk -->
                     <div class="col-md-4 mb-2">
                         <div class="form-control-search">
                             <input type="text" class="form-control" ng-model="cari" ng-change="check(cari, ukuran)" placeholder="Cari nama atau kode sepatu...">
                             <i class="fas fa-search"></i>
                         </div>
                     </div>
-
-                    <!-- Pencarian Ukuran -->
                     <div class="col-md-2 mb-2">
                         <input type="number" class="form-control" ng-model="ukuran" ng-change="check(cari, ukuran)" placeholder="Cari ukuran (misal: 42)">
                     </div>
@@ -45,8 +40,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- 🛒 Keranjang Belanja -->
             <div class="kasir-card">
                 <div class="section-title">Keranjang Belanja</div>
                 <table class="table table-bordered table-sm">
@@ -84,14 +77,11 @@
                         <div class="form-group">
                             <label>Total Belanja</label>
                             <input type="text" id="total" class="form-control" ng-model="totalBayar" mask-currency="'Rp. '" config="{group:'.',decimalSize:'0',indentation:' '}" readonly>
-
                         </div>
-
                         <div class="form-group">
                             <label>Uang Pembeli</label>
                             <input type="text" id="total" class="form-control" ng-model="uang" mask-currency="'Rp. '" config="{group:'.',decimalSize:'0',indentation:' ',decimal:''}" ng-change="setKembalian(uang)" placeholder="Masukkan Uang Pembeli" required>
                         </div>
-
                         <div class="form-group">
                             <label>Kembalian</label>
                             <input type="text" id="kembalian" ng-model="kembalian" mask-currency="'Rp. '" config="{group:'.',decimalSize:'0',indentation:' ',decimal:''}" class="form-control" readonly>
@@ -112,13 +102,9 @@
                     <hr>
                     <p class="text-center">Terima kasih telah berbelanja!</p>
                 </div>
-
-
             </div>
         </div>
-
     </div>
-
 </div>
 <style>
     .kasir-card {

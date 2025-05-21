@@ -22,65 +22,26 @@ class Laporan extends BaseController
     {
         $post = $this->request->getJSON(true);
 
-        // $tipePeriode = $post['tipePeriode'] ?? 'range'; // default harian
-        // $dari = '';
-        // $sampai = '';
-
-        // // Tangani periode berdasarkan tipe
-        // switch ($tipePeriode) {
-        //     case 'bulanan':
-        //         $bulanTahun = $post['bulan_tahun'] ?? ''; // contoh: 2024-05
-        //         if (preg_match('/^\d{4}-\d{2}$/', $bulanTahun)) {
-        //             [$tahun, $bulan] = explode('-', $bulanTahun);
-        //             $dari = "$tahun-$bulan-01";
-        //             $sampai = date('Y-m-t', strtotime($dari)); // otomatis dapat akhir bulan
-        //         }
-        //         break;
-
-        //     case 'tahunan':
-        //         $tahun = $post['tahun'] ?? '';
-        //         if (preg_match('/^\d{4}$/', $tahun)) {
-        //             $dari = "$tahun-01-01";
-        //             $sampai = "$tahun-12-31";
-        //         }
-        //         break;
-
-        //     case 'range':
-        //     default:
-        //     break;
-        // }
-
         $dari = $post['dari_tanggal'] ?? '';
         $sampai = $post['sampai_tanggal'] ?? '';
         $status = $post['status'] ?? '';
         $metode = $post['metode_bayar'] ?? '';
-
         $db = \Config\Database::connect();
         $builder = $db->table('order o');
         $builder->select('o.id_order, o.kode_order AS invoice, o.tanggal_order AS tanggal, c.nama AS customer, p.metode_bayar, o.status, o.total');
         $builder->join('customer c', 'c.id_customer = o.id_customer', 'left');
         $builder->join('pembayaran p', 'p.id_order = o.id_order', 'left');
-
         if ($dari && $sampai && strtotime($dari) && strtotime($sampai)) {
             $builder->where("DATE(o.tanggal_order) >=", $dari);
             $builder->where("DATE(o.tanggal_order) <=", $sampai);
         }
-
-        if ($status) {
-            $builder->where("o.status", $status);
-        }
-
-        if ($metode) {
-            $builder->where("p.metode_bayar", $metode);
-        }
-
+        if ($status) $builder->where("o.status", $status);
+        if ($metode) $builder->where("p.metode_bayar", $metode);
         $builder->orderBy('o.tanggal_order', 'DESC');
-        // echo $builder->getCompiledSelect();
         $data = $builder->get()->getResult();
-        // return $this->response->setJSON($query);
-
         return $this->response->setJSON($data);
     }
+    
     public function excel()
     {
         $dari = $this->request->getGet('dari_tanggal');

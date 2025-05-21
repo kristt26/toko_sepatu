@@ -11,6 +11,7 @@
                 <button type="button" class="btn btn-secondary btn-sm" ng-click="cetak()">
                     <i class="bi bi-printer-fill"></i> Cetak
                 </button>
+                <span class="float-right"><h4><strong>Total Pembelian Rp. {{totalPembelian | number}}</strong></h4></span>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">

@@ -3,21 +3,14 @@
 
 <div class="container py-5" ng-controller="detailController" ng-cloak>
   <div class="row">
-    <!-- Gambar Produk + Keterangan di bawahnya -->
     <div class="col-md-6">
       <img src="/assets/gambar/{{datas.variant[0].gambar}}" alt="{{datas.nama_produk}}" class="img-fluid rounded">
-      <p class="mt-3" ng-bind-html="datas.keterangan"></p> <!-- pindah ke sini -->
+      <p class="mt-3" ng-bind-html="datas.keterangan"></p>
     </div>
-
-    <!-- Detail Produk (tanpa keterangan) -->
     <div class="col-md-6">
       <h1 class="mb-3">{{datas.nama_produk}}</h1>
       <h4 class="text-danger mb-3">Rp {{datas.harga | number}}</h4>
-
-      <!-- Stok Tersedia -->
       <p class="text-success mb-4">Stok Tersedia: {{selectedSize && selectedColor && (totalStock == null || totalStock <=0) ? 'Habis' : totalStock}}</p>
-
-      <!-- Pilihan Variant -->
       <div class="mb-3">
         <label class="form-label">Pilih Ukuran:</label>
         <div class="d-flex gap-2 flex-wrap">
@@ -29,7 +22,6 @@
           </button>
         </div>
       </div>
-
       <div class="mb-3">
         <label class="form-label">Pilih Warna:</label>
         <div class="d-flex gap-2 flex-wrap">
@@ -41,14 +33,10 @@
           </button>
         </div>
       </div>
-
-      <!-- Input Kuantitas -->
       <div class="mb-3">
         <label class="form-label">Jumlah:</label>
         <input type="number" class="form-control w-25" ng-model="quantity" min="1" placeholder="1">
       </div>
-
-      <!-- Tombol Aksi -->
       <div class="d-flex gap-3">
         <button class="btn btn-primary" ng-click="addToCart()">
           <i class="bi bi-cart-plus-fill me-1"></i> Tambah ke Keranjang
@@ -60,6 +48,4 @@
     </div>
   </div>
 </div>
-
-
 <?= $this->endSection() ?>

@@ -2,16 +2,10 @@
 <?= $this->section('content') ?>
 <div ng-controller="detailPesananController">
     <div class="container py-5">
-
-        <!-- Judul -->
         <div class="text-center mb-5">
             <h1 class="fw-bold text-warning">📦 Informasi Pesanan</h1>
             <p class="text-muted">Terima kasih telah berbelanja di <strong class="text-white">Snikers Jayapura</strong>! Berikut detail pesanan Anda.</p>
         </div>
-
-
-        <!-- Informasi Order -->
-        <!-- Informasi Order Ringkas -->
         <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3 rounded mb-4 shadow-sm">
             <div>
                 <p class="mb-1"><strong>No. Pesanan:</strong> {{datas.order.kode_order}}</p>
@@ -30,11 +24,7 @@
                 </span>
             </div>
         </div>
-
-
         <div class="row">
-
-            <!-- Informasi Pelanggan -->
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-gradient bg-primary text-white rounded-top">
@@ -56,8 +46,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Ringkasan Pesanan -->
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-gradient bg-warning text-dark rounded-top">
@@ -69,8 +57,6 @@
                             <strong>Total Bayar:</strong> <span class="text-info fw-bold">Rp {{convert(datas.order.total) + convert(datas.order.harga_kirim) | number}}</span>
                             <button type="button" class="btn btn-sm btn-outline-secondary ms-2" ng-click="copyRek(convert(datas.order.total) + convert(datas.order.harga_kirim))">Copy</button>
                         </p>
-
-                        <!-- Info Rekening -->
                         <div class="mt-4 p-3 border rounded bg-light">
                             <h6 class="mb-3">Transfer ke:</h6>
                             <p class="mb-1">🏦 <strong>{{datas.toko.bank}}</strong></p>
@@ -84,7 +70,6 @@
                 </div>
             </div>
         </div>
-        <!-- Detail Produk -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-gradient bg-secondary text-white rounded-top">
                 <h5 class="mb-0">🛒 Detail Produk</h5>
@@ -120,8 +105,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Upload Bukti Transfer -->
         <div class="card border-0 shadow-sm mb-4" ng-if="datas.order.pembayaran.metode_bayar == 'Transfer' && (datas.order.status !='Batal' && datas.order.status !='Paid')">
             <div class="card-header bg-gradient bg-info text-white rounded-top d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">📤 Unggah Bukti Transfer</h5>
@@ -132,7 +115,6 @@
             <div class="card-body">
                 <form id="formProof" ng-submit="uploadProof()">
                     <div class="row">
-                        <!-- Input Bukti Pembayaran -->
                         <div class="col-md-6 mb-3">
                             <label for="proof" class="form-label">Bukti Pembayaran</label>
                             <input type="file" class="form-control" id="customFile" accept="image/*" ng-model="model.berkas" base-sixty-four-input>
@@ -140,8 +122,6 @@
                             <img ng-show="model.berkas" class="img-fluid" style="border: 5px solid #555" data-ng-src="data:{{model.berkas.filetype}};base64,{{model.berkas.base64}}" width="30%">
                             <div class="clearfix"></div>
                         </div>
-
-                        <!-- Input Tanggal Transfer -->
                         <div class="col-md-6 mb-3">
                             <label for="transferDate" class="form-label">Tanggal Transfer</label>
                             <input type="datetime-local" id="transferDate" class="form-control" ng-model="model.tanggal_bayar" required>
@@ -150,10 +130,6 @@
                 </form>
             </div>
         </div>
-
-
-
-        <!-- Tombol Kembali -->
         <div class="text-center mt-4">
             <a href="/" class="btn btn-outline-warning btn-lg rounded-pill">
                 <i class="bi bi-arrow-left-circle me-2"></i>Beranda

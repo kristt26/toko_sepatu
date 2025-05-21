@@ -1,7 +1,6 @@
 <?= $this->extend('layout/info') ?>
 <?= $this->section('content') ?>
 <div class="container mt-5" ng-controller="produkController">
-  <!-- Header: Produk Terlaris + Pencarian -->
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
     <h2 class="fw-bold text-warning mb-3 mb-md-0">PRODUK TERLARIS</h2>
     <div class="search-box">
@@ -10,8 +9,6 @@
     </div>
   </div>
   <div class="row">
-
-    <!-- Produk 1 -->
     <div class="col-md-3 col-sm-6 mb-4" ng-repeat="item in datas | limitTo: 8 | filter: cari">
       <div class="card h-100 bg-dark text-light border-warning">
         <img src="/assets/gambar/{{item.gambar}}" class="card-img-top" style="object-fit: cover; height: 200px;" alt="Produk 1">
@@ -29,8 +26,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal Produk 1 -->
     <div class="modal fade" id="modalProduk1" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content bg-dark text-light">
@@ -47,8 +42,6 @@
       </div>
     </div>
   </div>
-
-
 </div>
 <style>
   .search-box {

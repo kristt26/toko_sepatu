@@ -5,7 +5,6 @@
   <div class="container py-5" ng-show="tampil== 'checkout'">
     <h1 class="mb-4 text-center">Checkout</h1>
     <div class="row">
-      <!-- Detail Produk -->
       <div class="col-md-8">
         <div class="card mb-4">
           <div class="card-header bg-warning text-white">
@@ -30,8 +29,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Form Pembayaran -->
       <div class="col-md-4">
         <div class="card">
           <div class="card-header bg-success text-white">

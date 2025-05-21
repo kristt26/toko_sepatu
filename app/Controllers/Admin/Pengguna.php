@@ -25,7 +25,7 @@ class Pengguna extends BaseController
         $data = $this->pengguna->asArray()
             ->select('customer.*, users.username, users.role')
             ->join('customer', 'customer.id_users = users.id_users', 'left')
-            ->whereNotIn('users.role', ['admin']) // harus array
+            ->whereNotIn('users.role', ['admin'])
             ->findAll();
         return $this->response->setJSON($data);
     }
