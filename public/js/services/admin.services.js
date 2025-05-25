@@ -1,6 +1,7 @@
 angular.module('admin.service', [])
     // admin
     .factory('dashboardServices', dashboardServices)
+    .factory('kategoriServices', kategoriServices)
     .factory('produkServices', produkServices)
     .factory('variantServices', variantServices)
     .factory('pembelianServices', pembelianServices)
@@ -56,8 +57,8 @@ function dashboardServices($http, $q, helperServices, AuthService) {
     }
 }
 
-function produkServices($http, $q, helperServices, AuthService, pesan) {
-    var controller = helperServices.url + 'admin/produk/';
+function kategoriServices($http, $q, helperServices, AuthService, pesan) {
+    var controller = helperServices.url + 'admin/kategori/';
     var service = {};
     service.data = [];
     return {
@@ -121,6 +122,104 @@ function produkServices($http, $q, helperServices, AuthService, pesan) {
                     data.kode_kerusakan = param.kode_kerusakan;
                     data.kerusakan = param.kerusakan;
                     data.bobot = param.bobot;
+                }
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function deleted(param) {
+        var def = $q.defer();
+        $http({
+            method: 'delete',
+            url: controller + "/delete/" + param.id_produk,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.message)
+            }
+        );
+        return def.promise;
+    }
+
+}
+
+function produkServices($http, $q, helperServices, AuthService, pesan) {
+    var controller = helperServices.url + 'admin/produk/';
+    var service = {};
+    service.data = [];
+    return {
+        get: get,
+        post: post,
+        put: put,
+        deleted: deleted
+    };
+
+    function get() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + 'read',
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                pesan.error(err.data.message);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function post(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + 'add',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data.push(res.data);
+                def.resolve(res.data);
+            },
+            (err) => {
+                $.LoadingOverlay('hide');
+                pesan.error(err.data.messages.error);
+                def.reject(err);
+            }
+        );
+        return def.promise;
+    }
+
+    function put(param) {
+        var def = $q.defer();
+        $http({
+            method: 'put',
+            url: controller + 'edit',
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                var data = service.data.find(x => x.id_produk == param.id_produk);
+                if (data) {
+                    data.nama_produk = param.nama_produk;
+                    data.harga = param.harga;
+                    data.keterangan = param.keterangan;
+                    data.id_kategori = param.id_kategori;
+                    data.nama_kategori = param.nama_kategori;
+                    data.gender = param.gender;
                 }
                 def.resolve(res.data);
             },

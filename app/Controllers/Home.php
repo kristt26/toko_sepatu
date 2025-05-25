@@ -93,12 +93,13 @@ class Home extends BaseController
     function read(): ResponseInterface
     {
         $produk = $this->produk
-            ->select('produk.*, 
+            ->select('produk.*, kategori.nama_kategori, kategori.gender, 
               MAX(variant.ukuran) AS ukuran, 
               MAX(variant.warna) AS warna, 
               MAX(variant.stok) AS stok, 
               MAX(variant.gambar) AS gambar, 
               SUM(order_item.qty) AS total_terjual')
+            ->join('kategori', 'kategori.id_kategori=produk.id_kategori', 'left')
             ->join('variant', 'variant.id_produk = produk.id_produk', 'left')
             ->join('order_item', 'variant.id_variant = order_item.id_variant', 'left')
             ->groupBy('produk.id_produk')
@@ -205,11 +206,12 @@ class Home extends BaseController
     function readProduk(): ResponseInterface
     {
         $produk = $this->produk
-            ->select('produk.*, 
+            ->select('produk.*, kategori.nama_kategori, kategori.gender, 
               MAX(variant.ukuran) AS ukuran, 
               MAX(variant.warna) AS warna, 
               MAX(variant.stok) AS stok, 
               MAX(variant.gambar) AS gambar')
+            ->join('kategori', 'kategori.id_kategori=produk.id_kategori', 'left')
             ->join('variant', 'variant.id_produk = produk.id_produk', 'left')
             ->join('order_item', 'variant.id_variant = order_item.id_variant', 'left')
             ->groupBy('produk.id_produk')

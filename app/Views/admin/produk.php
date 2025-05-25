@@ -13,6 +13,7 @@
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
+                                    <th>Nama Kategori</th>
                                     <th>Nama Produk</th>
                                     <th>Harga</th>
                                     <th>Total Stok</th>
@@ -22,6 +23,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in datas track by $index">
+                                    <td>{{item.nama_kategori + ' ' + item.gender}}</td>
                                     <td>{{item.nama_produk}}</td>
                                     <td>{{item.harga | currency: 'Rp. '}}</td>
                                     <td>{{item.totalStok}}</td>
@@ -88,6 +90,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
+                            <div class="form-group col">
+                                <label class="form-label">Kategori</label>
+                                <select class="form-control" ng-model="kategori" ng-options="item as (item.nama_kategori + ' ' + item.gender) for item in kategoris" required ng-change="model.id_kategori=kategori.id_kategori;model.nama_kategori = kategori.nama_kategori;model.gender=kategori.gender" required>
+                                    <option value="">Pilih Kategori</option>
+                                </select>
+                                <div class="clearfix"></div>
+                            </div>
                             <div class="form-group col">
                                 <label class="form-label">Nama Produk</label>
                                 <input type="text" class="form-control" placeholder="Nama Produk" ng-model="model.nama_produk" required>

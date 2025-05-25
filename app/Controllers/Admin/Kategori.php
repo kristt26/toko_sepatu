@@ -5,34 +5,29 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Produk extends BaseController
+class Kategori extends BaseController
 {
-    protected $produk;
-    protected $lib;
+    protected $kategori;
     public function __construct() {
-        $this->produk = new \App\Models\ProdukModel();
-        $this->lib = new \App\Libraries\Decode();
-        
+        $this->kategori = new \App\Models\KategoriModel();
     }
 
     public function index(): string
     {
-        return view('admin/produk');
+        return view('admin/kategori');
     }
 
     public function store() 
     {
-        $data = $this->produk->select("produk.*, kategori.nama_kategori, kategori.gender, (SELECT SUM(variant.stok) FROM variant WHERE variant.id_produk = produk.id_produk) AS totalStok, (SELECT COUNT(*) FROM variant WHERE variant.id_produk = produk.id_produk) AS countStok")
-        ->join('kategori', 'kategori.id_kategori=produk.id_kategori', 'left')->findAll();
-        return $this->response->setJSON($data);
+        return $this->response->setJSON($this->kategori->findAll());
     }
 
     function add() : ResponseInterface
     {
         $param = $this->request->getJSON();
         try {
-            $this->produk->insert($param);
-            $param->id_produk = $this->produk->insertID();
+            $this->kategori->insert($param);
+            $param->id_kategori = $this->kategori->insertID();
             return $this->response->setJSON($param);
         } catch (\Throwable $th) {
             return $this->response->setJSON([
@@ -46,7 +41,7 @@ class Produk extends BaseController
     {
         $param = $this->request->getJSON();
         try {
-            $this->produk->update($param->id_produk, $param);
+            $this->kategori->update($param->id_kategori, $param);
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Data berhasil diubah'
@@ -62,7 +57,7 @@ class Produk extends BaseController
     function delete($id = null) : ResponseInterface
     {
         try {
-            $this->produk->delete($id);
+            $this->kategori->delete($id);
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Data berhasil dihapus'

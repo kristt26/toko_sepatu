@@ -8,6 +8,7 @@
       <i class="bi bi-search"></i>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-3 col-sm-6 mb-4" ng-repeat="item in datas | limitTo: 8 | filter: cari">
       <div class="card h-100 bg-dark text-light border-warning">
@@ -15,6 +16,12 @@
         <div class="card-body">
           <h5 class="card-title">{{item.nama_produk}}</h5>
           <p class="card-text text-warning fw-bold">Rp {{item.harga | number}}</p>
+          <p class="card-text mb-0" style="color: #ccc;">
+            <small><strong>Kategori:</strong> {{item.nama_kategori}}</small>
+          </p>
+          <p class="card-text" style="color: #ccc;">
+            <small><strong>Gender:</strong> {{item.gender}}</small>
+          </p>
         </div>
         <div class="card-footer bg-transparent border-0 d-flex gap-2" style="margin-top: -8px !important;">
           <button class="btn btn-warning w-50" ng-click="descripsi(item)">
@@ -26,6 +33,7 @@
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="modalProduk1" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content bg-dark text-light">
@@ -43,6 +51,7 @@
     </div>
   </div>
 </div>
+
 <style>
   .search-box {
     width: 616px;

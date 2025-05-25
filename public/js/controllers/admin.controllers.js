@@ -2,6 +2,7 @@ angular
   .module("adminctrl", [])
   // Admin
   .controller("dashboardController", dashboardController)
+  .controller("kategoriController", kategoriController)
   .controller("produkController", produkController)
   .controller("pembelianController", pembelianController)
   .controller("penjualanController", penjualanController)
@@ -19,7 +20,61 @@ function dashboardController($scope, dashboardServices) {
   $scope.title = "Beranda";
 }
 
-function produkController($scope, produkServices, variantServices, pesan) {
+function kategoriController($scope, kategoriServices, pesan) {
+  $scope.$emit("SendUp", "Service Area");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  $scope.tampil = "produk";
+  kategoriServices.get().then((res) => {
+    $scope.datas = res;
+  });
+
+  $scope.save = () => {
+    pesan
+      .dialog("Apakah anda yakin ingin menambah data?", "Ya", "Tidak", "info")
+      .then((res) => {
+        if (!$scope.model.id_area) {
+          kategoriServices.post($scope.model).then((res) => {
+            $scope.model = {};
+            pesan.Success("Data berhasil disimpan", "Success", "info");
+          });
+        } else {
+          kategoriServices.put($scope.model).then((res) => {
+            $scope.model = {};
+            pesan.Success("Data berhasil disimpan", "Success", "info");
+          });
+        }
+      });
+  };
+
+  $scope.edit = (param) => {
+    $scope.model = angular.copy(param);
+  };
+
+  $scope.delete = (param) => {
+    pesan
+      .dialog(
+        "Apakah anda yakin ingin menghapus data ini?",
+        "Hapus",
+        "Tidak",
+        "warning"
+      )
+      .then((res) => {
+        kategoriServices.deleted(param).then((res) => {
+          pesan.Success("Data berhasil dihapus", "Success", "info");
+        });
+      });
+  };
+}
+
+function produkController(
+  $scope,
+  produkServices,
+  variantServices,
+  pesan,
+  kategoriServices
+) {
   $scope.$emit("SendUp", "Produk");
   $scope.datas = [];
   $scope.title = "Beranda";
@@ -30,19 +85,23 @@ function produkController($scope, produkServices, variantServices, pesan) {
     $scope.itemProduk = item;
     variantServices.get(item.id_produk).then((res) => {
       $scope.variant = res;
-      $scope.variant.map(function(item, index){
-        return item.countPembelian = parseInt(item.countPembelian);
-      })
+      $scope.variant.map(function (item, index) {
+        return (item.countPembelian = parseInt(item.countPembelian));
+      });
       $scope.tampil = param;
       console.log(res);
     });
   };
 
+  kategoriServices.get().then((res) => {
+    $scope.kategoris = res;
+  });
+
   produkServices.get().then((res) => {
     $scope.datas = res;
     $scope.datas.map(function (item, index) {
       // lakukan sesuatu dengan item
-      return item.countStok = parseInt(item.countStok);
+      return (item.countStok = parseInt(item.countStok));
     });
   });
 
@@ -50,12 +109,11 @@ function produkController($scope, produkServices, variantServices, pesan) {
     $scope.tampil = "produk";
     $scope.itemProduk = {};
     $scope.variant = [];
-    $('#modals-default').on('shown.bs.modal', function () {
-      if (!tinymce.get('keterangan')) {
-        tinymce.init({ selector: '#keterangan', /* config */ });
+    $("#modals-default").on("shown.bs.modal", function () {
+      if (!tinymce.get("keterangan")) {
+        tinymce.init({ selector: "#keterangan" /* config */ });
       }
     });
-
   };
 
   $scope.save = (param) => {
@@ -484,20 +542,19 @@ function penggunaController($scope, pesan, penggunaServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model = {};
-  penggunaServices.get().then((res)=>{
+  penggunaServices.get().then((res) => {
     $scope.datas = res;
     console.log(res);
-    
-  })
+  });
 
-  $scope.save = ()=>{
-    $("#modals-default").modal('hide');
-    pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then(x=>{
-      penggunaServices.post($scope.model).then(res=>{
+  $scope.save = () => {
+    $("#modals-default").modal("hide");
+    pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then((x) => {
+      penggunaServices.post($scope.model).then((res) => {
         $scope.model = {};
-      })
-    })
-  }
+      });
+    });
+  };
 }
 
 function orderController($scope, orderServices, pesan) {
@@ -767,7 +824,6 @@ function laporanPenjualanController(
       function (response) {
         $scope.laporan = response.data;
         console.log(response.data);
-
       },
       function (error) {
         alert("Gagal mengambil data laporan");
@@ -1031,7 +1087,10 @@ function laporanPembelianController(
     }).then(
       function (response) {
         $scope.laporan = response.data;
-        $scope.totalPembelian = $scope.laporan.reduce((sum, item)=>sum + (parseFloat(item.harga_beli) * parseInt(item.qty)), 0);
+        $scope.totalPembelian = $scope.laporan.reduce(
+          (sum, item) => sum + parseFloat(item.harga_beli) * parseInt(item.qty),
+          0
+        );
       },
       function (error) {
         alert("Gagal mengambil data laporan");
@@ -1137,9 +1196,12 @@ function penjualanHariIniController($scope, pesan, orderServices) {
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model = {};
-  orderServices.thisDay().then((res)=>{
+  orderServices.thisDay().then((res) => {
     $scope.datas = res;
-    $scope.totalPenjualan = $scope.datas.reduce((sum, item)=>sum + parseFloat(item.total), 0)
+    $scope.totalPenjualan = $scope.datas.reduce(
+      (sum, item) => sum + parseFloat(item.total),
+      0
+    );
     console.log(res);
-  })
+  });
 }

@@ -42,6 +42,14 @@ $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
 // $routes->get('admin/toko', 'Admin\Home::toko');
 $routes->group('admin', function ($routes) {
+    $routes->group('kategori', function ($routes) {
+        $routes->get('/', 'Admin\Kategori::index');
+        $routes->get('read', 'Admin\Kategori::store');
+        $routes->post('add', 'Admin\Kategori::add');
+        $routes->put('edit', 'Admin\Kategori::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Kategori::delete/$1');
+    });
+
     $routes->group('produk', function ($routes) {
         $routes->get('/', 'Admin\Produk::index');
         $routes->get('read', 'Admin\Produk::store');

@@ -10,18 +10,25 @@
       <i class="bi bi-search"></i>
     </div>
   </div>
+
   <div class="container pb-5">
     <div class="row g-4">
       <div class="col-md-3" ng-repeat="item in datas | limitTo: 4 | filter: cari">
-        <div class="card card-product">
+        <div class="card card-product h-100">
           <a href="/detail/{{item.id_produk}}">
-            <img src="/assets/gambar/{{item.gambar}}" alt="Sepatu 1">
+            <img src="/assets/gambar/{{item.gambar}}" alt="{{item.nama_produk}}" class="card-img-top">
           </a>
           <div class="card-body">
             <a href="/detail/{{item.id_produk}}">
               <h5 class="card-title">{{item.nama_produk}}</h5>
             </a>
-            <p class="card-text">Rp {{item.harga | number}}</p>
+            <p class="card-text mb-1"><strong>Rp {{item.harga | number}}</strong></p>
+            <p class="card-text text-secondary mb-0">
+              <small><strong>Kategori:</strong> {{item.nama_kategori}}</small>
+            </p>
+            <p class="card-text text-secondary">
+              <small><strong>Gender:</strong> {{item.gender}}</small>
+            </p>
           </div>
         </div>
       </div>
