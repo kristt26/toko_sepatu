@@ -23,7 +23,7 @@ class AuthFilters implements FilterInterface
         $userRoles = array_map('trim', $userRoles); // hapus spasi
 
         // Role yang diperbolehkan dari $arguments
-        $allowedRoles = $arguments; // contoh: ['admin', 'editor']
+        $allowedRoles = is_array($arguments) ? $arguments : []; // contoh: ['admin', 'editor']
 
         // Cek apakah ada peran yang cocok
         $hasAccess = false;
