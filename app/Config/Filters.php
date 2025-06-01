@@ -76,8 +76,9 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
-            // 'honeypot',
-            // 'secureheaders',
+            'auth' => [
+                'before' => ['admin/*', 'customer/*', 'kasir/*'],
+            ],
         ],
     ];
 
