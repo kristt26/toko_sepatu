@@ -1,7 +1,95 @@
 <?= $this->extend('layout/info') ?>
 <?= $this->section('content') ?>
 <div class="container my-5" ng-controller="profileController" ng-cloak>
-  <div class="row g-4">
+
+  <!-- Tab Navigation (Mobile Only) -->
+  <ul class="nav nav-tabs d-md-none mb-3" id="profileTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="profil-tab" data-bs-toggle="tab" data-bs-target="#profilTab" type="button" role="tab">
+        Profil Saya
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pesanan-tab" data-bs-toggle="tab" data-bs-target="#pesananTab" type="button" role="tab">
+        Riwayat Pesanan
+      </button>
+    </li>
+  </ul>
+
+  <!-- MOBILE: Tab Content -->
+  <div class="tab-content d-md-none" id="profileTabContent">
+    <!-- Profil -->
+    <div class="tab-pane fade show active" id="profilTab" role="tabpanel">
+      <div class="profile-card p-4">
+        <div class="text-center mb-4">
+          <i class="bi bi-person-circle" style="font-size: 5rem; color: #f4c10f;"></i>
+          <h4 class="mt-2">{{datas.profile.nama}}</h4>
+          <p class="text-secondary">{{datas.profile.email}}</p>
+        </div>
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" ng-model="model.nama" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" ng-model="model.email" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Alamat</label>
+            <textarea class="form-control" rows="3" ng-model="model.alamat"></textarea>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-warning">
+              <i class="bi bi-save me-1"></i>Simpan Perubahan
+            </button>
+            <button type="button" class="btn btn-outline-light">
+              <i class="bi bi-box-arrow-right me-1"></i>Keluar Akun
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Riwayat Pesanan -->
+    <div class="tab-pane fade" id="pesananTab" role="tabpanel">
+      <div class="table-responsive mt-4">
+        <table class="table table-bordered align-middle table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tanggal</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in datas.order" ng-click="detailPesanan(item)">
+              <td>{{item.kode_order}}</td>
+              <td>{{(item.tanggal_order | toDate) | date: 'd MMMM y'}}</td>
+              <td>{{(item.total | toDouble) + (item.harga_kirim | toDouble)}}</td>
+              <td>
+                <span class="badge"
+                  ng-class="{
+                    'bg-secondary': item.status=='Pending',
+                    'bg-primary': item.status=='Paid',
+                    'bg-warning': item.status=='Proses',
+                    'bg-info': item.status=='Terkirim',
+                    'bg-danger': item.status=='Batal'
+                  }">
+                  {{item.status}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESKTOP: Profil dan Pesanan Side by Side -->
+  <div class="row d-none d-md-flex g-4">
+    <!-- Kartu Profil -->
     <div class="col-md-5">
       <h3 class="section-title">Profil Saya</h3>
       <div class="profile-card p-4">
@@ -34,6 +122,8 @@
         </form>
       </div>
     </div>
+
+    <!-- Tabel Pesanan -->
     <div class="col-md-7">
       <h3 class="section-title">Riwayat Pesanan</h3>
       <div class="table-responsive">
@@ -51,20 +141,31 @@
               <td>{{item.kode_order}}</td>
               <td>{{(item.tanggal_order | toDate) | date: 'd MMMM y'}}</td>
               <td>{{(item.total | toDouble) + (item.harga_kirim | toDouble)}}</td>
-              <td><span class="badge" ng-class="{'bg-secondary': item.status=='Pending', 'bg-primary': item.status=='Paid', 'bg-warning': item.status=='Proses', 'bg-info': item.status=='Terkirim', 'bg-danger': item.status=='Batal'}">{{item.status}}</span></td>
+              <td>
+                <span class="badge"
+                  ng-class="{
+                    'bg-secondary': item.status=='Pending',
+                    'bg-primary': item.status=='Paid',
+                    'bg-warning': item.status=='Proses',
+                    'bg-info': item.status=='Terkirim',
+                    'bg-danger': item.status=='Batal'
+                  }">
+                  {{item.status}}
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+
 </div>
+
 <style>
   .profile-card {
     background-color: #1e1e1e;
-    border: none;
     border-radius: 15px;
-    padding: 30px;
     color: #eee;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
@@ -118,14 +219,6 @@
 
   .badge {
     font-size: 0.9rem;
-  }
-
-
-  /* Responsive */
-  @media (max-width: 767px) {
-    .profile-card {
-      margin-bottom: 30px;
-    }
   }
 </style>
 <?= $this->endSection() ?>

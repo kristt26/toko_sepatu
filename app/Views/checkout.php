@@ -70,7 +70,7 @@
     </div>
   </div>
   <style>
-    .text-muted{
+    .text-muted {
       color: rgb(255 146 65 / 75%) !important;
     }
   </style>
@@ -83,5 +83,33 @@
     }
   </script>
 </div>
+
+<style>
+  @media (max-width: 767.98px) {
+    .card-body .d-flex.align-items-center {
+      flex-wrap: wrap;
+    }
+
+    .card-body .d-flex.align-items-center img.img-thumbnail {
+      width: 80px !important;
+      height: 80px !important;
+      margin-bottom: 10px;
+    }
+
+    .card-body .d-flex.align-items-center>div {
+      flex: 1 1 100%;
+    }
+
+    .card-body .d-flex.align-items-center .ms-auto {
+      width: 100%;
+      justify-content: flex-start !important;
+      margin-top: 8px;
+    }
+
+    .card-body .d-flex.align-items-center .ms-auto p {
+      margin-bottom: 0;
+    }
+  }
+</style>
 
 <?= $this->endSection() ?>

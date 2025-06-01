@@ -20,7 +20,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarElegant">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0  justify-content-center w-100">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center w-100">
           <li class="nav-item">
             <a class="nav-link <?= current_url() == base_url('/') ? 'active' : '' ?>" href="/"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
           </li>
@@ -29,10 +29,10 @@
           </li>
           <li class="nav-item">
             <a class="nav-link <?= current_url() == base_url('/checkout') ? 'active' : '' ?>" href="/checkout"><i class="bi bi-cart-fill me-1"></i>Keranjang
-            <?php if (session()->get('logged_in')) : ?>
-              <sup>
-                <span class="badge bg-danger" id="cart-count">{{keranjang.cart.length}}</span>
-              </sup>
+              <?php if (session()->get('logged_in')) : ?>
+                <sup>
+                  <span class="badge bg-danger" id="cart-count">{{keranjang.cart.length}}</span>
+                </sup>
               <?php endif; ?>
             </a>
           </li>
@@ -40,6 +40,7 @@
             <a class="nav-link <?= current_url() == base_url('/tentang') ? 'active' : '' ?>" href="/tentang"><i class="bi bi-info-circle-fill me-1"></i>Tentang</a>
           </li>
         </ul>
+
         <?php if (!session()->get('logged_in')) : ?>
           <div class="d-flex">
             <a href="/auth" class="btn btn-outline-light me-2 d-flex align-items-center"><i class="bi bi-box-arrow-in-right me-1"></i>Masuk</a>
@@ -86,16 +87,16 @@
   <script src="/libs/loading/dist/loadingoverlay.min.js"></script>
   <script src="/libs/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.js"></script>
   <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
-    <script>
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  <script>
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
 </body>
 
 </html>
