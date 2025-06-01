@@ -35,7 +35,7 @@ class AuthFilters implements FilterInterface
         }
 
         if (!$hasAccess) {
-            dd($allowedRoles);
+            dd(['argument'=>$arguments, 'role'=>$userRoleString, 'userRole'=>$userRoles]);
         }
     }
 
