@@ -35,7 +35,7 @@ class AuthFilters implements FilterInterface
         }
 
         if (!$hasAccess) {
-            return redirect()->to('/no-access');
+            dd($allowedRoles);
         }
     }
 
