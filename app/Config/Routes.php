@@ -41,7 +41,7 @@ $routes->get('tentang', 'Home::tentang');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
 // $routes->get('admin/toko', 'Admin\Home::toko');
-$routes->group('admin', ['filter' => 'auth:admin, kasir'], function ($routes) {
+$routes->group('admin', ['filter' => 'auth:admin,kasir'], function ($routes) {
     $routes->group('kategori', function ($routes) {
         $routes->get('/', 'Admin\Kategori::index');
         $routes->get('read', 'Admin\Kategori::store');

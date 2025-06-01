@@ -34,7 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'auth'          => \App\Filters\AuthFilters::class,
+        'auth' => \App\Filters\AuthFilters::class,
     ];
 
     /**
@@ -102,8 +102,6 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'auth' => [
-            'before' => ['admin/*', 'customer/*', 'kasir/*'],
-        ],
+        // hapus 'auth' di sini, supaya tidak bentrok
     ];
 }
