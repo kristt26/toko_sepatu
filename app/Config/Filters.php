@@ -76,9 +76,8 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
-            'auth' => [
-                'before' => ['admin/*', 'customer/*', 'kasir/*'],
-            ],
+            // 'honeypot',
+            // 'secureheaders',
         ],
     ];
 
@@ -109,8 +108,7 @@ class Filters extends BaseFilters
     public array $filters = [
         'auth' => [
             'before' => [
-                'admin' => ['admin'],
-                '/' => ['customer']
+                ['admin/*', 'customer/*', 'kasir/*'],
             ]
         ]
     ];
