@@ -107,9 +107,7 @@ class Filters extends BaseFilters
      */
     public array $filters = [
         'auth' => [
-            'before' => [
-                ['admin/*', 'customer/*', 'kasir/*'],
-            ]
-        ]
+            'before' => ['admin/*', 'customer/*', 'kasir/*'],
+        ],
     ];
 }
