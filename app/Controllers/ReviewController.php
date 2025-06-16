@@ -26,9 +26,9 @@ class ReviewController extends BaseController
         $model = new ReviewModel();
         $item = [
             'id_produk' => $data['id_produk'],
-            'id_users' => session('user_id') ?? 1, // sementara default
-            'id_parent' => $data['id_parent'] ?? null,
-            'rating' => $data['rating'] ?? null,
+            'id_users' => session('user_id'), // sementara default
+            'id_parent' => $data['id_parent'],
+            'rating' => $data['rating'],
             'komentar' => $data['komentar'],
         ];
         $model->insert($item);
