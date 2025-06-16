@@ -18,38 +18,46 @@ function dashboardController($scope, dashboardServices) {
   });
 }
 
-function detailController($scope, dashboardServices, pesan, AuthService, helperServices, $sce) {
-  // $scope.$emit("SendUp", "Beranda");
+function detailController(
+  $scope,
+  dashboardServices,
+  pesan,
+  AuthService,
+  helperServices,
+  $sce,
+  $http // Tambahkan $http
+) {
+  moment.locale('id');
   $scope.datas = {};
   $scope.selectedSize = null;
   $scope.selectedColor = null;
-  $scope.quantity = 1; // Default kuantitas
-  $scope.totalStock = 0; // Total stok
+  $scope.quantity = 1;
+  $scope.totalStock = 0;
 
   const productId = window.location.pathname.split("/").pop();
   console.log(productId);
+
   dashboardServices.getItem(productId).then(function (response) {
     $scope.datas = response;
     $scope.datas.keterangan = $sce.trustAsHtml($scope.datas.keterangan);
     console.log(response);
+    $scope.loadReviews(); // panggil setelah data produk tersedia
   });
+
   $scope.selectSize = function (size, color) {
     $scope.selectedSize = size;
     $scope.itemVariant = $scope.datas.variant.find(
       (x) => x.ukuran == size && x.warna == color
     );
     $scope.totalStock = $scope.itemVariant.stok;
-    console.log($scope.totalStock);
   };
 
-  // Fungsi untuk memilih warna
   $scope.selectColor = function (color, size) {
     $scope.selectedColor = color;
     $scope.itemVariant = $scope.datas.variant.find(
       (x) => x.ukuran == size && x.warna == color
     );
     $scope.totalStock = $scope.itemVariant.stok;
-    console.log($scope.itemVariant);
   };
 
   $scope.addToCart = async function () {
@@ -90,6 +98,73 @@ function detailController($scope, dashboardServices, pesan, AuthService, helperS
   $scope.checkoutNow = async function () {
     await $scope.addToCart();
     document.location.href = helperServices.url + "checkout";
+  };
+
+  // ---------- Review Handling ----------
+  $scope.reviews = [];
+  $scope.newReview = {
+    rating: 0,
+    komentar: "",
+  };
+  $scope.replyKomentar = {};
+  $scope.replyFormVisible = {};
+
+  $scope.submitReview = function () {
+    if (!$scope.newReview.rating || !$scope.newReview.komentar) {
+      pesan.dialog("Silakan isi rating dan komentar terlebih dahulu.", 'Ya', 'Tidak', 'warning').then(res=>{
+        return;
+      });
+    }
+
+    const data = {
+      id_produk: $scope.datas.id_produk,
+      rating: $scope.newReview.rating,
+      komentar: $scope.newReview.komentar,
+      id_parent: null,
+    };
+
+    $http.post("/api/review", data).then(() => {
+      $scope.newReview = { rating: 0, komentar: "" };
+      $scope.loadReviews();
+      pesan.Success("Review berhasil dikirim.");
+    });
+  };
+
+  $scope.submitReply = function (parentId) {
+    if (!$scope.replyKomentar[parentId]) {
+      pesan.Warning("Balasan tidak boleh kosong.");
+      return;
+    }
+
+    const data = {
+      id_produk: $scope.datas.id_produk,
+      komentar: $scope.replyKomentar[parentId],
+      id_parent: parentId,
+    };
+
+    $http.post("/api/review", data).then(() => {
+      $scope.replyKomentar[parentId] = "";
+      $scope.replyFormVisible[parentId] = false;
+      $scope.loadReviews();
+      pesan.Success("Balasan dikirim.");
+    });
+  };
+
+  $scope.toggleReplyForm = function (id) {
+    $scope.replyFormVisible[id] = !$scope.replyFormVisible[id];
+  };
+
+  $scope.setRating = function (rate) {
+    $scope.newReview.rating = rate;
+  };
+
+  $scope.loadReviews = function () {
+    if (!$scope.datas.id_produk) return;
+    $http.get("/api/review/" + $scope.datas.id_produk).then((res) => {
+      $scope.reviews = res.data;
+      console.log($scope.reviews);
+      
+    });
   };
 }
 
@@ -187,7 +262,7 @@ function detailPesananController(
   $scope.convert = (param) => {
     return parseFloat(param);
   };
-  
+
   $scope.copyRek = (param) => {
     navigator.clipboard.writeText(param);
     pesan.Success("Data disalin!");

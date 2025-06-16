@@ -5,6 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->get('api/review/(:num)', 'ReviewController::index/$1');
+$routes->post('api/review', 'ReviewController::create');
 $routes->group('profile', function ($routes) {
     $routes->get('/', 'Profile::index');
     $routes->get('read', 'Profile::store');

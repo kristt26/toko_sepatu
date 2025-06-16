@@ -63,6 +63,7 @@ class Auth extends BaseController
                 $userInfo = $userInfoModel->where('id_users', $user->id_users)->first();
                 $session->set([
                     'id_customer' => $userInfo->id_customer,
+                    'nama' => $userInfo->nama,
                 ]);
             }
 
