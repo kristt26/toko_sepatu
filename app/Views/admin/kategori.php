@@ -53,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in datas track by $index  | orderBy:'-id_kategori'">
+                                <tr ng-repeat="item in datas | orderBy:'-id_kategori' track by $index">
                                     <td>{{$index+1}}</td>
                                     <td>{{item.nama_kategori}}</td>
                                     <td>{{item.gender}}</td>
