@@ -14,8 +14,21 @@ function dashboardController($scope, dashboardServices) {
   $scope.title = "Beranda";
   dashboardServices.get().then(function (response) {
     $scope.datas = response;
+    $scope.dataTampil = $scope.datas;
     console.log(response);
   });
+
+  $scope.find = (param) => {
+    const keyword = param.toLowerCase();
+
+    $scope.dataTampil = $scope.datas.filter(
+      (x) =>
+        (x.nama_kategori && x.nama_kategori.toLowerCase().includes(keyword)) ||
+        (x.nama_produk && x.nama_produk.toLowerCase().includes(keyword)) ||
+        (x.gender && x.gender.toLowerCase().includes(keyword)) ||
+        (x.warna && x.warna.toLowerCase().includes(keyword))
+    );
+  };
 }
 
 function detailController(
@@ -27,7 +40,7 @@ function detailController(
   $sce,
   $http // Tambahkan $http
 ) {
-  moment.locale('id');
+  moment.locale("id");
   $scope.datas = {};
   $scope.selectedSize = null;
   $scope.selectedColor = null;
@@ -111,9 +124,16 @@ function detailController(
 
   $scope.submitReview = function () {
     if (!$scope.newReview.rating || !$scope.newReview.komentar) {
-      pesan.dialog("Silakan isi rating dan komentar terlebih dahulu.", 'Ya', 'Tidak', 'warning').then(res=>{
-        return;
-      });
+      pesan
+        .dialog(
+          "Silakan isi rating dan komentar terlebih dahulu.",
+          "Ya",
+          "Tidak",
+          "warning"
+        )
+        .then((res) => {
+          return;
+        });
     }
 
     const data = {
@@ -163,7 +183,6 @@ function detailController(
     $http.get("/api/review/" + $scope.datas.id_produk).then((res) => {
       $scope.reviews = res.data;
       console.log($scope.reviews);
-      
     });
   };
 }
