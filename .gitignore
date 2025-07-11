@@ -55,6 +55,7 @@ writable/logs/*
 !writable/logs/index.html
 
 writable/session/*
+public/assets/gambar/*
 !writable/session/index.html
 
 writable/uploads/*
