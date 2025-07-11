@@ -116,33 +116,35 @@
   <!-- ULASAN PRODUK -->
   <hr class="mt-5 mb-4">
   <h4>Ulasan Pengguna</h4>
-
-  <!-- Form Ulasan -->
-  <form ng-submit="submitReview()" class="mb-4">
-    <div class="mb-3">
-      <label class="form-label">Rating:</label>
-      <div class="rating-input">
-        <i class="fa-star" ng-class="{'fas': newReview.rating >= 1, 'far': newReview.rating < 1}" ng-click="newReview.rating = 1"></i>
-        <i class="fa-star" ng-class="{'fas': newReview.rating >= 2, 'far': newReview.rating < 2}" ng-click="newReview.rating = 2"></i>
-        <i class="fa-star" ng-class="{'fas': newReview.rating >= 3, 'far': newReview.rating < 3}" ng-click="newReview.rating = 3"></i>
-        <i class="fa-star" ng-class="{'fas': newReview.rating >= 4, 'far': newReview.rating < 4}" ng-click="newReview.rating = 4"></i>
-        <i class="fa-star" ng-class="{'fas': newReview.rating >= 5, 'far': newReview.rating < 5}" ng-click="newReview.rating = 5"></i>
+  
+  <?php if (session()->get('logged_in')): ?>
+    <!-- Form Ulasan -->
+    <form ng-submit="submitReview()" class="mb-4">
+      <div class="mb-3">
+        <label class="form-label">Rating:</label>
+        <div class="rating-input">
+          <i class="fa-star" ng-class="{'fas': newReview.rating >= 1, 'far': newReview.rating < 1}" ng-click="newReview.rating = 1"></i>
+          <i class="fa-star" ng-class="{'fas': newReview.rating >= 2, 'far': newReview.rating < 2}" ng-click="newReview.rating = 2"></i>
+          <i class="fa-star" ng-class="{'fas': newReview.rating >= 3, 'far': newReview.rating < 3}" ng-click="newReview.rating = 3"></i>
+          <i class="fa-star" ng-class="{'fas': newReview.rating >= 4, 'far': newReview.rating < 4}" ng-click="newReview.rating = 4"></i>
+          <i class="fa-star" ng-class="{'fas': newReview.rating >= 5, 'far': newReview.rating < 5}" ng-click="newReview.rating = 5"></i>
+        </div>
       </div>
-    </div>
 
 
 
-    <div class="mb-2">
-      <label class="form-label">Komentar:</label>
-      <textarea class="form-control" ng-model="newReview.komentar" rows="3" required></textarea>
-    </div>
+      <div class="mb-2">
+        <label class="form-label">Komentar:</label>
+        <textarea class="form-control" ng-model="newReview.komentar" rows="3" required></textarea>
+      </div>
 
-    <button type="submit" class="btn btn-primary">Kirim Ulasan</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Kirim Ulasan</button>
+    </form>
 
-  <!-- Tampilkan Review & Balasan -->
-  <!-- Tampilkan Review & Balasan -->
-  <!-- Tampilkan Review & Balasan -->
+    <!-- Tampilkan Review & Balasan -->
+    <!-- Tampilkan Review & Balasan -->
+    <!-- Tampilkan Review & Balasan -->
+  <?php endif; ?>
   <div class="mb-5" ng-repeat="review in reviews">
     <div class="border rounded p-3 mb-2">
       <div class="mb-1 d-flex justify-content-between align-items-center">
