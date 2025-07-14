@@ -5,6 +5,11 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group('/', function ($routes) {
+    $routes->get('', 'Home::index');
+    $routes->get('rekrutmen', 'Home::lowongan');
+    $routes->get('detail/(:hash)', 'Home::detail/$1');
+});
 $routes->get('api/review/(:num)', 'ReviewController::index/$1');
 $routes->post('api/review', 'ReviewController::create');
 $routes->group('profile', function ($routes) {
@@ -20,6 +25,9 @@ $routes->group('auth', function ($routes) {
     $routes->get('logout', 'Auth::logout');
 });
 $routes->get('/', 'Home::index');
+$routes->get('success', function () {
+    return view('mail/register_success');
+});
 $routes->group('beranda', function ($routes) {
     $routes->get('read', 'Home::read');
     $routes->get('read_detail/(:hash)', 'Home::read_detail/$1');

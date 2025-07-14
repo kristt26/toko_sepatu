@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="container mt-5" ng-controller="produkController">
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <h2 class="fw-bold text-warning mb-0">PRODUK TERLARIS</h2>
+    <h2 class="fw-bold text-warning mb-0" style="margin-top: -49px;">PRODUK</h2>
     <div class="search-box w-100 w-md-auto">
       <input type="text" class="form-control rounded-pill py-2 px-4" ng-model="cari" placeholder="Cari sepatu..." />
       <i class="bi bi-search"></i>

@@ -5,7 +5,7 @@
   <div class="row">
     <!-- Kolom Gambar dan Deskripsi (Mobile) -->
     <div class="col-md-6">
-      <img src="/assets/gambar/{{datas.variant[0].gambar}}" alt="{{datas.nama_produk}}" class="img-fluid rounded mb-3">
+      <img src="/assets/gambar/{{gambar}}" alt="{{datas.nama_produk}}" class="img-fluid rounded mb-3">
 
       <!-- Tabs di mobile -->
       <ul class="nav nav-tabs d-md-none mb-3" id="productTab" role="tablist">
@@ -102,7 +102,7 @@
         <input type="number" class="form-control w-25" ng-model="quantity" min="1" placeholder="1" />
       </div>
 
-      <div class="d-flex gap-3 mt-auto">
+      <div class="d-flex gap-3">
         <button class="btn btn-primary flex-fill" ng-click="addToCart()">
           <i class="bi bi-cart-plus-fill me-1"></i> Tambah ke Keranjang
         </button>

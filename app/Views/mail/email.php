@@ -52,11 +52,10 @@
       <h2>Pendaftaran Akun Berhasil</h2>
     </div>
     <div class="content">
-      <p>Halo <strong><?= esc($nama_pelamar) ?></strong>,</p>
-      <p>Terima kasih telah melakukan pendaftaran akun pada sistem rekrutmen <strong><?= esc($nama_perusahaan) ?></strong>.</p>
+      <p>Halo <strong><?= esc($nama) ?></strong>,</p>
+      <p>Terima kasih telah melakukan pendaftaran akun pada sistem Situs <strong><?= esc($nama_perusahaan) ?></strong>.</p>
       <p>Berikut adalah detail akun Anda:</p>
       <ul>
-        <li><strong>NIK:</strong> <?= esc($nik) ?></li>
         <li><strong>Username:</strong> <?= esc($username) ?></li>
         <li><strong>Password:</strong> <?= esc($password) ?></li>
         <li><strong>Email:</strong> <?= esc($email) ?></li>

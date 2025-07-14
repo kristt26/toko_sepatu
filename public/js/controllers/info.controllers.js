@@ -54,6 +54,7 @@ function detailController(
     $scope.datas = response;
     $scope.datas.keterangan = $sce.trustAsHtml($scope.datas.keterangan);
     console.log(response);
+    $scope.gambar = $scope.datas.variant[0].gambar;
     $scope.loadReviews(); // panggil setelah data produk tersedia
   });
 
@@ -71,6 +72,7 @@ function detailController(
       (x) => x.ukuran == size && x.warna == color
     );
     $scope.totalStock = $scope.itemVariant.stok;
+    $scope.gambar = $scope.itemVariant.gambar;
   };
 
   $scope.addToCart = async function () {
