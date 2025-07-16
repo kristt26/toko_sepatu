@@ -161,8 +161,35 @@ class Auth extends BaseController
                     'alamat' => $this->request->getPost('alamat')
                 ];
                 $userInfoModel->insert($userInfoData);
-                $db->transComplete();
-                return redirect()->to(base_url('auth/register'))->with('success', 'Registrasi berhasil! Silakan login');
+                $mail = new \App\Libraries\MyMailer();
+
+                $to      = $this->request->getPost('email');
+                $subject = 'Success Registrasi';
+                $message = view('mail/email', [
+                    'nama' => $this->request->getPost('nama'),
+                    'username' => $this->request->getPost('username'),
+                    'password' => $this->request->getPost('password'),
+                    'email' => $this->request->getPost('email'),
+                    'link_login' => base_url('/auth'),
+                    'nama_perusahaan' => 'Sneakers Jayapura',
+                    'tahun' => date('Y'),
+                ]);
+
+                $result = $mail->send($to, $subject, $message);
+
+                if ($result === true) {
+                    $db->transComplete();
+                    return redirect()->to(base_url('success'));
+                    // return 'Email berhasil dikirim!';
+                } else {
+                    throw new \Exception("Gagal membuat akun", 1);
+                }
+
+
+
+
+
+
             } catch (\Exception $e) {
                 $db->transRollback();
                 log_message('error', 'Registration error: ' . $e->getMessage());

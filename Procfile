@@ -1,1 +1,1 @@
-web: php -S 0.0.0.0:$PORT -t public && composer install
+web: php -S 0.0.0.0:$PORT -t public && composer install --no-dev
