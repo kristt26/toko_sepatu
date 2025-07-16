@@ -552,6 +552,7 @@ function penggunaController($scope, pesan, penggunaServices) {
     pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then((x) => {
       penggunaServices.post($scope.model).then((res) => {
         $scope.model = {};
+        pesan.Success("Data berhasil disimpan", "Success", "info");
       });
     });
   };

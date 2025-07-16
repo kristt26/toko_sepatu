@@ -891,6 +891,7 @@ function penggunaServices($http, $q, helperServices, AuthService, pesan) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
+                service.data.push(res.data);
                 def.resolve(res.data);
             },
             (err) => {
