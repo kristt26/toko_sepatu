@@ -10,11 +10,14 @@ class Pembelian extends BaseController
     protected $pembelian;
     protected $variant;
     protected $produk;
+    protected $user;
     protected $conn;
-    public function __construct() {
+    public function __construct()
+    {
         $this->pembelian = new \App\Models\PembelianModel();
         $this->variant = new \App\Models\VariantModel();
         $this->produk = new \App\Models\ProdukModel();
+        $this->user = new \App\Models\UserModel();
         $this->conn = \Config\Database::connect();
     }
 
@@ -23,7 +26,7 @@ class Pembelian extends BaseController
         return view('admin/pembelian');
     }
 
-    public function store() 
+    public function store()
     {
         $data['pembelian'] = $this->pembelian->select('pembelian.*, produk.nama_produk, variant.ukuran, variant.warna, variant.id_produk, variant.stok')
             ->join('variant', 'variant.id_variant = pembelian.id_variant')
@@ -42,7 +45,7 @@ class Pembelian extends BaseController
         return $this->response->setJSON($data);
     }
 
-    function add() : ResponseInterface
+    function add(): ResponseInterface
     {
         $param = $this->request->getJSON();
         try {
@@ -54,6 +57,23 @@ class Pembelian extends BaseController
             $this->pembelian->insert($param);
             $param->id_pembelian = $this->pembelian->insertID();
             $this->conn->transComplete();
+
+
+            $mail = new \App\Libraries\MyMailer();
+            $user = $this->user->select('email')->join('customer', 'users.id_users=customer.id_users', 'left')
+            ->where('role', 'customer')->findAll();
+            foreach ($user as $key => $value) {
+                $to      = $value->email;
+                $subject = 'Produk Ready - ' . $param->nama_produk;
+                $message = view('mail/stok', [
+                    'id_produk' => $param->id_produk,
+                    'nama_produk' => $param->nama_produk.' Ukuran '. $param->ukuran . ' Warna '.$param->warna,
+                    'gambar' => base_url('assets/gambar/' . $param->gambar),
+                    'stok' => $variant->stok + $param->qty
+                ]);
+                $mail->send($to, $subject, $message);
+            }
+
             return $this->response->setJSON($param);
         } catch (\Throwable $th) {
             return $this->response->setJSON([
@@ -63,13 +83,13 @@ class Pembelian extends BaseController
         }
     }
 
-    function edit() : ResponseInterface
+    function edit(): ResponseInterface
     {
         $param = $this->request->getJSON();
         try {
             $this->conn->transException(true)->transStart();
-            $variant = $this->variant->find($param->id_variant);  
-            $item = $this->pembelian->find($param->id_pembelian);  
+            $variant = $this->variant->find($param->id_variant);
+            $item = $this->pembelian->find($param->id_pembelian);
             $this->variant->update($param->id_variant, [
                 'stok' => $variant->stok - $item->qty + $param->qty
             ]);
@@ -87,7 +107,7 @@ class Pembelian extends BaseController
         }
     }
 
-    function delete($id = null) : ResponseInterface
+    function delete($id = null): ResponseInterface
     {
         try {
             $this->conn->transException(true)->transStart();

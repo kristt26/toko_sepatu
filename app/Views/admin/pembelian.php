@@ -60,14 +60,14 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label class="form-label">Produk</label>
-                                <select class="form-control" ng-model="produk" ng-options="item as item.nama_produk for item in datas.produks" required ng-change="model.nama_produk=produk.nama_produk">
+                                <select class="form-control" ng-model="produk" ng-options="item as item.nama_produk for item in datas.produks" required ng-change="model.nama_produk=produk.nama_produk;model.id_produk=produk.id_produk">
                                     <option value="">Pilih Produk</option>
                                 </select>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="form-group col">
                                 <label class="form-label">Variant</label>
-                                <select class="form-control" ng-model="variant" ng-options="item as ('Ukuran: '+item.ukuran+' | Warna: '+item.warna) for item in produk.variant" ng-change="model.id_variant=variant.id_variant; model.ukuran=variant.ukuran; model.warna = variant.warna" required>
+                                <select class="form-control" ng-model="variant" ng-options="item as ('Ukuran: '+item.ukuran+' | Warna: '+item.warna) for item in produk.variant" ng-change="model.id_variant=variant.id_variant; model.ukuran=variant.ukuran; model.warna = variant.warna;model.gambar=variant.gambar" required>
                                     <option value="">Pilih Variant</option>
                                 </select>
                                 <div class="clearfix"></div>
