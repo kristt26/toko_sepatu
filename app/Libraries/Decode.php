@@ -11,7 +11,7 @@ class Decode
         "image\/x-bitmap","image\/x-xbitmap","image\/x-win-bitmap","image\/x-windows-bmp",
         "image\/ms-bmp","image\/x-ms-bmp","application\/bmp","application\/x-bmp",
         "application\/x-win-bitmap"],"gif":["image\/gif"],"jpeg":["image\/jpeg",
-        "image\/pjpeg"],"webp":["image\/webp"],"xspf":["application\/xspf+xml"],
+        "image\/pjpeg"],"webp":["image\/webp"],"avif":["image\/avif"],"xspf":["application\/xspf+xml"],
         "vlc":["application\/videolan"],"wmv":["video\/x-ms-wmv","video\/x-ms-asf"],
         "au":["audio\/x-au"],"ac3":["audio\/ac3"],"flac":["audio\/x-flac"],
         "ogg":["audio\/ogg","video\/ogg","application\/ogg"],"kmz":["application\/vnd.google-earth.kmz"],
