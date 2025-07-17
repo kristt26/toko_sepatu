@@ -5,7 +5,6 @@
   <div class="container py-5" ng-show="tampil== 'checkout'">
     <h1 class="mb-4 text-center">Checkout</h1>
     <div class="row">
-      <!-- Detail Produk -->
       <div class="col-md-8">
         <div class="card mb-4">
           <div class="card-header bg-warning text-white">
@@ -30,8 +29,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Form Pembayaran -->
       <div class="col-md-4">
         <div class="card">
           <div class="card-header bg-success text-white">
@@ -73,7 +70,7 @@
     </div>
   </div>
   <style>
-    .text-muted{
+    .text-muted {
       color: rgb(255 146 65 / 75%) !important;
     }
   </style>
@@ -86,5 +83,33 @@
     }
   </script>
 </div>
+
+<style>
+  @media (max-width: 767.98px) {
+    .card-body .d-flex.align-items-center {
+      flex-wrap: wrap;
+    }
+
+    .card-body .d-flex.align-items-center img.img-thumbnail {
+      width: 80px !important;
+      height: 80px !important;
+      margin-bottom: 10px;
+    }
+
+    .card-body .d-flex.align-items-center>div {
+      flex: 1 1 100%;
+    }
+
+    .card-body .d-flex.align-items-center .ms-auto {
+      width: 100%;
+      justify-content: flex-start !important;
+      margin-top: 8px;
+    }
+
+    .card-body .d-flex.align-items-center .ms-auto p {
+      margin-bottom: 0;
+    }
+  }
+</style>
 
 <?= $this->endSection() ?>

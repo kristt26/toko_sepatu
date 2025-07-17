@@ -1,11 +1,49 @@
 <?= $this->extend('layout/info') ?>
 <?= $this->section('content') ?>
 
-<div class="container py-5">
-  <div class="row">
-    <h4 class="text-center">TENTANG</h4>
-    <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque rem officiis illum reprehenderit facere odio dolore expedita vel autem saepe quaerat, dicta quasi alias praesentium a. Rem dolor dignissimos architecto aspernatur cumque voluptatibus eum reiciendis, aliquid earum nemo dolores vitae, nam rerum obcaecati nisi labore, a quo molestiae? Expedita explicabo alias id quam doloremque mollitia cumque, necessitatibus quo deleniti, accusamus maiores assumenda, totam earum quibusdam voluptatibus nostrum dolorum? Neque velit similique eius. Nesciunt vitae obcaecati animi corrupti illo sint eius possimus recusandae cum. Ipsum explicabo voluptatum nisi aliquam, provident repudiandae? Soluta nobis blanditiis accusantium dolores vitae recusandae nemo consequatur perspiciatis optio dignissimos! Perspiciatis, nostrum fugiat assumenda blanditiis quibusdam ex voluptate nesciunt fuga aut itaque! Iusto eum et, possimus vitae veritatis corporis quibusdam veniam porro fugit neque sint ut, libero similique eveniet nemo molestias aliquam recusandae voluptas quasi assumenda enim officia consequuntur nobis quos. Cupiditate blanditiis impedit dignissimos recusandae enim laborum provident sit eaque eligendi, corrupti fugit quaerat tempora voluptatibus vero ex debitis sint doloremque dolorem asperiores excepturi. Voluptatum et aut amet laborum rerum assumenda harum aperiam autem hic, laudantium nihil! Temporibus pariatur explicabo eaque dolor quasi cum aperiam sit laborum corporis debitis itaque placeat tempore suscipit, totam natus illum beatae eum sunt ipsa, recusandae esse sed nostrum quis. Necessitatibus fuga quasi inventore sunt perferendis sed neque ut temporibus totam tempore, pariatur ex aut iusto ratione quas enim, atque consequatur tenetur, quis veniam corporis distinctio. Harum voluptatem quod cum eius excepturi culpa alias qui tempora dolores, sunt ratione deleniti. Impedit ipsa, accusamus vel tempora, quasi sunt necessitatibus deserunt, praesentium unde aperiam expedita perspiciatis animi voluptate fuga labore! Ducimus assumenda animi non deserunt asperiores explicabo pariatur aspernatur, provident ipsa ipsam consequatur nulla veniam eaque. Laboriosam officia officiis dicta eligendi, quo praesentium dolor, ratione minus corporis quod quia et amet harum obcaecati? Beatae dolore possimus iusto omnis culpa, accusantium et cum esse quos. Laboriosam, quidem quisquam ipsa facere nemo consequuntur omnis blanditiis animi recusandae deleniti laborum explicabo ut, culpa sit labore numquam voluptate magni itaque! Consectetur sapiente a earum atque unde commodi ex quasi aliquam odit, ab officia accusamus placeat tenetur maiores facilis eum doloribus adipisci error natus quod corrupti. Non, necessitatibus, perspiciatis dolor repudiandae aut nulla architecto tempora quis labore excepturi obcaecati ipsa eveniet cum ex enim fuga libero voluptas, dignissimos numquam exercitationem vel ratione. Debitis tempore at vel delectus error quas aperiam unde, iure perferendis sapiente totam ipsum! Nostrum ut minima sit nemo quo qui officia voluptates sequi hic nam voluptate illo soluta quas excepturi dolorem laborum mollitia ipsum, provident amet nesciunt! Asperiores distinctio animi reiciendis voluptate nesciunt eveniet pariatur et, sapiente omnis repellat! Quos maxime eveniet voluptates ratione minus doloremque perspiciatis, eius cumque iure a! Omnis possimus quis eaque libero ipsa laboriosam laborum alias fugit saepe magnam, deserunt maiores nam sit consequuntur totam quos impedit ex? Accusantium aliquid sequi non repudiandae aperiam tenetur, pariatur deserunt molestias numquam minus? Inventore debitis autem nobis nulla vero perferendis rem, libero sed aut provident non aliquid fuga aspernatur eos reprehenderit. Rerum, facilis tempore aperiam officiis distinctio soluta voluptas iusto fuga recusandae dicta consequatur impedit repellendus dolore delectus nulla accusantium doloribus iste nihil! Totam, enim, ea soluta quia autem provident aut accusantium distinctio blanditiis assumenda voluptates? Asperiores, fugit? Veniam ratione consequuntur debitis hic iure at ipsam, sunt velit eveniet, cupiditate vitae maxime blanditiis laudantium incidunt molestias deserunt saepe neque possimus tenetur? Illo veniam laudantium optio sit vero necessitatibus magnam modi molestias. Numquam odio laboriosam hic porro quo? Officia cumque non, tempore quibusdam rem, culpa, vitae ipsam minima molestiae sapiente nihil libero reprehenderit debitis quo? Atque, explicabo cum? Nulla nisi enim debitis provident dolore totam mollitia magnam deserunt inventore illo facere culpa aut alias ea aspernatur harum fuga cum blanditiis laudantium officiis, eius error, facilis dignissimos architecto. Reiciendis, illum atque amet similique quasi impedit, nobis voluptatibus illo explicabo dolore pariatur vitae deserunt voluptas dolor hic maiores voluptatem maxime est, natus magnam dolores! Incidunt fuga debitis officiis cupiditate ducimus reiciendis tempora nobis provident aspernatur quod. Sint nulla voluptatem similique tenetur veritatis, repellat, corporis delectus fugit laborum perferendis corrupti cum itaque modi illo doloribus quibusdam maxime reiciendis quae, fugiat odit culpa. Rem laborum fugit odit libero exercitationem earum numquam sit magnam id quam. Provident nihil repellendus sint, id nobis, hic dolore deserunt, libero excepturi ut inventore ullam? Voluptas assumenda temporibus velit earum voluptates quibusdam, voluptate et ad maxime esse quos doloribus voluptatum adipisci tenetur quae tempore sint sequi doloremque corrupti quidem veniam quam alias ullam pariatur. Corporis odit officia veniam similique! Quos placeat et necessitatibus amet, facilis earum officia distinctio minima cum officiis repudiandae inventore nihil fuga iste, tempore porro molestiae voluptas deserunt veniam deleniti iusto eligendi? Dignissimos ratione cumque quidem iusto dolore consectetur sapiente laudantium explicabo dolores repellat non ex pariatur odit iure fugiat, minima excepturi corrupti perferendis! Provident assumenda, similique, molestias unde officiis beatae totam ab temporibus recusandae, eaque ex facilis mollitia ipsa maxime commodi iure pariatur sed vel ducimus laborum! Aliquam asperiores at aliquid porro reiciendis ipsam deleniti mollitia nostrum non! Debitis dignissimos possimus veniam suscipit aliquam nihil error architecto, sunt fugiat quisquam optio, nemo, quasi eligendi nesciunt adipisci excepturi facilis at. Cum, obcaecati repellat autem modi, voluptate molestias quam sapiente quae neque quisquam accusamus sint cumque similique, eveniet fuga minima? Doloremque repellat maiores consectetur modi atque pariatur tenetur saepe quod obcaecati, eum voluptate corporis neque ipsa expedita minima eveniet quos rem ex culpa nisi vitae iste. Iusto mollitia impedit, excepturi magni fugiat vero molestiae unde ullam facere accusantium. Ut consequatur facilis ullam laudantium, magni quae rerum distinctio veritatis quia placeat dignissimos. Recusandae numquam quia odit asperiores veniam aperiam optio, modi error quidem nobis? Quo eius aliquid eveniet, aut quidem ipsam pariatur ad consequatur quasi debitis sed dolorem vel maiores placeat neque tempore quia aspernatur non expedita autem voluptate accusamus vero impedit? Quaerat vel beatae sed voluptatum eligendi ipsum odit assumenda ducimus? Dolorum fugit suscipit, nobis architecto excepturi itaque, dignissimos delectus aliquid ea temporibus, voluptates autem eos quae earum velit quia assumenda repudiandae culpa. Ut facilis odio inventore accusantium rem voluptates minus doloremque facere distinctio.</p>
+<section class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h2 class="mb-4 text-warning fw-bold">Tentang Kami</h2>
+      <p class="lead text-light">
+        <strong>Sneakers Jayapura</strong> adalah toko sepatu lokal yang berdedikasi menghadirkan koleksi
+        <strong>sneakers terbaik, original, dan terkini</strong> untuk masyarakat Jayapura dan sekitarnya.
+        Kami percaya bahwa sepatu bukan hanya pelengkap penampilan, tapi juga bagian dari gaya hidup yang mencerminkan kepercayaan diri dan ekspresi diri.
+      </p>
+
+      <p class="text-light">
+        Berdiri sejak tahun <strong>XXXX</strong>, kami telah melayani ribuan pelanggan dengan berbagai pilihan sepatu dari brand ternama,
+        baik lokal maupun internasional. Dari gaya kasual hingga streetwear, kami siap memenuhi kebutuhan fashion kakimu.
+      </p>
+
+      <h4 class="text-warning mt-5">Misi Kami</h4>
+      <ul class="list-unstyled text-light">
+        <li>✅ Menyediakan sneakers berkualitas tinggi dengan harga yang kompetitif.</li>
+        <li>✅ Menjadi destinasi utama pecinta sneakers di wilayah Papua.</li>
+        <li>✅ Memberikan pelayanan ramah dan profesional, baik online maupun offline.</li>
+      </ul>
+
+      <p class="mt-4 text-light">
+        <strong>📍 Lokasi:</strong> Kami berbasis di <strong>Jayapura</strong>, namun juga menerima pemesanan dari berbagai kota melalui layanan online kami.
+      </p>
+    </div>
   </div>
-</div>
+  <style>
+    body {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    .text-warning {
+      color: #f4c10f !important;
+    }
+
+    ul li::marker {
+      color: #f4c10f;
+    }
+  </style>
+
+</section>
+
 
 <?= $this->endSection() ?>

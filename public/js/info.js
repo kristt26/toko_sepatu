@@ -24,6 +24,7 @@ angular
   .directive("emaudio", emaudio)
   .filter("toDouble", toDouble)
   .filter("toDate", toDate)
+  .filter("waktuLalu", waktuLalu)
   .filter("unique", unique);
 // .directive('dynamic', ['$compile', function ($compile) {
 //     return {
@@ -51,21 +52,23 @@ function indexController($scope, helperServices, dashboardServices) {
     $scope.title = data;
     $.LoadingOverlay("hide");
   });
-  dashboardServices.getCart().then(res => {
+  dashboardServices.getCart().then((res) => {
     // console.log(res);
     $scope.keranjang = res;
-  })
+  });
   $scope.$on("setKerangjang", function (evt, data) {
-    var item = $scope.keranjang.cart.find((item) => item.id_variant == data.id_variant);
+    var item = $scope.keranjang.cart.find(
+      (item) => item.id_variant == data.id_variant
+    );
     if (item) item.qty += data.qty;
     else $scope.keranjang.cart.push(data);
     // console.log($scope.keranjang);
   });
 
-  $scope.logout = ()=>{
-    localStorage.removeItem('user');
+  $scope.logout = () => {
+    localStorage.removeItem("user");
     document.location.href = helperServices.url + "auth/logout";
-  }
+  };
 }
 
 function emaudio() {
@@ -159,15 +162,36 @@ function unique() {
 }
 
 function toDouble() {
-  return function(input) {
+  return function (input) {
     var value = parseFloat(input);
     return isNaN(value) ? null : value;
   };
 }
 
 function toDate() {
-  return function(input) {
-    var value = new Date(input)
+  return function (input) {
+    var value = new Date(input);
     return isNaN(value) ? null : value;
+  };
+}
+
+function waktuLalu() {
+  return function (input) {
+    if (!input) return "";
+
+    // Konversi '2025-06-17 00:21:43' -> '2025-06-17T00:21:43'
+    const waktu = moment(input.replace(" ", "T"));
+
+    if (!waktu.isValid()) return "-";
+
+    const now = moment();
+    const diffInHours = now.diff(waktu, "hours");
+
+    // Jika lebih dari 48 jam, tampilkan dalam format yyyy-MM-dd
+    if (diffInHours > 48) {
+      return waktu.format("YYYY-MM-DD");
+    }
+
+    return waktu.fromNow(); // "3 jam yang lalu", "2 hari yang lalu"
   };
 }

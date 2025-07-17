@@ -41,7 +41,7 @@ $RECYCLE.BIN/
 #-------------------------
 # These should never be under version control,
 # as it poses a security risk.
-.env
+# .env
 .vagrant
 Vagrantfile
 
@@ -55,6 +55,7 @@ writable/logs/*
 !writable/logs/index.html
 
 writable/session/*
+public/assets/gambar/*
 !writable/session/index.html
 
 writable/uploads/*

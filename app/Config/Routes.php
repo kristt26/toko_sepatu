@@ -5,6 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group('/', function ($routes) {
+    $routes->get('', 'Home::index');
+    $routes->get('rekrutmen', 'Home::lowongan');
+    $routes->get('detail/(:hash)', 'Home::detail/$1');
+});
+$routes->get('api/review/(:num)', 'ReviewController::index/$1');
+$routes->post('api/review', 'ReviewController::create');
 $routes->group('profile', function ($routes) {
     $routes->get('/', 'Profile::index');
     $routes->get('read', 'Profile::store');
@@ -18,6 +25,9 @@ $routes->group('auth', function ($routes) {
     $routes->get('logout', 'Auth::logout');
 });
 $routes->get('/', 'Home::index');
+$routes->get('success', function () {
+    return view('mail/register_success');
+});
 $routes->group('beranda', function ($routes) {
     $routes->get('read', 'Home::read');
     $routes->get('read_detail/(:hash)', 'Home::read_detail/$1');
@@ -41,7 +51,15 @@ $routes->get('tentang', 'Home::tentang');
 $routes->get('cart', 'Home::cart');
 $routes->get('admin/beranda', 'Admin\Home::index');
 // $routes->get('admin/toko', 'Admin\Home::toko');
-$routes->group('admin', function ($routes) {
+$routes->group('admin', ['filter' => 'auth:admin,kasir'], function ($routes) {
+    $routes->group('kategori', function ($routes) {
+        $routes->get('/', 'Admin\Kategori::index');
+        $routes->get('read', 'Admin\Kategori::store');
+        $routes->post('add', 'Admin\Kategori::add');
+        $routes->put('edit', 'Admin\Kategori::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Kategori::delete/$1');
+    });
+
     $routes->group('produk', function ($routes) {
         $routes->get('/', 'Admin\Produk::index');
         $routes->get('read', 'Admin\Produk::store');

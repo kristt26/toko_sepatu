@@ -34,7 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'auth'          => \App\Filters\Auth::class,
+        'auth' => \App\Filters\AuthFilters::class,
     ];
 
     /**
@@ -70,13 +70,10 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            // 'honeypot',
-            // 'csrf',
-            // 'invalidchars',
+            // 'auth' => ['except' => ['auth', 'auth/*', 'login', 'register', 'public/*']],
         ],
         'after' => [
-            // 'honeypot',
-            // 'secureheaders',
+            // ...
         ],
     ];
 
@@ -105,11 +102,6 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'auth' => [
-            'before' => [
-                'admin' => ['admin'],
-                '/' => ['customer']
-            ]
-        ]
+        // hapus 'auth' di sini, supaya tidak bentrok
     ];
 }

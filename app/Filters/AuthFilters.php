@@ -5,7 +5,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
 
-class Auth implements FilterInterface
+class AuthFilters implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
@@ -23,7 +23,7 @@ class Auth implements FilterInterface
         $userRoles = array_map('trim', $userRoles); // hapus spasi
 
         // Role yang diperbolehkan dari $arguments
-        $allowedRoles = $arguments; // contoh: ['admin', 'editor']
+        $allowedRoles = is_array($arguments) ? $arguments : []; // contoh: ['admin', 'editor']
 
         // Cek apakah ada peran yang cocok
         $hasAccess = false;
@@ -35,7 +35,7 @@ class Auth implements FilterInterface
         }
 
         if (!$hasAccess) {
-            return redirect()->to('/no-access');
+            dd(['argument'=>$arguments, 'role'=>$userRoleString, 'userRole'=>$userRoles]);
         }
     }
 

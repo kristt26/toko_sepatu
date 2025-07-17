@@ -205,30 +205,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-
-        </div>
     </div>
     <div class="modal fade" id="proofModal" tabindex="-1" aria-labelledby="proofModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-3 shadow-lg">
-                <!-- Header -->
                 <div class="modal-header bg-info text-white rounded-top d-flex justify-content-between align-items-center">
                     <h5 class="modal-title mb-0" id="proofModalLabel">📄 Bukti Transfer</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                <!-- Body -->
                 <div class="modal-body text-center">
-                    <!-- Bukti Transfer -->
                     <img id="proofImage" ng-src="/assets/gambar/{{model.pembayaran.bukti_bayar}}"
                         alt="Bukti Transfer" class="img-fluid rounded shadow mb-4 border"
                         style="max-height: 400px; object-fit: contain; border-radius: 10px; cursor: zoom-in;"
                         onclick="openImageModal(this)">
-
-                    <!-- Tombol Validasi -->
                     <div class="d-flex justify-content-center gap-4">
                         <button class="btn btn-success px-4 py-2 rounded-pill d-flex align-items-center"
                             ng-click="validasiPembayaran('valid', 'Pending')">
@@ -239,8 +230,6 @@
                             <i class="fas fa-times-circle me-2"></i> Tolak
                         </button>
                     </div>
-
-                    <!-- Tombol Batal -->
                     <div class="d-flex justify-content-center mt-3">
                         <button class="btn btn-secondary px-4 py-2 rounded-pill" data-dismiss="modal">Batal</button>
                     </div>
@@ -263,9 +252,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 <style>
     .dataTables_length {

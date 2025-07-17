@@ -28,17 +28,21 @@
                         </a>
                         <ul class="sidenav-menu">
                             <li class="sidenav-item">
+                                <a href="/admin/toko" class="sidenav-link">
+                                    <div>Toko</div>
+                                </a>
+                            </li>
+                            <li class="sidenav-item">
+                                <a href="/admin/kategori" class="sidenav-link">
+                                    <div>Kategori</div>
+                                </a>
+                            </li>
+                            <li class="sidenav-item">
                                 <a href="/admin/area" class="sidenav-link">
                                     <div>Service Area</div>
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="sidenav-item" ng-if="users.role == 'admin'">
-                        <a href="/admin/toko" class="sidenav-link">
-                            <i class="sidenav-icon feather icon-layers"></i>
-                            <div>Toko</div>
-                        </a>
                     </li>
                     <li class="sidenav-item" ng-if="users.role == 'admin'">
                         <a href="/admin/pengguna" class="sidenav-link">
@@ -52,7 +56,7 @@
                             <div>Produk</div>
                         </a>
                     </li>
-                    <li class="sidenav-item" ng-if="users.role == 'kasir'">
+                    <li class="sidenav-item">
                         <a href="javascript:" class="sidenav-link sidenav-toggle">
                             <i class="sidenav-icon fas fa-exchange-alt"></i>
                             <div>Transaksi</div>
@@ -63,12 +67,12 @@
                                     <div>Pembelian</div>
                                 </a>
                             </li>
-                            <li class="sidenav-item">
+                            <li class="sidenav-item" ng-if="users.role == 'kasir'">
                                 <a href="/admin/penjualan" class="sidenav-link">
                                     <div>Penjualan</div>
                                 </a>
                             </li>
-                            <li class="sidenav-item">
+                            <li class="sidenav-item" ng-if="users.role == 'kasir' || users.role == 'admin'">
                                 <a href="/admin/order" class="sidenav-link">
                                     <div>Order</div>
                                 </a>
