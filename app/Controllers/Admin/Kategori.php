@@ -19,7 +19,11 @@ class Kategori extends BaseController
 
     public function store() 
     {
-        return $this->response->setJSON($this->kategori->findAll());
+        try {
+            return $this->response->setJSON($this->kategori->findAll());
+        } catch (\Throwable $th) {
+            return $this->response->setJSON($th->getMessage())->setStatusCode(500);
+        }
     }
 
     function add() : ResponseInterface

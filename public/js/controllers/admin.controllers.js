@@ -21,7 +21,7 @@ function dashboardController($scope, dashboardServices) {
 }
 
 function kategoriController($scope, kategoriServices, pesan) {
-  $scope.$emit("SendUp", "Service Area");
+  $scope.$emit("SendUp", "Kategori Sepatu");
   $scope.datas = [];
   $scope.title = "Beranda";
   $scope.model = {};
@@ -551,6 +551,7 @@ function penggunaController($scope, pesan, penggunaServices) {
     $("#modals-default").modal("hide");
     pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then((x) => {
       penggunaServices.post($scope.model).then((res) => {
+        $scope.datas.push(res);
         $scope.model = {};
         pesan.Success("Data berhasil disimpan", "Success", "info");
       });
