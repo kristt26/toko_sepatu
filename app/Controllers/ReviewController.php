@@ -28,9 +28,14 @@ class ReviewController extends BaseController
             'id_produk' => $data['id_produk'],
             'id_users' => session('user_id'), // sementara default
             'id_parent' => $data['id_parent'],
-            'rating' => $data['rating'],
             'komentar' => $data['komentar'],
         ];
+        if (isset($data['id_item'])) {
+            $item['id_item'] =  $data['id_item'];
+        }
+        if (isset($data['rating'])) {
+            $item['rating'] =  $data['rating'];
+        }
         $model->insert($item);
         $item['id_review'] = $model->getInsertID();
         return $this->response->setJSON($item);

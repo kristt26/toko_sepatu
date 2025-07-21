@@ -134,6 +134,7 @@
               <th>Tanggal</th>
               <th>Total</th>
               <th>Status</th>
+              <th>Ket</th>
             </tr>
           </thead>
           <tbody>
@@ -144,14 +145,18 @@
               <td>
                 <span class="badge"
                   ng-class="{
-                    'bg-secondary': item.status=='Pending',
-                    'bg-primary': item.status=='Paid',
-                    'bg-warning': item.status=='Proses',
-                    'bg-info': item.status=='Terkirim',
-                    'bg-danger': item.status=='Batal'
+                  'bg-secondary': item.status=='Pending',
+                  'bg-primary': item.status=='Paid',
+                  'bg-warning': item.status=='Proses',
+                  'bg-info': item.status=='Selesai',
+                  'bg-danger': item.status=='Batal'
                   }">
                   {{item.status}}
                 </span>
+              </td>
+              <td ng-if="item.status=='Selesai'">
+                <h6 class="text-warning" ng-if="item.num!=item.detail.length">{{item.num}} Review dari {{item.detail.length}} produk</h6>
+                <h6 class="text-success" ng-if="item.num==item.detail.length">Sudah Review</h6>
               </td>
             </tr>
           </tbody>
