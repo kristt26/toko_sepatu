@@ -51,8 +51,8 @@
               <p><strong>Area:</strong> {{datas.order.nama_area}}</p>
               <p><strong>Telepon:</strong> {{datas.customer.phone}}</p>
               <p><strong>Pembayaran:</strong>
-                <span class="badge" ng-class="{'bg-success': datas.order.pembayaran.metode_bayar === 'cod', 'bg-info': datas.order.pembayaran.metode_bayar === 'Transfer'}">
-                  {{datas.order.pembayaran.metode_bayar === 'cod' ? 'COD' : 'Transfer Bank'}}
+                <span class="badge" ng-class="{'bg-success': datas.order.pembayaran.metode_bayar === 'COD', 'bg-info': datas.order.pembayaran.metode_bayar === 'Transfer'}">
+                  {{datas.order.pembayaran.metode_bayar == 'COD' ? 'COD' : 'Transfer Bank'}}
                 </span>
               </p>
               <p><strong>Status:</strong> <span class="badge bg-secondary">{{datas.order.status}}</span></p>
@@ -103,6 +103,7 @@
                   <th>Qty</th>
                   <th>Harga</th>
                   <th>Subtotal</th>
+                  <th ng-if="datas.order.status=='Selesai'">Review</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,6 +117,10 @@
                   <td>{{item.qty}}</td>
                   <td>Rp {{item.harga | number}}</td>
                   <td>Rp {{item.qty * item.harga | number}}</td>
+                  <td>
+                    <button ng-if="!item.review" ng-click="showReview(item)" class="btn btn-info btn-sm"><i class="fas fa-comment"></i></button>
+                    <h6 ng-if="item.review">Sudah Review</h6>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -126,8 +131,8 @@
 
     <!-- Tab 3: Upload Bukti -->
     <div class="tab-pane fade d-md-block"
-         ng-if="datas.order.pembayaran.metode_bayar === 'Transfer' && datas.order.status !== 'Batal' && datas.order.status !== 'Paid'"
-         id="uploadTab" role="tabpanel">
+      ng-if="datas.order.pembayaran.metode_bayar === 'Transfer' && datas.order.status !== 'Batal' && datas.order.status !== 'Paid'"
+      id="uploadTab" role="tabpanel">
       <div class="card border-0 shadow-sm mb-4">
         <div class="card-header bg-gradient bg-info text-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">📤 Unggah Bukti Transfer</h5>
@@ -161,7 +166,47 @@
       <i class="bi bi-arrow-left-circle me-2"></i>Beranda
     </a>
   </div>
+
+
+  <div class="modal fade" id="review" tabindex="-1" aria-labelledby="reviewLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="reviewLabel">Review Produk {{itemReview.nama_produk}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form ng-submit="submitReview()">
+          <div class="modal-body">
+            <div class="text-dark">
+              <label class="form-label">Rating:</label>
+              <div class="rating-input">
+                <i class="fa-star" ng-class="{'fas': newReview.rating >= 1, 'far': newReview.rating < 1}" ng-click="newReview.rating = 1"></i>
+                <i class="fa-star" ng-class="{'fas': newReview.rating >= 2, 'far': newReview.rating < 2}" ng-click="newReview.rating = 2"></i>
+                <i class="fa-star" ng-class="{'fas': newReview.rating >= 3, 'far': newReview.rating < 3}" ng-click="newReview.rating = 3"></i>
+                <i class="fa-star" ng-class="{'fas': newReview.rating >= 4, 'far': newReview.rating < 4}" ng-click="newReview.rating = 4"></i>
+                <i class="fa-star" ng-class="{'fas': newReview.rating >= 5, 'far': newReview.rating < 5}" ng-click="newReview.rating = 5"></i>
+              </div>
+            </div>
+
+
+
+            <div class="mb-2">
+              <label class="form-label">Komentar:</label>
+              <textarea class="form-control" ng-model="newReview.komentar" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">CLose</button>
+            <button type="submit" class="btn btn-primary btn-sm">Simpan Komentar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
 
 <!-- Custom Style -->
 <style>
@@ -170,7 +215,7 @@
   }
 
   @media (min-width: 768px) {
-    .tab-content > .tab-pane {
+    .tab-content>.tab-pane {
       display: block !important;
       opacity: 1 !important;
     }

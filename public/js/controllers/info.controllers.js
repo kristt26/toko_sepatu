@@ -248,6 +248,9 @@ function profileController($scope, profileServices, helperServices) {
   $scope.tampil = "checkout";
   profileServices.get().then((res) => {
     $scope.datas = res;
+    $scope.datas.order.forEach((data) => {
+      data.num = data.detail.filter((d) => d.review).length;
+    });
     $scope.model = $scope.datas.profile;
     console.log(res);
   });
@@ -262,7 +265,8 @@ function detailPesananController(
   $scope,
   dashboardServices,
   helperServices,
-  pesan
+  pesan,
+  $http
 ) {
   $scope.datas = [];
   $scope.title = "Beranda";
@@ -301,6 +305,45 @@ function detailPesananController(
       setTimeout(() => {
         document.location.href = helperServices.url;
       }, 1000);
+    });
+  };
+  $scope.showReview = (param) => {
+    $scope.newReview = {
+      rating: 0,
+      komentar: "",
+    };
+    $scope.itemReview = param;
+    console.log($scope.itemReview);
+
+    $("#review").modal("show");
+  };
+  $scope.submitReview = function () {
+    if (!$scope.newReview.rating || !$scope.newReview.komentar) {
+      pesan
+        .dialog(
+          "Silakan isi rating dan komentar terlebih dahulu.",
+          "Ya",
+          "Tidak",
+          "warning"
+        )
+        .then((res) => {
+          return;
+        });
+    }
+
+    const data = {
+      id_produk: $scope.itemReview.id_produk,
+      rating: $scope.newReview.rating,
+      komentar: $scope.newReview.komentar,
+      id_item: $scope.itemReview.id_item,
+      id_parent: null,
+    };
+
+    $http.post("/api/review", data).then(() => {
+      $scope.newReview = { rating: 0, komentar: "" };
+      $scope.itemReview.review = data;
+      $("#review").modal("hide");
+      pesan.Success("Review berhasil dikirim.");
     });
   };
 }

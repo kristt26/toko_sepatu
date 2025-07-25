@@ -15,6 +15,7 @@ class Home extends BaseController
     protected $pembayaran;
     protected $customer;
     protected $toko;
+    protected $review;
     protected $lib;
     public function __construct()
     {
@@ -27,6 +28,7 @@ class Home extends BaseController
         $this->pembayaran = new \App\Models\PembayaranModel();
         $this->customer = new \App\Models\CustomerModel();
         $this->toko = new \App\Models\TokoModel();
+        $this->review = new \App\Models\ReviewModel();
         $this->lib =  new \App\Libraries\Decode();
     }
     public function index(): string
@@ -177,10 +179,13 @@ class Home extends BaseController
             ->join('service_area', 'service_area.id_area = order.id_area')
             ->where('id_order', $id)
             ->first();
-        $order->detail = $this->item->select("order_item.*, variant.ukuran, variant.warna, variant.gambar, produk.nama_produk")
+        $order->detail = $this->item->select("order_item.*, variant.ukuran, variant.warna, variant.gambar, produk.id_produk, produk.nama_produk")
             ->join('variant', 'variant.id_variant = order_item.id_variant', 'left')
             ->join('produk', 'produk.id_produk = variant.id_produk', 'left')
             ->where('id_order', $order->id_order)->findAll();
+        foreach ($order->detail as $key => $value) {
+            $value->review = $this->review->where('id_item', $value->id_item)->first();
+        }
         $order->pembayaran = $this->pembayaran->where('id_order', $order->id_order)->first();
         $customer = $this->customer->find($order->id_customer);
         $toko = $this->toko->first();

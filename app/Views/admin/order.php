@@ -19,7 +19,7 @@
                             <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-selesai">Selesai</a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-tolak">Tolak</a>
+                            <a href="javascript:void()" class="nav-link" data-toggle="tab" data-target="#navs-lm-tolak">Tertolak</a>
                         </li>
                     </ul>
                 </div>
@@ -72,7 +72,6 @@
                                                 <th>Nama Pemesan</th>
                                                 <th>Alamat Pengiriman</th>
                                                 <th>Total</th>
-                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -83,7 +82,6 @@
                                                 <td>{{ item.nama }}</td>
                                                 <td>{{ item.alamat_pengirim }}</td>
                                                 <td>{{ item.total | currency:'Rp. ' }}</td>
-                                                <td><span class="badge badge-primary">Paid</span></td>
                                                 <td>
                                                     <button type="button" class="btn btn-info btn-sm w-auto" ng-click="validasiPembayaran('Proses', 'Paid', item)" title="Checklist pengiriman">
                                                         <i class="fas fa-check"></i>
@@ -108,7 +106,7 @@
                                                 <th>Nama Pemesan</th>
                                                 <th>Alamat Pengiriman</th>
                                                 <th>Total</th>
-                                                <th>Status</th>
+                                                <th>Status Bayar</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -119,7 +117,7 @@
                                                 <td>{{ item.nama }}</td>
                                                 <td>{{ item.alamat_pengirim }}</td>
                                                 <td>{{ item.total | currency:'Rp. ' }}</td>
-                                                <td><span class="badge badge-primary">Paid</span></td>
+                                                <td><span class="badge badge-primary">{{ item.pembayaran.metode_bayar }}</span></td>
                                                 <td>
                                                     <button type="button" class="btn btn-info btn-sm w-auto" ng-click="validasiPembayaran('Selesai', 'Proses', item)" title="Finish">
                                                         <i class="fas fa-check"></i>
@@ -144,8 +142,7 @@
                                                 <th>Nama Pemesan</th>
                                                 <th>Alamat Pengiriman</th>
                                                 <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Metode Bayar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -155,10 +152,7 @@
                                                 <td>{{ item.nama }}</td>
                                                 <td>{{ item.alamat_pengirim }}</td>
                                                 <td>{{ item.total | currency:'Rp. ' }}</td>
-                                                <td><span class="badge badge-primary">Paid</span></td>
-                                                <td>
-                                                    
-                                                </td>
+                                                <td><span class="badge badge-primary">{{item.pembayaran.metode_bayar}}</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
