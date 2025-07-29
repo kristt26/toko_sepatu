@@ -5,7 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Pengguna extends BaseController
+class Kasir extends BaseController
 {
     protected $pengguna;
     protected $lib;
@@ -17,22 +17,14 @@ class Pengguna extends BaseController
 
     public function index(): string
     {
-        return view('admin/pengguna');
+        return view('admin/kasir');
     }
 
     public function store(): ResponseInterface
     {
         $data = $this->pengguna->asArray()
-            ->select('customer.*, users.username, users.role')
-            ->join('customer', 'customer.id_users = users.id_users', 'left')
-            ->whereNotIn('users.role', ['admin', 'kasir'])
+            ->whereNotIn('users.role', ['customer'])
             ->findAll();
-        return $this->response->setJSON($data);
-    }
-
-    public function aktive(): ResponseInterface
-    {
-        $data = $this->pengguna->where('id_users', session()->get('user_id'))->first();
         return $this->response->setJSON($data);
     }
 
@@ -40,7 +32,6 @@ class Pengguna extends BaseController
     {
         $param = $this->request->getJSON();
         $param->password = password_hash($param->password, PASSWORD_DEFAULT);
-        $param->role = 'kasir';
         try {
             $this->pengguna->insert($param);
             $param->id_users = $this->pengguna->insertID();

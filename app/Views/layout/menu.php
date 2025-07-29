@@ -45,10 +45,22 @@
                         </ul>
                     </li>
                     <li class="sidenav-item" ng-if="users.role == 'admin'">
-                        <a href="/admin/pengguna" class="sidenav-link">
-                            <i class="sidenav-icon feather icon-user"></i>
+                        <a href="javascript:" class="sidenav-link sidenav-toggle">
+                            <i class="sidenav-icon  feather icon-user"></i>
                             <div>Pengguna</div>
                         </a>
+                        <ul class="sidenav-menu">
+                            <li class="sidenav-item">
+                                <a href="/admin/pengguna" class="sidenav-link">
+                                    <div>Customer</div>
+                                </a>
+                            </li>
+                            <li class="sidenav-item">
+                                <a href="/admin/kasir" class="sidenav-link">
+                                    <div>Kasir</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="sidenav-item" ng-if="users.role == 'admin'">
                         <a href="/admin/produk" class="sidenav-link">

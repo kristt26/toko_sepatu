@@ -9,6 +9,7 @@ angular
   .controller("areaController", areaController)
   .controller("tokoController", tokoController)
   .controller("penggunaController", penggunaController)
+  .controller("kasirController", kasirController)
   .controller("orderController", orderController)
   .controller("laporanPenjualanController", laporanPenjualanController)
   .controller("laporanPembelianController", laporanPembelianController)
@@ -551,6 +552,28 @@ function penggunaController($scope, pesan, penggunaServices) {
     $("#modals-default").modal("hide");
     pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then((x) => {
       penggunaServices.post($scope.model).then((res) => {
+        $scope.datas.push(res);
+        $scope.model = {};
+        pesan.Success("Data berhasil disimpan", "Success", "info");
+      });
+    });
+  };
+}
+
+function kasirController($scope, pesan, kasirServices) {
+  $scope.$emit("SendUp", "Admin dan Kasir");
+  $scope.datas = [];
+  $scope.title = "Beranda";
+  $scope.model = {};
+  kasirServices.get().then((res) => {
+    $scope.datas = res;
+    console.log(res);
+  });
+
+  $scope.save = () => {
+    $("#modals-default").modal("hide");
+    pesan.dialog("Yakin ingin melanjutkan?", "Ya", "Tidak").then((x) => {
+      kasirServices.post($scope.model).then((res) => {
         $scope.datas.push(res);
         $scope.model = {};
         pesan.Success("Data berhasil disimpan", "Success", "info");

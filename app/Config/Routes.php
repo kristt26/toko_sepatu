@@ -111,6 +111,13 @@ $routes->group('admin', ['filter' => 'auth:admin,kasir'], function ($routes) {
         $routes->put('edit', 'Admin\Pengguna::edit');
         $routes->delete('delete/(:hash)', 'Admin\Pengguna::delete/$1');
     });
+    $routes->group('kasir', function ($routes) {
+        $routes->get('/', 'Admin\Kasir::index');
+        $routes->get('read', 'Admin\Kasir::store');
+        $routes->post('add', 'Admin\Kasir::add');
+        $routes->put('edit', 'Admin\Kasir::edit');
+        $routes->delete('delete/(:hash)', 'Admin\Kasir::delete/$1');
+    });
     $routes->group('order', function ($routes) {
         $routes->get('/', 'Admin\Order::index');
         $routes->get('read', 'Admin\Order::store');

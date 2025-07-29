@@ -27,9 +27,8 @@
                                     <td>{{item.nama_produk}}</td>
                                     <td>{{item.harga | currency: 'Rp. '}}</td>
                                     <td>{{item.totalStok}}</td>
-                                    <td width="40%" class="text-wrap">
-                                        <span ng-bind="item.keterangan | stripHtml | limitTo:200"></span>
-                                        <span ng-if="item.keterangan.length > 200"> . . .</span>
+                                    <td width="40%">
+                                        <span ng-bind="item.keterangan | stripAndTrimWords:15 | limitTo:150"></span>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" ng-click="edit(item)">Edit</button>

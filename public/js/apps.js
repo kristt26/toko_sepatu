@@ -22,6 +22,7 @@ angular.module('apps', [
     .controller('indexController', indexController)
     .directive('emaudio', emaudio)
     .filter('stripHtml', stripHtml)
+    .filter('stripAndTrimWords', stripAndTrimWords)
     // .directive('dynamic', ['$compile', function ($compile) {
     //     return {
     //       restrict: 'A',
@@ -143,5 +144,13 @@ function emaudio() {
 function stripHtml() {
     return function (text) {
         return text ? text.replace(/<[^>]+>/g, '') : '';
+    };
+}
+function stripAndTrimWords() {
+    return function (text, maxWords = 20) {
+        if (!text) return '';
+        const stripped = text.replace(/<[^>]+>/g, '');
+        const words = stripped.split(/\s+/).slice(0, maxWords);
+        return words.join(' ');
     };
 }
