@@ -10,7 +10,7 @@
   </div>
 
   <div class="row g-4">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="item in datas | limitTo: 8 | filter: cari">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="item in datas | filter: cari">
       <div class="card h-100 bg-dark text-light border-warning">
         <img src="/assets/gambar/{{item.gambar}}" class="card-img-top" style="object-fit: cover; height: 200px;" alt="{{item.nama_produk}}">
         <div class="card-body">
